@@ -1,0 +1,284 @@
+-- Local store for the offline-first client.
+--
+-- This is the source of truth the UI reads and writes. Screens never wait on the
+-- network: a write lands here and in the outbox, and the sync engine reconciles later.
+-- That is the whole point on a connection that may be absent for hours.
+
+-- ── Notes ────────────────────────────────────────────────────────────
+--
+-- id is assigned on the device at creation, so a note written offline has its final
+-- identity immediately and needs no re-keying after upload.
+--
+-- version and updated_at mirror the server's copy so a conflict can be detected;
+-- deleted is a tombstone, kept until the deletion has been acknowledged.
+
+CREATE TABLE note (
+    id                TEXT    NOT NULL PRIMARY KEY,
+    title             TEXT    NOT NULL,
+    content           TEXT    NOT NULL,
+    group_id          TEXT,
+    shared_with_group INTEGER NOT NULL DEFAULT 0,
+    updated_at        TEXT,
+    version           INTEGER NOT NULL DEFAULT 0,
+    deleted           INTEGER NOT NULL DEFAULT 0,
+    -- 1 while the row differs from the server, so the UI can show a pending mark
+    -- and the engine knows what still needs pushing.
+    pending           INTEGER NOT NULL DEFAULT 0
+);
+
+selectNotes:
+SELECT * FROM note WHERE deleted = 0 ORDER BY updated_at DESC;
+
+selectNote:
+SELECT * FROM note WHERE id = ?;
+
+upsertNote:
+INSERT OR REPLACE INTO note (id, title, content, group_id, shared_with_group,
+                             updated_at, version, deleted, pending)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+markNoteDeleted:
+UPDATE note SET deleted = 1, pending = 1, updated_at = ? WHERE id = ?;
+
+clearNotePending:
+UPDATE note SET pending = 0, version = ?, updated_at = ? WHERE id = ?;
+
+deleteNoteRow:
+DELETE FROM note WHERE id = ?;
+
+countPendingNotes:
+SELECT count(*) FROM note WHERE pending = 1;
+
+-- ── Outbox ───────────────────────────────────────────────────────────
+--
+-- Every local mutation is appended here and drained when connectivity returns.
+-- Durable on purpose: the queue has to survive the app being killed, which is the
+-- normal way a phone ends a session.
+--
+-- operation_id is generated once, at enqueue time, and reused on every retry. That is
+-- what makes a retry safe: the server recognises the id and returns the original
+-- outcome rather than applying the change twice.
+
+CREATE TABLE outbox (
+    operation_id   TEXT    NOT NULL PRIMARY KEY,
+    entity_type    TEXT    NOT NULL,
+    entity_id      TEXT    NOT NULL,
+    operation_type TEXT    NOT NULL,   -- CREATE | UPDATE | DELETE
+    payload        TEXT,               -- JSON, null for DELETE
+    client_time    TEXT    NOT NULL,
+    attempts       INTEGER NOT NULL DEFAULT 0,
+    last_error     TEXT
+);
+
+enqueue:
+INSERT OR REPLACE INTO outbox (operation_id, entity_type, entity_id, operation_type,
+                               payload, client_time, attempts, last_error)
+VALUES (?, ?, ?, ?, ?, ?, 0, NULL);
+
+selectOutboxBatch:
+SELECT * FROM outbox ORDER BY client_time ASC LIMIT ?;
+
+countOutbox:
+SELECT count(*) FROM outbox;
+
+deleteOutboxEntry:
+DELETE FROM outbox WHERE operation_id = ?;
+
+recordOutboxFailure:
+UPDATE outbox SET attempts = attempts + 1, last_error = ? WHERE operation_id = ?;
+
+-- Entries that have failed repeatedly. Surfaced rather than retried forever, so a
+-- permanently rejected change becomes visible instead of silently looping.
+selectFailedOutbox:
+SELECT * FROM outbox WHERE attempts >= ?;
+
+-- ── Topics ───────────────────────────────────────────────────────────
+--
+-- Subjects the student organises their work under. Created on the device, so they
+-- sync two-way exactly as notes do.
+
+CREATE TABLE topic (
+    id          TEXT    NOT NULL PRIMARY KEY,
+    name        TEXT    NOT NULL,
+    specificity TEXT,
+    updated_at  TEXT,
+    version     INTEGER NOT NULL DEFAULT 0,
+    deleted     INTEGER NOT NULL DEFAULT 0,
+    pending     INTEGER NOT NULL DEFAULT 0
+);
+
+selectTopics:
+SELECT * FROM topic WHERE deleted = 0 ORDER BY name ASC;
+
+selectTopic:
+SELECT * FROM topic WHERE id = ?;
+
+upsertTopic:
+INSERT OR REPLACE INTO topic (id, name, specificity, updated_at, version, deleted, pending)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+markTopicDeleted:
+UPDATE topic SET deleted = 1, pending = 1, updated_at = ? WHERE id = ?;
+
+deleteTopicRow:
+DELETE FROM topic WHERE id = ?;
+
+-- ── Study sessions ───────────────────────────────────────────────────
+--
+-- A timed stretch of work. Recorded while studying, which is precisely when a
+-- student is least likely to have signal — a session that needed the network to be
+-- saved would be the one thing offline mode has to get right.
+
+CREATE TABLE study_session (
+    id          TEXT    NOT NULL PRIMARY KEY,
+    topic_id    TEXT,
+    start_time  TEXT    NOT NULL,
+    end_time    TEXT,
+    focus_score INTEGER NOT NULL DEFAULT 0,
+    activity    TEXT,
+    updated_at  TEXT,
+    version     INTEGER NOT NULL DEFAULT 0,
+    deleted     INTEGER NOT NULL DEFAULT 0,
+    pending     INTEGER NOT NULL DEFAULT 0
+);
+
+selectSessions:
+SELECT * FROM study_session WHERE deleted = 0 ORDER BY start_time DESC LIMIT ?;
+
+selectSession:
+SELECT * FROM study_session WHERE id = ?;
+
+upsertSession:
+INSERT OR REPLACE INTO study_session (id, topic_id, start_time, end_time, focus_score,
+                                      activity, updated_at, version, deleted, pending)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteSessionRow:
+DELETE FROM study_session WHERE id = ?;
+
+-- ── Quiz attempts taken offline ──────────────────────────────────────
+--
+-- Scored on the device, because the quiz payload carries the correct answer with
+-- each question — the take screen already reads it to mark answers immediately.
+-- The server re-scores on upload and its result is authoritative; this row exists so
+-- the student sees their result now rather than being told to come back with signal.
+--
+-- Append-only: an attempt is a fact about something that happened, never edited.
+
+CREATE TABLE pending_attempt (
+    id                TEXT    NOT NULL PRIMARY KEY,
+    quiz_id           TEXT    NOT NULL,
+    quiz_title        TEXT,
+    answers           TEXT    NOT NULL,   -- JSON array of AnswerSubmission
+    correct_count     INTEGER NOT NULL,
+    total_questions   INTEGER NOT NULL,
+    time_taken_seconds INTEGER NOT NULL,
+    taken_at          TEXT    NOT NULL,
+    -- 1 until the server has confirmed it; the row is dropped once it has.
+    pending           INTEGER NOT NULL DEFAULT 1
+);
+
+selectPendingAttempts:
+SELECT * FROM pending_attempt WHERE pending = 1 ORDER BY taken_at DESC;
+
+selectPendingAttempt:
+SELECT * FROM pending_attempt WHERE id = ?;
+
+insertPendingAttempt:
+INSERT OR REPLACE INTO pending_attempt (id, quiz_id, quiz_title, answers, correct_count,
+                                        total_questions, time_taken_seconds, taken_at, pending)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1);
+
+deletePendingAttempt:
+DELETE FROM pending_attempt WHERE id = ?;
+
+countPendingAttempts:
+SELECT count(*) FROM pending_attempt WHERE pending = 1;
+
+-- ── Read-through cache ───────────────────────────────────────────────
+--
+-- For everything the server owns and the device only ever reads: guides, quizzes,
+-- explanations, stats, badges, groups, documents. These are generated on the server
+-- and cannot be created offline, so they need a cache, not a sync — there is no
+-- local edit that could ever conflict.
+--
+-- Stored as the JSON the API returned rather than in typed columns. One table
+-- serves every screen, and adding a screen needs no migration: the payload shape is
+-- already defined by the API model that will parse it back.
+
+CREATE TABLE cached_document (
+    entity_type TEXT NOT NULL,
+    entity_id   TEXT NOT NULL,
+    payload     TEXT NOT NULL,
+    cached_at   TEXT NOT NULL,
+    PRIMARY KEY (entity_type, entity_id)
+);
+
+selectDocument:
+SELECT payload, cached_at FROM cached_document WHERE entity_type = ? AND entity_id = ?;
+
+upsertDocument:
+INSERT OR REPLACE INTO cached_document (entity_type, entity_id, payload, cached_at)
+VALUES (?, ?, ?, ?);
+
+deleteDocument:
+DELETE FROM cached_document WHERE entity_type = ? AND entity_id = ?;
+
+deleteDocumentsOfType:
+DELETE FROM cached_document WHERE entity_type = ?;
+
+-- A list is its membership and its order, held separately from the documents so the
+-- same document can appear in several lists without being stored twice.
+CREATE TABLE cached_collection (
+    key       TEXT NOT NULL PRIMARY KEY,
+    ids       TEXT NOT NULL,   -- JSON array of ids, order preserved
+    cached_at TEXT NOT NULL
+);
+
+selectCollection:
+SELECT ids, cached_at FROM cached_collection WHERE key = ?;
+
+upsertCollection:
+INSERT OR REPLACE INTO cached_collection (key, ids, cached_at) VALUES (?, ?, ?);
+
+-- Signing out has to leave nothing behind: this database is one person's work, and
+-- the next person to open the app on a shared phone must not see it.
+clearDocuments:
+DELETE FROM cached_document;
+
+clearCollections:
+DELETE FROM cached_collection;
+
+clearNotes:
+DELETE FROM note;
+
+clearTopics:
+DELETE FROM topic;
+
+clearSessions:
+DELETE FROM study_session;
+
+clearAttempts:
+DELETE FROM pending_attempt;
+
+clearOutbox:
+DELETE FROM outbox;
+
+clearSyncState:
+DELETE FROM sync_state;
+
+-- ── Sync state ───────────────────────────────────────────────────────
+--
+-- One row per record type, holding the pull cursor. Server time, never device time:
+-- clocks drift, and a cursor from a fast phone silently skips records.
+
+CREATE TABLE sync_state (
+    entity_type TEXT NOT NULL PRIMARY KEY,
+    cursor      TEXT
+);
+
+selectCursor:
+SELECT cursor FROM sync_state WHERE entity_type = ?;
+
+setCursor:
+INSERT OR REPLACE INTO sync_state (entity_type, cursor) VALUES (?, ?);

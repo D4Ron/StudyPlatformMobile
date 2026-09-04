@@ -44,6 +44,14 @@ class SyncEngine(
          * forever, burning data on a connection that costs money.
          */
         const val MAX_ATTEMPTS = 5L
+
+        /**
+         * Pages fetched in one sync before stopping until the next.
+         *
+         * A device offline for a long time still catches up, just across a few syncs
+         * rather than in one session that could run for minutes on a poor connection.
+         */
+        const val MAX_PULL_PAGES = 10
     }
 
     data class Outcome(
@@ -139,23 +147,51 @@ class SyncEngine(
 
     // ── Pull ─────────────────────────────────────────────────────────────
 
+    /**
+     * Downloads changes, one page at a time.
+     *
+     * The server bounds each response, so a device that has been offline for a month
+     * gets its history in slices rather than in one transfer it may not have the memory
+     * or the data allowance to receive. Each page's cursor is committed before the next
+     * is requested: a connection that dies halfway through resumes from where it got to
+     * instead of starting the month again.
+     *
+     * Capped at [MAX_PULL_PAGES] per sync. Catching up on a long absence is spread over
+     * several syncs rather than held open indefinitely — the worker runs again in
+     * fifteen minutes, and a loop with no ceiling is one bad server response away from
+     * spending someone's whole data bundle.
+     */
     private suspend fun pull(): Int {
-        // One cursor covers the batch: the types are pulled together, and the server
-        // clock they share is what makes the next window contiguous.
-        val cursor = queries.selectCursor(entityTypes.first()).executeAsOneOrNull()?.cursor
-        val response = transport.pull(cursor, entityTypes)
+        var total = 0
 
-        db.transaction {
-            // A row with unsent local edits is left alone. Push runs first, so a row is
-            // only still pending because its upload failed — and overwriting it here
-            // would delete work the user did while offline, which is the one outcome
-            // this whole design exists to prevent.
-            response.records.forEach { applyRecord(it, force = false) }
-            response.serverTime?.let { server ->
-                entityTypes.forEach { queries.setCursor(entity_type = it, cursor = server) }
+        repeat(MAX_PULL_PAGES) {
+            // One cursor covers the batch: the types are pulled together, and the server
+            // clock they share is what makes the next window contiguous.
+            val cursor = queries.selectCursor(entityTypes.first()).executeAsOneOrNull()?.cursor
+            val response = transport.pull(cursor, entityTypes)
+
+            db.transaction {
+                // A row with unsent local edits is left alone. Push runs first, so a row
+                // is only still pending because its upload failed — and overwriting it
+                // here would delete work the user did while offline, which is the one
+                // outcome this whole design exists to prevent.
+                response.records.forEach { applyRecord(it, force = false) }
+                response.serverTime?.let { server ->
+                    entityTypes.forEach { queries.setCursor(entity_type = it, cursor = server) }
+                }
+            }
+
+            total += response.records.size
+
+            // A page that says "more" but advanced nothing would loop forever. Stopping
+            // is the safe reading: the next sync tries again.
+            if (!response.hasMore || response.serverTime == null || response.records.isEmpty()) {
+                return total
             }
         }
-        return response.records.size
+
+        println("Stopped after $MAX_PULL_PAGES pages; the rest follows on the next sync.")
+        return total
     }
 
     // ── Applying a server record ─────────────────────────────────────────

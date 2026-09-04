@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -37,7 +38,7 @@ fun QuizListScreen(onCreateQuiz: () -> Unit, onTakeQuiz: (String) -> Unit) {
                 containerColor = Secondary,
                 contentColor = Color.White,
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text("New quiz", style = MaterialTheme.typography.labelLarge) }
+                text = { Text(stringResource(tg.edunova.app.R.string.quizzes_new), style = MaterialTheme.typography.labelLarge) }
             )
         }
     ) { padding ->
@@ -51,7 +52,7 @@ fun QuizListScreen(onCreateQuiz: () -> Unit, onTakeQuiz: (String) -> Unit) {
                     AnimatedEntry {
                         Column {
                             Text(
-                                "My Quizzes",
+                                stringResource(tg.edunova.app.R.string.quizzes_title),
                                 style = MaterialTheme.typography.headlineLarge,
                                 color = TextPrimary
                             )
@@ -81,14 +82,14 @@ fun QuizListScreen(onCreateQuiz: () -> Unit, onTakeQuiz: (String) -> Unit) {
                             ) {
                                 Column(Modifier.padding(24.dp)) {
                                     Text(
-                                        "No quizzes yet",
+                                        stringResource(tg.edunova.app.R.string.quizzes_none),
                                         style = MaterialTheme.typography.titleMedium,
                                         color = Secondary
                                     )
                                     Spacer(Modifier.height(4.dp))
                                     OfflineEmpty(
                                         state,
-                                        "Tap the button to generate your first quiz.",
+                                        stringResource(tg.edunova.app.R.string.quizzes_none_hint),
                                         Modifier,
                                         color = Secondary
                                     )

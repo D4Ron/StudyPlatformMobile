@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -58,7 +59,7 @@ fun StatsScreen() {
         item {
             AnimatedEntry {
                 Column {
-                    Text("Your Progress", style = MaterialTheme.typography.headlineLarge, color = TextPrimary)
+                    Text(stringResource(tg.edunova.app.R.string.stats_title), style = MaterialTheme.typography.headlineLarge, color = TextPrimary)
                     if (fromCache) {
                         Spacer(Modifier.height(10.dp))
                         OfflineBanner(Offline(Unit, fromCache = true))
@@ -80,24 +81,24 @@ fun StatsScreen() {
         item {
             AnimatedEntry(index = 2) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    StatCard("Total XP", "${stats?.totalXp ?: 0}", Warning, Modifier.weight(1f))
-                    StatCard("Study Hours", "${(stats?.totalStudyMinutes ?: 0) / 60}", Primary, Modifier.weight(1f))
+                    StatCard(stringResource(tg.edunova.app.R.string.stats_total_xp), "${stats?.totalXp ?: 0}", Warning, Modifier.weight(1f))
+                    StatCard(stringResource(tg.edunova.app.R.string.stats_study_hours), "${(stats?.totalStudyMinutes ?: 0) / 60}", Primary, Modifier.weight(1f))
                 }
             }
         }
         item {
             AnimatedEntry(index = 3) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    StatCard("Guides", "${stats?.guidesCompleted ?: 0}", Success, Modifier.weight(1f))
-                    StatCard("Quizzes", "${stats?.quizzesTaken ?: 0}", Secondary, Modifier.weight(1f))
+                    StatCard(stringResource(tg.edunova.app.R.string.stats_guides), "${stats?.guidesCompleted ?: 0}", Success, Modifier.weight(1f))
+                    StatCard(stringResource(tg.edunova.app.R.string.stats_quizzes), "${stats?.quizzesTaken ?: 0}", Secondary, Modifier.weight(1f))
                 }
             }
         }
         item {
             AnimatedEntry(index = 4) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    StatCard("Avg Score", "${stats?.averageQuizScore?.toInt() ?: 0}%", Accent, Modifier.weight(1f))
-                    StatCard("Badges", "${badges.count { it.earned }}", Warning, Modifier.weight(1f))
+                    StatCard(stringResource(tg.edunova.app.R.string.stats_avg_score), "${stats?.averageQuizScore?.toInt() ?: 0}%", Accent, Modifier.weight(1f))
+                    StatCard(stringResource(tg.edunova.app.R.string.stats_badges), "${badges.count { it.earned }}", Warning, Modifier.weight(1f))
                 }
             }
         }
@@ -105,7 +106,7 @@ fun StatsScreen() {
         // XP by topic
         val topics = stats?.xpByTopic ?: emptyList()
         if (topics.isNotEmpty()) {
-            item { AnimatedEntry { Text("XP by Topic", style = MaterialTheme.typography.headlineSmall, color = TextPrimary) } }
+            item { AnimatedEntry { Text(stringResource(tg.edunova.app.R.string.dash_xp_by_topic), style = MaterialTheme.typography.headlineSmall, color = TextPrimary) } }
             val maxXp = (topics.maxOfOrNull { it.xp } ?: 1).toInt()
             val topicColors = listOf(Primary, Secondary, Success, Warning, Accent)
             topics.forEachIndexed { idx, t ->
@@ -133,7 +134,7 @@ fun StatsScreen() {
 
         // Badges
         if (badges.isNotEmpty()) {
-            item { AnimatedEntry { Text("Achievements", style = MaterialTheme.typography.headlineSmall, color = TextPrimary) } }
+            item { AnimatedEntry { Text(stringResource(tg.edunova.app.R.string.stats_achievements), style = MaterialTheme.typography.headlineSmall, color = TextPrimary) } }
             item {
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     items(badges) { badge ->
@@ -146,7 +147,7 @@ fun StatsScreen() {
         // Recent activity
         val activities = stats?.recentActivity ?: emptyList()
         if (activities.isNotEmpty()) {
-            item { AnimatedEntry { Text("Recent Activity", style = MaterialTheme.typography.headlineSmall, color = TextPrimary) } }
+            item { AnimatedEntry { Text(stringResource(tg.edunova.app.R.string.dash_recent_activity), style = MaterialTheme.typography.headlineSmall, color = TextPrimary) } }
             activities.take(10).forEach { act ->
                 item {
                     Card(

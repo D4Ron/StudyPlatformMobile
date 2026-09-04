@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
@@ -59,7 +60,7 @@ fun QuizCreateScreen(onQuizCreated: (String) -> Unit, onBack: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Back") }
-                Text("Generate Quiz", style = MaterialTheme.typography.titleLarge, color = TextPrimary)
+                Text(stringResource(tg.edunova.app.R.string.quizzes_generate_title), style = MaterialTheme.typography.titleLarge, color = TextPrimary)
             }
         },
         containerColor = Background
@@ -71,7 +72,7 @@ fun QuizCreateScreen(onQuizCreated: (String) -> Unit, onBack: () -> Unit) {
         ) {
             Spacer(Modifier.height(8.dp))
 
-            Text("What topic?", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+            Text(stringResource(tg.edunova.app.R.string.quizzes_what_topic), style = MaterialTheme.typography.titleMedium, color = TextPrimary)
             Spacer(Modifier.height(10.dp))
             OutlinedTextField(
                 value = topic, onValueChange = { topic = it },
@@ -81,7 +82,7 @@ fun QuizCreateScreen(onQuizCreated: (String) -> Unit, onBack: () -> Unit) {
             )
 
             Spacer(Modifier.height(24.dp))
-            Text("Difficulty", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+            Text(stringResource(tg.edunova.app.R.string.quizzes_difficulty), style = MaterialTheme.typography.titleMedium, color = TextPrimary)
             Spacer(Modifier.height(10.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 listOf(
@@ -104,7 +105,7 @@ fun QuizCreateScreen(onQuizCreated: (String) -> Unit, onBack: () -> Unit) {
 
             Spacer(Modifier.height(24.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Questions: ", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+                Text(stringResource(tg.edunova.app.R.string.quizzes_questions_label), style = MaterialTheme.typography.titleMedium, color = TextPrimary)
                 // Animated so dragging the slider reads as one number changing rather
                 // than a series of unrelated ones.
                 AnimatedContent(
@@ -125,7 +126,7 @@ fun QuizCreateScreen(onQuizCreated: (String) -> Unit, onBack: () -> Unit) {
             Spacer(Modifier.height(32.dp))
 
             PrimaryButton(
-                text = "Generate Quiz",
+                text = stringResource(tg.edunova.app.R.string.quizzes_generate_title),
                 enabled = topic.isNotBlank(),
                 onClick = {
                     loading = true
@@ -167,7 +168,7 @@ private fun QuizLoadingScreen(jobStatus: String? = null) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(48.dp)) {
             Icon(Icons.Default.Psychology, null, modifier = Modifier.size(64.dp).scale(pulse), tint = Secondary)
             Spacer(Modifier.height(24.dp))
-            Text("Generating your quiz", style = MaterialTheme.typography.headlineSmall, color = TextPrimary, textAlign = TextAlign.Center)
+            Text(stringResource(tg.edunova.app.R.string.quizzes_generating), style = MaterialTheme.typography.headlineSmall, color = TextPrimary, textAlign = TextAlign.Center)
             Spacer(Modifier.height(8.dp))
             Text(
                 when (jobStatus) {

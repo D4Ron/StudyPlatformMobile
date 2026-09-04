@@ -55,7 +55,14 @@ data class SyncPushResponseDto(
 @Serializable
 data class SyncPullResponseDto(
     val records: List<SyncRecordDto> = emptyList(),
-    val serverTime: String? = null
+    val serverTime: String? = null,
+    /**
+     * True when the server cut the page short and more history remains.
+     *
+     * Defaults to false so an older server, which does not send the field, is read as
+     * "you are caught up" rather than sending the client into an endless loop.
+     */
+    val hasMore: Boolean = false
 )
 
 /** The payload carried for a note, on both the push and the pull side. */

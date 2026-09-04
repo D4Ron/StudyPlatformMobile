@@ -1,3 +1,200 @@
 <resources>
-    <string name="app_name">StudyPlatform</string>
+    <!--
+      Default (English) strings.
+
+      values-fr/ holds the French translations. Android picks by device locale, so a
+      phone set to French — which is most phones in Lomé — gets French with no setting
+      to find and no code path of its own.
+
+      Anything a student reads belongs here. A hardcoded literal in a Composable is
+      invisible to translation and will silently stay English forever.
+    -->
+    <string name="app_name">EduNova+</string>
+
+    <!-- Auth -->
+    <string name="auth_welcome_back">Welcome back</string>
+    <string name="auth_sign_in_subtitle">Sign in to continue learning</string>
+    <string name="auth_email">Email address</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_sign_in">Sign In</string>
+    <string name="auth_signing_in">Signing in…</string>
+    <string name="auth_no_account">Don\'t have an account? </string>
+    <string name="auth_sign_up">Sign up</string>
+    <string name="auth_browse_as_guest">Browse the library without an account</string>
+    <string name="auth_continue_with_google">Continue with Google</string>
+    <string name="auth_or">  or  </string>
+    <string name="auth_create_account">Create Account</string>
+    <string name="auth_creating_account">Creating account…</string>
+    <string name="auth_start_journey">Start your learning journey today</string>
+    <string name="auth_first_name">First name</string>
+    <string name="auth_last_name">Last name</string>
+    <string name="auth_have_account">Already have an account? </string>
+    <string name="auth_invalid_credentials">Invalid email or password. Please try again.</string>
+
+    <!-- Email verification -->
+    <string name="verify_check_email">Check your email</string>
+    <string name="verify_code_sent_to">We sent a 6-digit code to</string>
+    <string name="verify_code_label">Verification code</string>
+    <string name="verify_action">Verify</string>
+    <string name="verify_verifying">Verifying…</string>
+    <string name="verify_resend_in">Resend code in %1$ds</string>
+    <string name="verify_resend">Didn\'t get it? Resend code</string>
+    <string name="verify_different_email">Use a different email</string>
+    <string name="verify_code_sent">A new code is on its way.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_guides">Guides</string>
+    <string name="nav_quizzes">Quizzes</string>
+    <string name="nav_groups">Groups</string>
+    <string name="nav_more">More</string>
+
+    <!-- Dashboard -->
+    <string name="dash_welcome">Welcome back, %1$s</string>
+    <string name="dash_keep_going">Keep up the great work</string>
+    <string name="dash_quick_actions">Quick Actions</string>
+    <string name="dash_generate_guide">Generate Guide</string>
+    <string name="dash_generate_guide_sub">Create an AI study guide</string>
+    <string name="dash_take_quiz">Take Quiz</string>
+    <string name="dash_take_quiz_sub">Test your knowledge</string>
+    <string name="dash_explain">Explain a Concept</string>
+    <string name="dash_explain_sub">Ask for a plain-language explanation</string>
+    <string name="dash_xp_by_topic">XP by Topic</string>
+    <string name="dash_suggestions">Suggestions for You</string>
+    <string name="dash_recent_activity">Recent Activity</string>
+    <string name="dash_load_failed">Could not load your dashboard</string>
+
+    <!-- Stats -->
+    <string name="stats_title">Your Progress</string>
+    <string name="stats_total_xp">Total XP</string>
+    <string name="stats_study_hours">Study Hours</string>
+    <string name="stats_guides">Guides</string>
+    <string name="stats_quizzes">Quizzes</string>
+    <string name="stats_avg_score">Avg Score</string>
+    <string name="stats_badges">Badges</string>
+    <string name="stats_achievements">Achievements</string>
+
+    <!-- Guides -->
+    <string name="guides_title">My Study Guides</string>
+    <string name="guides_count">%1$d guides generated</string>
+    <string name="guides_none">No guides yet</string>
+    <string name="guides_none_hint">Tap the button to generate your first AI study guide.</string>
+    <string name="guides_new">New guide</string>
+    <string name="guides_generate_title">Generate Study Guide</string>
+    <string name="guides_what_learn">What do you want to learn?</string>
+    <string name="guides_focus_area">Focus area (optional)</string>
+    <string name="guides_your_level">Your level</string>
+    <string name="guides_generate_action">Generate My Guide</string>
+    <string name="guides_generating">Generating your guide</string>
+    <string name="guides_back">Back to guides</string>
+    <string name="guides_unavailable_offline">This guide isn\'t available offline</string>
+    <string name="guides_unavailable_hint">Open it once while you have a connection and it will be here next time.</string>
+    <string name="guides_modules">%1$d modules</string>
+    <string name="guides_minutes">~%1$d min</string>
+    <string name="guides_key_idea">Key idea</string>
+
+    <!-- Levels -->
+    <string name="level_beginner">Beginner</string>
+    <string name="level_beginner_desc">Starting from scratch — I\'ll explain everything</string>
+    <string name="level_intermediate">Intermediate</string>
+    <string name="level_intermediate_desc">I know the basics — go deeper</string>
+    <string name="level_advanced">Advanced</string>
+    <string name="level_advanced_desc">I\'m experienced — show me edge cases</string>
+
+    <!-- Quizzes -->
+    <string name="quizzes_title">My Quizzes</string>
+    <string name="quizzes_count">%1$d quizzes</string>
+    <string name="quizzes_none">No quizzes yet</string>
+    <string name="quizzes_none_hint">Tap the button to generate your first quiz.</string>
+    <string name="quizzes_new">New quiz</string>
+    <string name="quizzes_generate_title">Generate Quiz</string>
+    <string name="quizzes_what_topic">What topic?</string>
+    <string name="quizzes_difficulty">Difficulty</string>
+    <string name="quizzes_questions_label">Questions: </string>
+    <string name="quizzes_generate_action">Generate Quiz</string>
+    <string name="quizzes_generating">Generating your quiz</string>
+    <string name="quizzes_question_of">Question %1$d of %2$d</string>
+    <string name="quizzes_submit_answer">Submit Answer</string>
+    <string name="quizzes_next_question">Next Question</string>
+    <string name="quizzes_see_results">See Results</string>
+    <string name="quizzes_question_count">%1$d questions</string>
+    <string name="quizzes_unavailable_offline">This quiz isn\'t available offline</string>
+    <string name="quizzes_unavailable_hint">Open it once while you have a connection and you\'ll be able to take it anywhere.</string>
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+
+    <!-- Notes -->
+    <string name="notes_title">My Notes</string>
+    <string name="notes_count">%1$d notes</string>
+    <string name="notes_count_pending">%1$d notes · %2$d waiting to upload</string>
+    <string name="notes_new">New note</string>
+    <string name="notes_edit">Edit note</string>
+    <string name="notes_note_title">Title</string>
+    <string name="notes_content">Content</string>
+    <string name="notes_none">Nothing here yet</string>
+    <string name="notes_none_hint">Notes you write are saved on this phone straight away — you don\'t need a connection.</string>
+    <string name="notes_saved_locally">Saved on this device</string>
+    <string name="notes_shared_with_group">Shared with group</string>
+
+    <!-- Explanations -->
+    <string name="explain_title">Explain a Concept</string>
+    <string name="explain_subtitle">Ask about anything — the AI adapts to your level</string>
+    <string name="explain_detail_level">Detail level</string>
+    <string name="explain_action">Get Explanation</string>
+    <string name="explain_generating">Generating explanation…</string>
+    <string name="explain_previous">Previous Explanations</string>
+    <string name="explain_analogy">Analogy</string>
+    <string name="explain_when_to_use">When to use it</string>
+    <string name="explain_back">← Back to search</string>
+    <string name="detail_simple">Simple</string>
+    <string name="detail_intermediate">Intermediate</string>
+    <string name="detail_advanced">Advanced</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_sync">Sync</string>
+    <string name="settings_sync_pending">%1$d change(s) saved here, waiting to upload</string>
+    <string name="settings_sync_clean">Everything on this device is uploaded</string>
+    <string name="settings_sync_now">Sync now</string>
+    <string name="settings_syncing">Syncing…</string>
+    <string name="settings_sync_ok">Up to date.</string>
+    <string name="settings_sync_failed">Couldn\'t reach the server — it will retry on its own.</string>
+    <string name="settings_drive">Google Drive</string>
+    <string name="settings_drive_sub">Import documents from your Drive</string>
+    <string name="settings_soon">Soon</string>
+    <string name="settings_sign_out">Sign Out</string>
+
+    <!-- Guest mode -->
+    <string name="guest_browse_title">Browse the library</string>
+    <string name="guest_open_courses">Open courses, free to read</string>
+    <string name="guest_open_courses_sub">Openly licensed material from Siyavula, OpenStax and the African Virtual University. No account needed.</string>
+    <string name="guest_all">All</string>
+    <string name="guest_nothing_yet">Nothing to show yet</string>
+    <string name="guest_nothing_yet_hint">The library is still being put together. Check back soon.</string>
+    <string name="guest_want_more">Want the rest?</string>
+    <string name="guest_want_more_sub">An account adds AI study guides, quizzes, notes you can write offline, and study groups.</string>
+    <string name="guest_create_free_account">Create a free account</string>
+    <string name="guest_chapters">%1$d chapters</string>
+    <string name="guest_source">Source</string>
+    <string name="guest_open_original">Open the original</string>
+    <string name="guest_summary_note">This summary was written for EduNova+ to introduce the subject and point you at the source. It is not a copy of the original text.</string>
+    <string name="guest_course_unavailable">This course isn\'t available offline</string>
+    <string name="guest_course_unavailable_hint">Open it once while you have a connection and you can read it anywhere.</string>
+    <string name="guest_opening">Opening the course…</string>
+
+    <!-- Groups -->
+    <string name="groups_title">My Groups</string>
+
+    <!-- Shared -->
+    <string name="common_loading">Loading…</string>
+    <string name="common_save">Save</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_back">Back</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_try_again">Try again</string>
+    <string name="common_offline_banner">Offline — showing what you downloaded earlier</string>
+    <string name="common_not_downloaded">Nothing downloaded yet. Connect once and this will be available offline.</string>
+    <string name="common_queued">Queued — starting shortly</string>
+    <string name="common_working">Working on it now</string>
 </resources>

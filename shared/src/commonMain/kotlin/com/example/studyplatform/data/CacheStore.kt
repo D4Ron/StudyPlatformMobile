@@ -81,6 +81,7 @@ class CacheStore(private val db: StudyPlatformDatabase) {
                     ),
                     cached_at = now
                 )
+                evictIfOversized()
             }
             Offline(fresh)
         } catch (e: Exception) {
@@ -105,6 +106,7 @@ class CacheStore(private val db: StudyPlatformDatabase) {
                 payload = json.encodeToString(serializer, fresh),
                 cached_at = Clock.System.now().toString()
             )
+            evictIfOversized()
             Offline(fresh)
         } catch (e: Exception) {
             println("Falling back to cache for $entityType/$id: ${e.message}")
@@ -169,6 +171,51 @@ class CacheStore(private val db: StudyPlatformDatabase) {
 
     private fun friendly(e: Exception): String =
         e.message ?: "You're offline and this hasn't been downloaded yet."
+
+    /**
+     * Keeps the cache from growing for the life of the install.
+     *
+     * Without this it never shrinks: every guide, quiz and course ever opened, kept
+     * forever on a phone that may have 8GB in total. Filling a student's storage with
+     * things they read once is the opposite of helping them.
+     *
+     * Oldest-touched go first. What you read last month is what you are least likely to
+     * want tonight with no signal, and `cached_at` already records it.
+     *
+     * Runs after a successful fetch rather than on a timer — that is the only moment the
+     * cache grows, so it is the only moment it can need trimming.
+     */
+    private fun evictIfOversized() {
+        val documents = queries.countDocuments().executeAsOne()
+        if (documents > MAX_DOCUMENTS) {
+            val excess = documents - TRIM_DOCUMENTS_TO
+            queries.deleteOldestDocuments(excess)
+            println("Cache trimmed: dropped $excess of $documents documents")
+        }
+
+        // Collections are tiny, but a list whose documents were evicted would resolve
+        // to a shorter list than it claims. Trimming them together keeps the two in
+        // step; the next fetch rebuilds whatever is still wanted.
+        val collections = queries.countCollections().executeAsOne()
+        if (collections > MAX_COLLECTIONS) {
+            queries.deleteOldestCollections(collections - TRIM_COLLECTIONS_TO)
+        }
+    }
+
+    companion object {
+        /**
+         * Chosen for a cheap phone, not a flagship. A cached document is one API
+         * response — a guide with its full content is the largest, at a few hundred KB —
+         * so this is a ceiling in the low tens of megabytes, not gigabytes.
+         */
+        private const val MAX_DOCUMENTS = 400L
+
+        /** Trimmed well below the ceiling so eviction runs rarely, not on every fetch. */
+        private const val TRIM_DOCUMENTS_TO = 300L
+
+        private const val MAX_COLLECTIONS = 60L
+        private const val TRIM_COLLECTIONS_TO = 40L
+    }
 
     /**
      * Wipes everything this device holds.

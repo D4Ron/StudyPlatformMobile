@@ -48,11 +48,18 @@ dependencies {
 }
 
 android {
-    namespace = "com.example.studyplatform"
+    // Renamed off com.example, which Google Play rejects as a reserved namespace.
+    // applicationId is permanent once an app is listed, so this had to change before a
+    // release rather than after — and it is the name that must be registered against the
+    // Android OAuth client in Google Cloud (see docs/google-credentials.md).
+    //
+    // The Kotlin package names are still com.example.studyplatform. That is cosmetic:
+    // it has no external consequence and can be renamed at leisure.
+    namespace = "tg.edunova.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.studyplatform"
+        applicationId = "tg.edunova.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

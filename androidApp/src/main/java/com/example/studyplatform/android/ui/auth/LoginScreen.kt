@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -57,6 +58,10 @@ fun LoginScreen(
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { visible = true }
 
+    // Read here rather than inside the click handler: stringResource is a composable
+    // call and a coroutine lambda is not a composable scope.
+    val invalidCredentials = stringResource(tg.edunova.app.R.string.auth_invalid_credentials)
+
     // The mark settles into place rather than appearing at full size — the one piece of
     // motion on this screen, so it reads as arrival and not as decoration.
     val markScale by animateFloatAsState(
@@ -86,9 +91,9 @@ fun LoginScreen(
                     Text("S", style = MaterialTheme.typography.displayMedium, color = androidx.compose.ui.graphics.Color.White)
                 }
                 Spacer(Modifier.height(20.dp))
-                Text("Welcome back", style = MaterialTheme.typography.headlineLarge, color = TextPrimary, textAlign = TextAlign.Center)
+                Text(stringResource(tg.edunova.app.R.string.auth_welcome_back), style = MaterialTheme.typography.headlineLarge, color = TextPrimary, textAlign = TextAlign.Center)
                 Spacer(Modifier.height(6.dp))
-                Text("Sign in to continue learning", style = MaterialTheme.typography.bodyLarge, color = TextMuted, textAlign = TextAlign.Center)
+                Text(stringResource(tg.edunova.app.R.string.auth_sign_in_subtitle), style = MaterialTheme.typography.bodyLarge, color = TextMuted, textAlign = TextAlign.Center)
                 Spacer(Modifier.height(40.dp))
 
                 AnimatedVisibility(visible = error != null, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
@@ -106,7 +111,7 @@ fun LoginScreen(
 
                 OutlinedTextField(
                     value = email, onValueChange = { email = it; error = null },
-                    label = { Text("Email address") },
+                    label = { Text(stringResource(tg.edunova.app.R.string.auth_email)) },
                     leadingIcon = { Icon(Icons.Outlined.Email, null, tint = TextMuted) },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
@@ -118,7 +123,7 @@ fun LoginScreen(
 
                 OutlinedTextField(
                     value = password, onValueChange = { password = it; error = null },
-                    label = { Text("Password") },
+                    label = { Text(stringResource(tg.edunova.app.R.string.auth_password)) },
                     leadingIcon = { Icon(Icons.Outlined.Lock, null, tint = TextMuted) },
                     trailingIcon = {
                         IconButton(onClick = { showPassword = !showPassword }) {
@@ -134,7 +139,7 @@ fun LoginScreen(
                 )
                 Spacer(Modifier.height(28.dp))
 
-                PrimaryButton(text = if (loading) "Signing in..." else "Sign In", loading = loading, enabled = email.isNotBlank() && password.isNotBlank(), onClick = {
+                PrimaryButton(text = if (loading) stringResource(tg.edunova.app.R.string.auth_signing_in) else stringResource(tg.edunova.app.R.string.auth_sign_in), loading = loading, enabled = email.isNotBlank() && password.isNotBlank(), onClick = {
                     loading = true; error = null
                     scope.launch {
                         try { AuthApi.login(LoginRequest(email.trim(), password)); onLoginSuccess() }
@@ -143,20 +148,20 @@ fun LoginScreen(
                             // The backend has already re-sent a code.
                             onEmailNotVerified(e.email)
                         }
-                        catch (e: Exception) { error = "Invalid email or password. Please try again." }
+                        catch (e: Exception) { error = invalidCredentials }
                         finally { loading = false }
                     }
                 })
                 Spacer(Modifier.height(24.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     HorizontalDivider(Modifier.weight(1f), color = Border)
-                    Text("  or  ", color = TextMuted, style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(tg.edunova.app.R.string.auth_or), color = TextMuted, style = MaterialTheme.typography.labelMedium)
                     HorizontalDivider(Modifier.weight(1f), color = Border)
                 }
                 Spacer(Modifier.height(24.dp))
                 TextButton(onClick = onNavigateToRegister) {
-                    Text("Don't have an account? ", color = TextMuted, style = MaterialTheme.typography.bodyMedium)
-                    Text("Sign up", color = Primary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.auth_no_account), color = TextMuted, style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(tg.edunova.app.R.string.auth_sign_up), color = Primary, style = MaterialTheme.typography.labelLarge)
                 }
 
                 Spacer(Modifier.height(4.dp))
@@ -167,7 +172,7 @@ fun LoginScreen(
                 // decision to make.
                 TextButton(onClick = onBrowseAsGuest) {
                     Text(
-                        "Browse the library without an account",
+                        stringResource(tg.edunova.app.R.string.auth_browse_as_guest),
                         color = Secondary,
                         style = MaterialTheme.typography.labelLarge
                     )

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
@@ -43,26 +44,26 @@ fun CourseReaderScreen(
         loading = false
     }
 
-    if (loading) { LoadingScreen("Opening the course…"); return }
+    if (loading) { LoadingScreen(stringResource(tg.edunova.app.R.string.guest_opening)); return }
 
     val course = state.value
     if (course == null) {
         Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    "This course isn't available offline",
+                    stringResource(tg.edunova.app.R.string.guest_course_unavailable),
                     style = MaterialTheme.typography.titleLarge,
                     color = TextPrimary
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Open it once while you have a connection and you can read it anywhere.",
+                    stringResource(tg.edunova.app.R.string.guest_course_unavailable_hint),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextMuted
                 )
                 Spacer(Modifier.height(20.dp))
                 TextButton(onClick = onBack) {
-                    Text("Back", color = Primary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.common_back), color = Primary, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -85,7 +86,7 @@ fun CourseReaderScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.Default.ArrowBack, "Back", tint = TextMuted)
+                    Icon(Icons.Default.ArrowBack, stringResource(tg.edunova.app.R.string.common_back), tint = TextMuted)
                 }
                 Text(
                     course.domain ?: "Course",
@@ -284,7 +285,7 @@ private fun Attribution(course: Course) {
     ) {
         Column(Modifier.padding(18.dp)) {
             Text(
-                "Source",
+                stringResource(tg.edunova.app.R.string.guest_source),
                 style = MaterialTheme.typography.labelSmall,
                 color = TextMuted
             )
@@ -304,7 +305,7 @@ private fun Attribution(course: Course) {
                     shape = MaterialTheme.shapes.small
                 ) {
                     Text(
-                        "Open the original",
+                        stringResource(tg.edunova.app.R.string.guest_open_original),
                         style = MaterialTheme.typography.labelLarge,
                         color = Primary,
                         modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)

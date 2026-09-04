@@ -1,0 +1,197 @@
+<resources>
+    <!--
+      French. Android selects this by device locale, so a phone set to French — which
+      is most phones in Lomé — gets it with no setting to find.
+
+      The seed library was already French while the interface was entirely English,
+      which for the students this is built for is the single largest barrier in the app.
+    -->
+    <string name="app_name">EduNova+</string>
+
+    <!-- Auth -->
+    <string name="auth_welcome_back">Bon retour</string>
+    <string name="auth_sign_in_subtitle">Connectez-vous pour continuer à apprendre</string>
+    <string name="auth_email">Adresse e-mail</string>
+    <string name="auth_password">Mot de passe</string>
+    <string name="auth_sign_in">Se connecter</string>
+    <string name="auth_signing_in">Connexion…</string>
+    <string name="auth_no_account">Pas encore de compte ? </string>
+    <string name="auth_sign_up">S\'inscrire</string>
+    <string name="auth_browse_as_guest">Parcourir la bibliothèque sans compte</string>
+    <string name="auth_continue_with_google">Continuer avec Google</string>
+    <string name="auth_or">  ou  </string>
+    <string name="auth_create_account">Créer un compte</string>
+    <string name="auth_creating_account">Création du compte…</string>
+    <string name="auth_start_journey">Commencez à apprendre dès aujourd\'hui</string>
+    <string name="auth_first_name">Prénom</string>
+    <string name="auth_last_name">Nom</string>
+    <string name="auth_have_account">Vous avez déjà un compte ? </string>
+    <string name="auth_invalid_credentials">E-mail ou mot de passe incorrect. Réessayez.</string>
+
+    <!-- Email verification -->
+    <string name="verify_check_email">Vérifiez vos e-mails</string>
+    <string name="verify_code_sent_to">Nous avons envoyé un code à 6 chiffres à</string>
+    <string name="verify_code_label">Code de vérification</string>
+    <string name="verify_action">Vérifier</string>
+    <string name="verify_verifying">Vérification…</string>
+    <string name="verify_resend_in">Renvoyer le code dans %1$d s</string>
+    <string name="verify_resend">Rien reçu ? Renvoyer le code</string>
+    <string name="verify_different_email">Utiliser une autre adresse</string>
+    <string name="verify_code_sent">Un nouveau code est en route.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_guides">Guides</string>
+    <string name="nav_quizzes">Quiz</string>
+    <string name="nav_groups">Groupes</string>
+    <string name="nav_more">Plus</string>
+
+    <!-- Dashboard -->
+    <string name="dash_welcome">Bon retour, %1$s</string>
+    <string name="dash_keep_going">Continuez comme ça</string>
+    <string name="dash_quick_actions">Actions rapides</string>
+    <string name="dash_generate_guide">Générer un guide</string>
+    <string name="dash_generate_guide_sub">Créer un guide d\'étude par IA</string>
+    <string name="dash_take_quiz">Faire un quiz</string>
+    <string name="dash_take_quiz_sub">Testez vos connaissances</string>
+    <string name="dash_explain">Expliquer un concept</string>
+    <string name="dash_explain_sub">Demandez une explication en langage clair</string>
+    <string name="dash_xp_by_topic">XP par matière</string>
+    <string name="dash_suggestions">Suggestions pour vous</string>
+    <string name="dash_recent_activity">Activité récente</string>
+    <string name="dash_load_failed">Impossible de charger votre tableau de bord</string>
+
+    <!-- Stats -->
+    <string name="stats_title">Votre progression</string>
+    <string name="stats_total_xp">XP total</string>
+    <string name="stats_study_hours">Heures d\'étude</string>
+    <string name="stats_guides">Guides</string>
+    <string name="stats_quizzes">Quiz</string>
+    <string name="stats_avg_score">Score moyen</string>
+    <string name="stats_badges">Badges</string>
+    <string name="stats_achievements">Récompenses</string>
+
+    <!-- Guides -->
+    <string name="guides_title">Mes guides d\'étude</string>
+    <string name="guides_count">%1$d guides générés</string>
+    <string name="guides_none">Aucun guide pour l\'instant</string>
+    <string name="guides_none_hint">Appuyez sur le bouton pour générer votre premier guide d\'étude.</string>
+    <string name="guides_new">Nouveau guide</string>
+    <string name="guides_generate_title">Générer un guide d\'étude</string>
+    <string name="guides_what_learn">Que voulez-vous apprendre ?</string>
+    <string name="guides_focus_area">Point précis (facultatif)</string>
+    <string name="guides_your_level">Votre niveau</string>
+    <string name="guides_generate_action">Générer mon guide</string>
+    <string name="guides_generating">Génération de votre guide</string>
+    <string name="guides_back">Retour aux guides</string>
+    <string name="guides_unavailable_offline">Ce guide n\'est pas disponible hors ligne</string>
+    <string name="guides_unavailable_hint">Ouvrez-le une fois avec une connexion et il sera là la prochaine fois.</string>
+    <string name="guides_modules">%1$d modules</string>
+    <string name="guides_minutes">~%1$d min</string>
+    <string name="guides_key_idea">Idée clé</string>
+
+    <!-- Levels -->
+    <string name="level_beginner">Débutant</string>
+    <string name="level_beginner_desc">Je pars de zéro — expliquez-moi tout</string>
+    <string name="level_intermediate">Intermédiaire</string>
+    <string name="level_intermediate_desc">Je connais les bases — allez plus loin</string>
+    <string name="level_advanced">Avancé</string>
+    <string name="level_advanced_desc">J\'ai de l\'expérience — montrez-moi les cas limites</string>
+
+    <!-- Quizzes -->
+    <string name="quizzes_title">Mes quiz</string>
+    <string name="quizzes_count">%1$d quiz</string>
+    <string name="quizzes_none">Aucun quiz pour l\'instant</string>
+    <string name="quizzes_none_hint">Appuyez sur le bouton pour générer votre premier quiz.</string>
+    <string name="quizzes_new">Nouveau quiz</string>
+    <string name="quizzes_generate_title">Générer un quiz</string>
+    <string name="quizzes_what_topic">Quelle matière ?</string>
+    <string name="quizzes_difficulty">Difficulté</string>
+    <string name="quizzes_questions_label">Questions : </string>
+    <string name="quizzes_generate_action">Générer le quiz</string>
+    <string name="quizzes_generating">Génération de votre quiz</string>
+    <string name="quizzes_question_of">Question %1$d sur %2$d</string>
+    <string name="quizzes_submit_answer">Valider la réponse</string>
+    <string name="quizzes_next_question">Question suivante</string>
+    <string name="quizzes_see_results">Voir les résultats</string>
+    <string name="quizzes_question_count">%1$d questions</string>
+    <string name="quizzes_unavailable_offline">Ce quiz n\'est pas disponible hors ligne</string>
+    <string name="quizzes_unavailable_hint">Ouvrez-le une fois avec une connexion et vous pourrez le faire partout.</string>
+    <string name="difficulty_easy">Facile</string>
+    <string name="difficulty_medium">Moyen</string>
+    <string name="difficulty_hard">Difficile</string>
+
+    <!-- Notes -->
+    <string name="notes_title">Mes notes</string>
+    <string name="notes_count">%1$d notes</string>
+    <string name="notes_count_pending">%1$d notes · %2$d en attente d\'envoi</string>
+    <string name="notes_new">Nouvelle note</string>
+    <string name="notes_edit">Modifier la note</string>
+    <string name="notes_note_title">Titre</string>
+    <string name="notes_content">Contenu</string>
+    <string name="notes_none">Rien ici pour l\'instant</string>
+    <string name="notes_none_hint">Les notes que vous écrivez sont enregistrées sur ce téléphone immédiatement — aucune connexion n\'est nécessaire.</string>
+    <string name="notes_saved_locally">Enregistré sur cet appareil</string>
+    <string name="notes_shared_with_group">Partagé avec le groupe</string>
+
+    <!-- Explanations -->
+    <string name="explain_title">Expliquer un concept</string>
+    <string name="explain_subtitle">Posez n\'importe quelle question — l\'IA s\'adapte à votre niveau</string>
+    <string name="explain_detail_level">Niveau de détail</string>
+    <string name="explain_action">Obtenir l\'explication</string>
+    <string name="explain_generating">Génération de l\'explication…</string>
+    <string name="explain_previous">Explications précédentes</string>
+    <string name="explain_analogy">Analogie</string>
+    <string name="explain_when_to_use">Quand l\'utiliser</string>
+    <string name="explain_back">← Retour à la recherche</string>
+    <string name="detail_simple">Simple</string>
+    <string name="detail_intermediate">Intermédiaire</string>
+    <string name="detail_advanced">Avancé</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_sync">Synchronisation</string>
+    <string name="settings_sync_pending">%1$d modification(s) enregistrée(s) ici, en attente d\'envoi</string>
+    <string name="settings_sync_clean">Tout ce qui est sur cet appareil a été envoyé</string>
+    <string name="settings_sync_now">Synchroniser</string>
+    <string name="settings_syncing">Synchronisation…</string>
+    <string name="settings_sync_ok">À jour.</string>
+    <string name="settings_sync_failed">Serveur injoignable — nouvelle tentative automatique.</string>
+    <string name="settings_drive">Google Drive</string>
+    <string name="settings_drive_sub">Importer des documents depuis votre Drive</string>
+    <string name="settings_soon">Bientôt</string>
+    <string name="settings_sign_out">Se déconnecter</string>
+
+    <!-- Guest mode -->
+    <string name="guest_browse_title">Parcourir la bibliothèque</string>
+    <string name="guest_open_courses">Cours ouverts, en libre accès</string>
+    <string name="guest_open_courses_sub">Contenus sous licence libre de Siyavula, OpenStax et l\'Université Virtuelle Africaine. Aucun compte requis.</string>
+    <string name="guest_all">Tout</string>
+    <string name="guest_nothing_yet">Rien à afficher pour l\'instant</string>
+    <string name="guest_nothing_yet_hint">La bibliothèque est en cours de constitution. Revenez bientôt.</string>
+    <string name="guest_want_more">Envie de la suite ?</string>
+    <string name="guest_want_more_sub">Un compte ajoute les guides d\'étude par IA, les quiz, les notes hors ligne et les groupes de travail.</string>
+    <string name="guest_create_free_account">Créer un compte gratuit</string>
+    <string name="guest_chapters">%1$d chapitres</string>
+    <string name="guest_source">Source</string>
+    <string name="guest_open_original">Ouvrir l\'original</string>
+    <string name="guest_summary_note">Ce résumé a été rédigé pour EduNova+ afin d\'introduire la matière et de vous orienter vers la source. Ce n\'est pas une copie du texte original.</string>
+    <string name="guest_course_unavailable">Ce cours n\'est pas disponible hors ligne</string>
+    <string name="guest_course_unavailable_hint">Ouvrez-le une fois avec une connexion et vous pourrez le lire partout.</string>
+    <string name="guest_opening">Ouverture du cours…</string>
+
+    <!-- Groups -->
+    <string name="groups_title">Mes groupes</string>
+
+    <!-- Shared -->
+    <string name="common_loading">Chargement…</string>
+    <string name="common_save">Enregistrer</string>
+    <string name="common_cancel">Annuler</string>
+    <string name="common_back">Retour</string>
+    <string name="common_delete">Supprimer</string>
+    <string name="common_try_again">Réessayer</string>
+    <string name="common_offline_banner">Hors ligne — affichage de ce que vous avez téléchargé</string>
+    <string name="common_not_downloaded">Rien de téléchargé pour l\'instant. Connectez-vous une fois et ce sera disponible hors ligne.</string>
+    <string name="common_queued">En file d\'attente — démarrage imminent</string>
+    <string name="common_working">Traitement en cours</string>
+</resources>

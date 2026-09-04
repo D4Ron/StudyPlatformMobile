@@ -227,6 +227,28 @@ DELETE FROM cached_document WHERE entity_type = ? AND entity_id = ?;
 deleteDocumentsOfType:
 DELETE FROM cached_document WHERE entity_type = ?;
 
+-- Eviction. The cache is on a phone that may have 8GB in total, and without this it
+-- grows for the life of the install: every guide, quiz and course ever opened, kept
+-- forever. Oldest-touched go first, because the thing you read last month is the
+-- thing you are least likely to open with no signal tonight.
+countDocuments:
+SELECT count(*) FROM cached_document;
+
+deleteOldestDocuments:
+DELETE FROM cached_document WHERE rowid IN (
+    SELECT rowid FROM cached_document ORDER BY cached_at ASC LIMIT ?
+);
+
+-- A collection whose documents have been evicted would list ids that resolve to
+-- nothing, so stale lists go too. The next fetch rebuilds them.
+deleteOldestCollections:
+DELETE FROM cached_collection WHERE key IN (
+    SELECT key FROM cached_collection ORDER BY cached_at ASC LIMIT ?
+);
+
+countCollections:
+SELECT count(*) FROM cached_collection;
+
 -- A list is its membership and its order, held separately from the documents so the
 -- same document can appear in several lists without being stored twice.
 CREATE TABLE cached_collection (

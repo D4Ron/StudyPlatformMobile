@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.studyplatform.android.components.*
@@ -65,13 +66,13 @@ fun GuestBrowseScreen(
                     Icon(Icons.Default.ArrowBack, "Back", tint = TextMuted)
                 }
                 Text(
-                    "Browse the library",
+                    stringResource(tg.edunova.app.R.string.guest_browse_title),
                     style = MaterialTheme.typography.titleLarge,
                     color = TextPrimary,
                     modifier = Modifier.weight(1f)
                 )
                 TextButton(onClick = onSignUp) {
-                    Text("Sign up", color = Primary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.auth_sign_up), color = Primary, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -107,7 +108,7 @@ fun GuestBrowseScreen(
                     item {
                         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             item {
-                                TopicChip("All", domain == null) { domain = null }
+                                TopicChip(stringResource(tg.edunova.app.R.string.guest_all), domain == null) { domain = null }
                             }
                             items(domains) { d ->
                                 TopicChip(d, domain == d) { domain = if (domain == d) null else d }
@@ -130,14 +131,14 @@ fun GuestBrowseScreen(
                             ) {
                                 Column(Modifier.padding(24.dp)) {
                                     Text(
-                                        "Nothing to show yet",
+                                        stringResource(tg.edunova.app.R.string.guest_nothing_yet),
                                         style = MaterialTheme.typography.titleMedium,
                                         color = Primary
                                     )
                                     Spacer(Modifier.height(4.dp))
                                     OfflineEmpty(
                                         state,
-                                        "The library is still being put together. Check back soon.",
+                                        stringResource(tg.edunova.app.R.string.guest_nothing_yet_hint),
                                         color = Primary
                                     )
                                 }
@@ -226,7 +227,7 @@ fun SignUpPrompt(onSignUp: () -> Unit, modifier: Modifier = Modifier) {
     ) {
         Column(Modifier.padding(20.dp)) {
             Text(
-                "Want the rest?",
+                stringResource(tg.edunova.app.R.string.guest_want_more),
                 style = MaterialTheme.typography.titleMedium,
                 color = Primary
             )
@@ -238,7 +239,7 @@ fun SignUpPrompt(onSignUp: () -> Unit, modifier: Modifier = Modifier) {
                 color = Primary
             )
             Spacer(Modifier.height(14.dp))
-            PrimaryButton(text = "Create a free account", onClick = onSignUp)
+            PrimaryButton(text = stringResource(tg.edunova.app.R.string.guest_create_free_account), onClick = onSignUp)
         }
     }
 }

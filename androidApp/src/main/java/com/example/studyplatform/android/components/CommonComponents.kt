@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -55,7 +56,7 @@ fun ErrorMessage(message: String, onRetry: (() -> Unit)? = null) {
             if (onRetry != null) {
                 Spacer(Modifier.height(10.dp))
                 TextButton(onClick = onRetry) {
-                    Text("Try again", color = Primary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.common_try_again), color = Primary, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }

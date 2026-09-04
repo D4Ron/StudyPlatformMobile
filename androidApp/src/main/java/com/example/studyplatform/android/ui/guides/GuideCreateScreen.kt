@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
@@ -71,7 +72,7 @@ fun GuideCreateScreen(onGuideCreated: (String) -> Unit, onBack: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Back") }
-                Text("Generate Study Guide", style = MaterialTheme.typography.titleLarge, color = TextPrimary)
+                Text(stringResource(tg.edunova.app.R.string.guides_generate_title), style = MaterialTheme.typography.titleLarge, color = TextPrimary)
             }
         },
         containerColor = Background
@@ -86,7 +87,7 @@ fun GuideCreateScreen(onGuideCreated: (String) -> Unit, onBack: () -> Unit) {
             Spacer(Modifier.height(8.dp))
 
             // Topic input
-            Text("What do you want to learn?", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+            Text(stringResource(tg.edunova.app.R.string.guides_what_learn), style = MaterialTheme.typography.titleMedium, color = TextPrimary)
             Spacer(Modifier.height(10.dp))
             OutlinedTextField(
                 value = topic, onValueChange = { topic = it },
@@ -102,7 +103,7 @@ fun GuideCreateScreen(onGuideCreated: (String) -> Unit, onBack: () -> Unit) {
             Spacer(Modifier.height(24.dp))
 
             // Specific concept
-            Text("Focus area (optional)", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+            Text(stringResource(tg.edunova.app.R.string.guides_focus_area), style = MaterialTheme.typography.titleMedium, color = TextPrimary)
             Spacer(Modifier.height(10.dp))
             OutlinedTextField(
                 value = specificConcept, onValueChange = { specificConcept = it },
@@ -114,7 +115,7 @@ fun GuideCreateScreen(onGuideCreated: (String) -> Unit, onBack: () -> Unit) {
             Spacer(Modifier.height(24.dp))
 
             // Expertise level
-            Text("Your level", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+            Text(stringResource(tg.edunova.app.R.string.guides_your_level), style = MaterialTheme.typography.titleMedium, color = TextPrimary)
             Spacer(Modifier.height(10.dp))
             listOf(
                 Triple("BEGINNER", "Beginner", "Starting from scratch — I'll explain everything"),
@@ -142,7 +143,7 @@ fun GuideCreateScreen(onGuideCreated: (String) -> Unit, onBack: () -> Unit) {
             Spacer(Modifier.height(32.dp))
 
             PrimaryButton(
-                text = "Generate My Guide",
+                text = stringResource(tg.edunova.app.R.string.guides_generate_action),
                 enabled = topic.isNotBlank(),
                 onClick = {
                     loading = true
@@ -198,7 +199,7 @@ private fun GeneratingLoadingScreen(jobStatus: String? = null) {
                 modifier = Modifier.size(64.dp).scale(pulse), tint = Primary
             )
             Spacer(Modifier.height(24.dp))
-            Text("Generating your guide", style = MaterialTheme.typography.headlineSmall, color = TextPrimary, textAlign = TextAlign.Center)
+            Text(stringResource(tg.edunova.app.R.string.guides_generating), style = MaterialTheme.typography.headlineSmall, color = TextPrimary, textAlign = TextAlign.Center)
             Spacer(Modifier.height(8.dp))
             Text(
                 when (jobStatus) {

@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -44,7 +45,7 @@ fun OfflineBanner(state: Offline<*>, modifier: Modifier = Modifier) {
             Icon(Icons.Default.CloudOff, null, Modifier.size(16.dp), tint = Warning)
             Spacer(Modifier.width(8.dp))
             Text(
-                "Offline — showing what you downloaded earlier",
+                stringResource(tg.edunova.app.R.string.common_offline_banner),
                 style = MaterialTheme.typography.labelMedium,
                 color = Warning
             )
@@ -68,7 +69,7 @@ fun OfflineEmpty(
     color: Color = MaterialTheme.colorScheme.onSurface
 ) {
     val message = state.error?.let {
-        "Nothing downloaded yet. Connect once and this will be available offline."
+        stringResource(tg.edunova.app.R.string.common_not_downloaded)
     } ?: emptyMessage
 
     Text(

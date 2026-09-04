@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,7 @@ fun ExplanationScreen() {
         historyLoading = false
     }
 
-    if (loading) { LoadingScreen("Generating explanation\u2026"); return }
+    if (loading) { LoadingScreen(stringResource(tg.edunova.app.R.string.explain_generating)); return }
 
     // If viewing an explanation
     if (currentExplanation != null) {
@@ -66,13 +67,13 @@ fun ExplanationScreen() {
             AnimatedEntry {
                 Column {
                     Text(
-                        "Explain a Concept",
+                        stringResource(tg.edunova.app.R.string.explain_title),
                         style = MaterialTheme.typography.headlineLarge,
                         color = TextPrimary
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Ask about anything — the AI adapts to your level",
+                        stringResource(tg.edunova.app.R.string.explain_subtitle),
                         style = MaterialTheme.typography.bodySmall,
                         color = TextMuted
                     )
@@ -108,7 +109,7 @@ fun ExplanationScreen() {
         }
 
         item {
-            Text("Detail level", style = MaterialTheme.typography.titleSmall, color = TextPrimary)
+            Text(stringResource(tg.edunova.app.R.string.explain_detail_level), style = MaterialTheme.typography.titleSmall, color = TextPrimary)
             Spacer(Modifier.height(8.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("SHORT" to "Simple", "MEDIUM" to "Intermediate", "DETAILED" to "Advanced").forEach { (lvl, label) ->
@@ -122,7 +123,7 @@ fun ExplanationScreen() {
         }
 
         item {
-            PrimaryButton(text = "Get Explanation", enabled = concept.isNotBlank(), onClick = {
+            PrimaryButton(text = stringResource(tg.edunova.app.R.string.explain_action), enabled = concept.isNotBlank(), onClick = {
                 loading = true
                 scope.launch {
                     try {
@@ -139,7 +140,7 @@ fun ExplanationScreen() {
         if (history.isNotEmpty()) {
             item {
                 Spacer(Modifier.height(8.dp))
-                Text("Previous Explanations", style = MaterialTheme.typography.headlineSmall, color = TextPrimary)
+                Text(stringResource(tg.edunova.app.R.string.explain_previous), style = MaterialTheme.typography.headlineSmall, color = TextPrimary)
             }
             itemsIndexed(history) { index, exp ->
                 AnimatedEntry(index = index) {
@@ -203,7 +204,7 @@ private fun ExplanationDetail(exp: ExplanationResponse, onBack: () -> Unit) {
             item {
                 Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = WarningLight), shape = RoundedCornerShape(12.dp)) {
                     Column(Modifier.padding(16.dp)) {
-                        Text("Analogy", style = MaterialTheme.typography.labelSmall, color = Warning)
+                        Text(stringResource(tg.edunova.app.R.string.explain_analogy), style = MaterialTheme.typography.labelSmall, color = Warning)
                         Spacer(Modifier.height(4.dp))
                         Text(analogy, style = MaterialTheme.typography.bodyMedium, color = TextSecondary)
                     }
@@ -217,7 +218,7 @@ private fun ExplanationDetail(exp: ExplanationResponse, onBack: () -> Unit) {
             item {
                 Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = SuccessLight), shape = RoundedCornerShape(12.dp)) {
                     Column(Modifier.padding(16.dp)) {
-                        Text("When to use it", style = MaterialTheme.typography.labelSmall, color = Success)
+                        Text(stringResource(tg.edunova.app.R.string.explain_when_to_use), style = MaterialTheme.typography.labelSmall, color = Success)
                         Spacer(Modifier.height(4.dp))
                         Text(whenToUse, style = MaterialTheme.typography.bodyMedium, color = TextSecondary)
                     }

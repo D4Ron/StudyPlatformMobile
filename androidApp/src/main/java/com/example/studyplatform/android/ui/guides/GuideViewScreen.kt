@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.studyplatform.android.components.AnimatedEntry
@@ -39,7 +40,7 @@ fun GuideViewScreen(guideId: String, onBack: () -> Unit) {
         loading = false
     }
 
-    if (loading) { LoadingScreen("Loading guide…"); return }
+    if (loading) { LoadingScreen(stringResource(tg.edunova.app.R.string.common_loading)); return }
 
     val g = state.value
     if (g == null) {
@@ -48,19 +49,19 @@ fun GuideViewScreen(guideId: String, onBack: () -> Unit) {
         Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    "This guide isn't available offline",
+                    stringResource(tg.edunova.app.R.string.guides_unavailable_offline),
                     style = MaterialTheme.typography.titleLarge,
                     color = TextPrimary
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Open it once while you have a connection and it will be here next time.",
+                    stringResource(tg.edunova.app.R.string.guides_unavailable_hint),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextMuted
                 )
                 Spacer(Modifier.height(20.dp))
                 TextButton(onClick = onBack) {
-                    Text("Back to guides", color = Primary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.guides_back), color = Primary, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -154,7 +155,7 @@ fun GuideViewScreen(guideId: String, onBack: () -> Unit) {
                                     ) {
                                         Column(Modifier.padding(12.dp)) {
                                             Text(
-                                                "Key idea",
+                                                stringResource(tg.edunova.app.R.string.guides_key_idea),
                                                 style = MaterialTheme.typography.labelSmall,
                                                 color = Warning
                                             )
@@ -184,7 +185,7 @@ fun GuideViewScreen(guideId: String, onBack: () -> Unit) {
 
             item {
                 TextButton(onClick = onBack, modifier = Modifier.fillMaxWidth()) {
-                    Text("Back to guides", color = Primary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.guides_back), color = Primary, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }

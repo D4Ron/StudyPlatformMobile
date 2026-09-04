@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.MarkEmailRead
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -59,6 +60,8 @@ fun VerifyOtpScreen(
 
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
+
+    val codeSentNotice = stringResource(tg.edunova.app.R.string.verify_code_sent)
 
     var arrived by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { arrived = true }
@@ -121,7 +124,7 @@ fun VerifyOtpScreen(
             }
 
             Spacer(Modifier.height(20.dp))
-            Text("Check your email", style = MaterialTheme.typography.headlineLarge,
+            Text(stringResource(tg.edunova.app.R.string.verify_check_email), style = MaterialTheme.typography.headlineLarge,
                 color = TextPrimary, textAlign = TextAlign.Center)
             Spacer(Modifier.height(6.dp))
             Text("We sent a $CODE_LENGTH-digit code to", style = MaterialTheme.typography.bodyLarge,
@@ -165,7 +168,7 @@ fun VerifyOtpScreen(
                         submit()
                     }
                 },
-                label = { Text("Verification code") },
+                label = { Text(stringResource(tg.edunova.app.R.string.verify_code_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.NumberPassword,
@@ -186,7 +189,7 @@ fun VerifyOtpScreen(
             Spacer(Modifier.height(28.dp))
 
             PrimaryButton(
-                text = if (loading) "Verifying\u2026" else "Verify",
+                text = if (loading) stringResource(tg.edunova.app.R.string.verify_verifying) else stringResource(tg.edunova.app.R.string.verify_action),
                 loading = loading,
                 enabled = code.length == CODE_LENGTH,
                 onClick = { submit() }
@@ -200,7 +203,7 @@ fun VerifyOtpScreen(
                     scope.launch {
                         try {
                             AuthApi.resendOtp(email.trim())
-                            notice = "A new code is on its way."
+                            notice = codeSentNotice
                             error = null
                             secondsUntilResend = RESEND_COOLDOWN_SECONDS
                         } catch (e: Exception) {
@@ -218,7 +221,7 @@ fun VerifyOtpScreen(
             }
 
             TextButton(onClick = onBack) {
-                Text("Use a different email", color = TextMuted, style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(tg.edunova.app.R.string.verify_different_email), color = TextMuted, style = MaterialTheme.typography.bodyMedium)
             }
 
             Spacer(Modifier.height(40.dp))

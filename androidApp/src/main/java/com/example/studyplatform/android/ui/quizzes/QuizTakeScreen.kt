@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -76,26 +77,26 @@ fun QuizTakeScreen(
         loading = false
     }
 
-    if (loading) { LoadingScreen("Loading quiz…"); return }
+    if (loading) { LoadingScreen(stringResource(tg.edunova.app.R.string.common_loading)); return }
 
     val q = state.value
     if (q == null) {
         Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    "This quiz isn't available offline",
+                    stringResource(tg.edunova.app.R.string.quizzes_unavailable_offline),
                     style = MaterialTheme.typography.titleLarge,
                     color = TextPrimary
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Open it once while you have a connection and you'll be able to take it anywhere.",
+                    stringResource(tg.edunova.app.R.string.quizzes_unavailable_hint),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TextMuted
                 )
                 Spacer(Modifier.height(20.dp))
                 TextButton(onClick = onBack) {
-                    Text("Back", color = Primary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.common_back), color = Primary, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -299,7 +300,7 @@ fun QuizTakeScreen(
 
             if (!submitted) {
                 PrimaryButton(
-                    text = "Submit Answer",
+                    text = stringResource(tg.edunova.app.R.string.quizzes_submit_answer),
                     enabled = selectedAnswer != null,
                     onClick = {
                         submitted = true
@@ -309,7 +310,7 @@ fun QuizTakeScreen(
             } else {
                 val isLast = currentIndex >= questions.size - 1
                 PrimaryButton(
-                    text = if (isLast) "See Results" else "Next Question",
+                    text = if (isLast) stringResource(tg.edunova.app.R.string.quizzes_see_results) else stringResource(tg.edunova.app.R.string.quizzes_next_question),
                     loading = submitting,
                     onClick = {
                         if (isLast) finish()

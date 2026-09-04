@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -20,7 +21,7 @@ import com.example.studyplatform.api.AuthApi
 import kotlinx.coroutines.launch
 
 /**
- * "Continue with Google" — drawn only when it can actually work.
+ * stringResource(tg.edunova.app.R.string.auth_continue_with_google) — drawn only when it can actually work.
  *
  * Both ends have to be configured: this build needs a client id, and the server needs
  * one too. Either missing produces a button that fails *after* the person has picked an
@@ -102,7 +103,7 @@ fun GoogleSignInButton(
                     Spacer(Modifier.width(12.dp))
                 }
                 Text(
-                    if (busy) "Signing in…" else "Continue with Google",
+                    if (busy) stringResource(tg.edunova.app.R.string.auth_signing_in) else stringResource(tg.edunova.app.R.string.auth_continue_with_google),
                     style = MaterialTheme.typography.labelLarge
                 )
             }
@@ -111,7 +112,7 @@ fun GoogleSignInButton(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 HorizontalDivider(Modifier.weight(1f), color = Border)
                 Text(
-                    "  or  ",
+                    stringResource(tg.edunova.app.R.string.auth_or),
                     color = TextMuted,
                     style = MaterialTheme.typography.labelMedium,
                     textAlign = TextAlign.Center

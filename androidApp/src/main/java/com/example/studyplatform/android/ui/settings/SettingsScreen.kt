@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,9 @@ fun SettingsScreen(onLogout: () -> Unit) {
     val firstName = ApiClient.getFirstName() ?: "User"
     val accountType = ApiClient.getAccountType() ?: "STUDENT"
     val scope = rememberCoroutineScope()
+
+    val syncFailedMessage = stringResource(tg.edunova.app.R.string.settings_sync_failed)
+    val syncOkMessage = stringResource(tg.edunova.app.R.string.settings_sync_ok)
 
     var pending by remember { mutableStateOf(0L) }
     var syncing by remember { mutableStateOf(false) }
@@ -47,7 +51,7 @@ fun SettingsScreen(onLogout: () -> Unit) {
         ) {
             Spacer(Modifier.height(20.dp))
             AnimatedEntry {
-                Text("Settings", style = MaterialTheme.typography.headlineLarge, color = TextPrimary)
+                Text(stringResource(tg.edunova.app.R.string.settings_title), style = MaterialTheme.typography.headlineLarge, color = TextPrimary)
             }
             Spacer(Modifier.height(24.dp))
 
@@ -86,11 +90,11 @@ fun SettingsScreen(onLogout: () -> Unit) {
                         )
                         Spacer(Modifier.width(16.dp))
                         Column(Modifier.weight(1f)) {
-                            Text("Sync", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+                            Text(stringResource(tg.edunova.app.R.string.settings_sync), style = MaterialTheme.typography.titleMedium, color = TextPrimary)
                             Text(
                                 lastResult ?: when {
                                     pending > 0L -> "$pending change(s) saved here, waiting to upload"
-                                    else -> "Everything on this device is uploaded"
+                                    else -> stringResource(tg.edunova.app.R.string.settings_sync_clean)
                                 },
                                 style = MaterialTheme.typography.bodySmall,
                                 color = if (pending > 0) Warning else TextMuted
@@ -102,11 +106,8 @@ fun SettingsScreen(onLogout: () -> Unit) {
                                 syncing = true
                                 scope.launch {
                                     val outcome = AppData.syncEngine.sync()
-                                    lastResult = if (outcome.failed) {
-                                        "Couldn't reach the server — it will retry on its own."
-                                    } else {
-                                        "Up to date."
-                                    }
+                                    lastResult =
+                                        if (outcome.failed) syncFailedMessage else syncOkMessage
                                     refreshPending()
                                     syncing = false
                                     SyncWorker.syncNow(context)
@@ -114,7 +115,7 @@ fun SettingsScreen(onLogout: () -> Unit) {
                             }
                         ) {
                             Text(
-                                if (syncing) "Syncing…" else "Sync now",
+                                if (syncing) stringResource(tg.edunova.app.R.string.settings_syncing) else stringResource(tg.edunova.app.R.string.settings_sync_now),
                                 color = Primary,
                                 style = MaterialTheme.typography.labelLarge
                             )
@@ -135,16 +136,16 @@ fun SettingsScreen(onLogout: () -> Unit) {
                         Icon(Icons.Default.Cloud, null, Modifier.size(32.dp), tint = Primary)
                         Spacer(Modifier.width(16.dp))
                         Column(Modifier.weight(1f)) {
-                            Text("Google Drive", style = MaterialTheme.typography.titleMedium, color = TextPrimary)
+                            Text(stringResource(tg.edunova.app.R.string.settings_drive), style = MaterialTheme.typography.titleMedium, color = TextPrimary)
                             Text(
-                                "Import documents from your Drive",
+                                stringResource(tg.edunova.app.R.string.settings_drive_sub),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = TextMuted
                             )
                         }
                         // Deliberately inert until Phase 8: the OAuth client does not
                         // exist yet, so a working-looking button would only fail.
-                        Text("Soon", style = MaterialTheme.typography.labelMedium, color = TextMuted)
+                        Text(stringResource(tg.edunova.app.R.string.settings_soon), style = MaterialTheme.typography.labelMedium, color = TextMuted)
                     }
                 }
             }
@@ -169,7 +170,7 @@ fun SettingsScreen(onLogout: () -> Unit) {
                 ) {
                     Icon(Icons.Default.Logout, null)
                     Spacer(Modifier.width(8.dp))
-                    Text("Sign Out", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.settings_sign_out), style = MaterialTheme.typography.labelLarge)
                 }
             }
             Spacer(Modifier.height(48.dp))

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
@@ -96,7 +97,7 @@ fun NotesScreen() {
                     containerColor = Primary,
                     contentColor = Color.White,
                     icon = { Icon(Icons.Default.Add, null) },
-                    text = { Text("New note", style = MaterialTheme.typography.labelLarge) }
+                    text = { Text(stringResource(tg.edunova.app.R.string.notes_new), style = MaterialTheme.typography.labelLarge) }
                 )
             }
         }
@@ -112,7 +113,7 @@ fun NotesScreen() {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(Modifier.weight(1f)) {
                                 Text(
-                                    "My Notes",
+                                    stringResource(tg.edunova.app.R.string.notes_title),
                                     style = MaterialTheme.typography.headlineLarge,
                                     color = TextPrimary
                                 )
@@ -197,13 +198,13 @@ fun NotesScreen() {
                             ) {
                                 Column(Modifier.padding(24.dp)) {
                                     Text(
-                                        "Nothing here yet",
+                                        stringResource(tg.edunova.app.R.string.notes_none),
                                         style = MaterialTheme.typography.titleMedium,
                                         color = Primary
                                     )
                                     Spacer(Modifier.height(4.dp))
                                     Text(
-                                        "Notes you write are saved on this phone straight away — you don't need a connection.",
+                                        stringResource(tg.edunova.app.R.string.notes_none_hint),
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = Primary
                                     )
@@ -255,7 +256,7 @@ private fun NoteForm(
     ) {
         Column(Modifier.padding(18.dp)) {
             Text(
-                if (isEdit) "Edit note" else "New note",
+                if (isEdit) stringResource(tg.edunova.app.R.string.notes_edit) else stringResource(tg.edunova.app.R.string.notes_new),
                 style = MaterialTheme.typography.titleLarge,
                 color = TextPrimary
             )
@@ -263,7 +264,7 @@ private fun NoteForm(
             OutlinedTextField(
                 value = title,
                 onValueChange = onTitle,
-                label = { Text("Title") },
+                label = { Text(stringResource(tg.edunova.app.R.string.notes_note_title)) },
                 modifier = Modifier.fillMaxWidth(),
                 shape = MaterialTheme.shapes.small,
                 singleLine = true,
@@ -276,7 +277,7 @@ private fun NoteForm(
             OutlinedTextField(
                 value = content,
                 onValueChange = onContent,
-                label = { Text("Content") },
+                label = { Text(stringResource(tg.edunova.app.R.string.notes_content)) },
                 modifier = Modifier.fillMaxWidth(),
                 shape = MaterialTheme.shapes.small,
                 minLines = 4,
@@ -291,13 +292,13 @@ private fun NoteForm(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 PrimaryButton(
-                    text = "Save",
+                    text = stringResource(tg.edunova.app.R.string.common_save),
                     enabled = title.isNotBlank() && content.isNotBlank(),
                     modifier = Modifier.weight(1f),
                     onClick = onSave
                 )
                 TextButton(onClick = onCancel) {
-                    Text("Cancel", color = TextMuted, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(tg.edunova.app.R.string.common_cancel), color = TextMuted, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -348,7 +349,7 @@ private fun NoteCard(
             ) {
                 if (note.sharedWithGroup) {
                     Text(
-                        "Shared with group",
+                        stringResource(tg.edunova.app.R.string.notes_shared_with_group),
                         style = MaterialTheme.typography.labelSmall,
                         color = Secondary
                     )
@@ -361,7 +362,7 @@ private fun NoteCard(
                     exit = Motion.exit()
                 ) {
                     Text(
-                        "Saved on this device",
+                        stringResource(tg.edunova.app.R.string.notes_saved_locally),
                         style = MaterialTheme.typography.labelSmall,
                         color = Warning
                     )

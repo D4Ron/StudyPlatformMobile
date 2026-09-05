@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Debug builds only. This file lives in src/debug/, so it is never merged into a
+  release APK and cannot weaken a shipped app.
+
+  Android 9 and later refuse plain HTTP by default, which is right — but a backend
+  running on a laptop for a demo is plain HTTP, and without this the app fails with a
+  bare "CLEARTEXT communication not permitted" that says nothing about the cause.
+
+  Permitted for everything rather than for a list of addresses, because the address is
+  not knowable in advance: an emulator reaches the host at 10.0.2.2, while a physical
+  phone uses whatever the laptop's Wi-Fi address happens to be that day. Domain rules
+  match names, not IP ranges, so a list would have to be edited on every network — and
+  a rule people edit constantly is a rule that ends up in a release build.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

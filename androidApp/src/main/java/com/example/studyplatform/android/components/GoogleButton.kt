@@ -21,7 +21,7 @@ import com.example.studyplatform.api.AuthApi
 import kotlinx.coroutines.launch
 
 /**
- * stringResource(tg.edunova.app.R.string.auth_continue_with_google) — drawn only when it can actually work.
+ * "Continue with Google" — drawn only when it can actually work.
  *
  * Both ends have to be configured: this build needs a client id, and the server needs
  * one too. Either missing produces a button that fails *after* the person has picked an

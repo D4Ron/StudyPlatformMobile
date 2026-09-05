@@ -52,6 +52,7 @@ import com.example.studyplatform.android.components.Motion
 import com.example.studyplatform.android.components.pressScale
 import com.example.studyplatform.android.sync.SyncWorker
 import com.example.studyplatform.api.ApiClient
+import tg.edunova.app.BuildConfig
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.data.DatabaseDriverFactory
 import com.example.studyplatform.model.QuizAttemptResponse
@@ -59,6 +60,10 @@ import com.example.studyplatform.model.QuizAttemptResponse
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Before anything can make a request. Blank in a normal build, so this is a
+        // no-op unless someone has pointed it at a local backend.
+        ApiClient.useBaseUrl(BuildConfig.API_BASE_URL)
 
         // Opened before any screen composes: the notes list reads from it immediately,
         // and it has to exist whether or not there is a connection.

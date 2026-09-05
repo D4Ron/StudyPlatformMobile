@@ -13,7 +13,34 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 object ApiClient {
-    const val BASE_URL = "https://studyplatform-api.onrender.com"
+
+    /**
+     * Where the API lives.
+     *
+     * A `var` rather than a constant so a build can point at a laptop instead of the
+     * deployed server without editing source. The platform entry point sets it before
+     * anything makes a request; leaving it alone gives the deployed default.
+     *
+     * Running against a local backend needs the right host for the client, and the
+     * obvious one is wrong: `localhost` on a phone or emulator means *the phone*.
+     * An emulator reaches the host machine at `10.0.2.2`; a physical device needs the
+     * laptop's address on the same network.
+     */
+    var baseUrl: String = "https://studyplatform-api.onrender.com"
+        private set
+
+    /**
+     * Called once at startup, before any request.
+     *
+     * Ignores a blank value so an unset build setting falls back to the deployed server
+     * rather than pointing the app at nothing.
+     */
+    fun useBaseUrl(url: String?) {
+        if (!url.isNullOrBlank()) {
+            baseUrl = url.trimEnd('/')
+            println("API base URL: $baseUrl")
+        }
+    }
 
     private val settings = Settings()
 
@@ -37,7 +64,7 @@ object ApiClient {
             socketTimeoutMillis = 90_000
         }
         defaultRequest {
-            url(BASE_URL)
+            url(baseUrl)
             contentType(ContentType.Application.Json)
             val token = settings.getStringOrNull("access_token")
             if (token != null) {

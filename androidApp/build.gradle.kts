@@ -78,6 +78,18 @@ android {
             "GOOGLE_WEB_CLIENT_ID",
             "\"" + (localProperty("google.webClientId") ?: "") + "\""
         )
+
+        // Point the app at a backend running on this laptop without editing source.
+        // Blank means the deployed server.
+        //
+        // The obvious value is wrong: "localhost" on a phone or emulator means the
+        // phone. An emulator reaches the host at 10.0.2.2; a physical device needs
+        // the laptop's address on the same Wi-Fi. See docs/local-showcase.md.
+        buildConfigField(
+            "String",
+            "API_BASE_URL",
+            "\"" + (localProperty("api.baseUrl") ?: "") + "\""
+        )
     }
 
     buildFeatures {

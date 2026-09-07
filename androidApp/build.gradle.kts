@@ -37,6 +37,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    // Same version the shared module uses. Timestamps written here (a logged focus
+    // session) must be byte-identical in format to the ones the sync layer writes, and
+    // java.time is not available at minSdk 24 without desugaring.
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
     implementation("androidx.compose.material:material-icons-extended")
     // Runs sync when the device has a connection again, even if the app is closed.
     implementation(libs.androidx.work.runtime)

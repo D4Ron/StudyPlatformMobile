@@ -183,6 +183,61 @@
     <!-- Groups -->
     <string name="groups_title">Mes groupes</string>
 
+    <!-- Notifications -->
+    <string name="notifications_title">Notifications</string>
+    <string name="notifications_mark_all">Tout marquer comme lu</string>
+    <string name="notifications_empty">Rien de nouveau. L\'activité de vos groupes apparaîtra ici.</string>
+
+    <!-- Documents -->
+    <string name="documents_title">Documents</string>
+    <string name="documents_empty">Aucun document pour l\'instant. Importez-en un depuis le web et il apparaîtra ici.</string>
+    <string name="documents_group">Partagé avec %1$s</string>
+
+    <!-- Pomodoro -->
+    <string name="pomodoro_title">Minuteur de concentration</string>
+    <string name="pomodoro_focus">Concentration</string>
+    <string name="pomodoro_short_break">Pause courte</string>
+    <string name="pomodoro_long_break">Pause longue</string>
+    <string name="pomodoro_start">Démarrer</string>
+    <string name="pomodoro_pause">Pause</string>
+    <string name="pomodoro_resume">Reprendre</string>
+    <string name="pomodoro_reset">Réinitialiser</string>
+    <string name="pomodoro_rounds">Série %1$d sur %2$d</string>
+    <string name="pomodoro_done">Séance enregistrée — celle-ci compte.</string>
+
+    <!-- Tournaments -->
+    <string name="tournaments_title">Tournois</string>
+    <string name="tournaments_empty">Aucun tournoi en cours. Ceux créés par votre groupe apparaîtront ici.</string>
+    <string name="tournaments_join">Rejoindre</string>
+    <string name="tournaments_compete">Concourir</string>
+    <string name="tournaments_joined">Inscrit</string>
+    <string name="tournaments_questions">%1$d questions</string>
+    <string name="tournaments_participants">%1$d participants</string>
+    <string name="tournaments_teams_allowed">Équipes autorisées</string>
+    <string name="tournaments_leaderboard">Classement</string>
+    <string name="tournaments_leaderboard_empty">Aucun score pour l\'instant. Soyez le premier.</string>
+    <string name="tournaments_online_only">Concourir nécessite une connexion — les scores sont en direct.</string>
+    <string name="tournaments_answered">%1$d réponses</string>
+
+    <!-- More menu -->
+    <string name="more_title">Plus</string>
+    <string name="more_tournaments">Tournois</string>
+    <string name="more_tournaments_sub">Affrontez d\'autres étudiants</string>
+    <string name="more_explanations">Expliquer un concept</string>
+    <string name="more_explanations_sub">Explications par l\'IA</string>
+    <string name="more_notes">Mes notes</string>
+    <string name="more_notes_sub">Notes d\'étude personnelles</string>
+    <string name="more_stats">Statistiques</string>
+    <string name="more_stats_sub">Suivez votre progression</string>
+    <string name="more_documents">Documents</string>
+    <string name="more_documents_sub">Fichiers partagés avec vous</string>
+    <string name="more_pomodoro">Minuteur de concentration</string>
+    <string name="more_pomodoro_sub">Étudiez par séries minutées</string>
+    <string name="more_notifications">Notifications</string>
+    <string name="more_notifications_sub">L\'activité de vos groupes</string>
+    <string name="more_settings">Paramètres</string>
+    <string name="more_settings_sub">Compte et préférences</string>
+
     <!-- Shared -->
     <string name="common_loading">Chargement…</string>
     <string name="common_save">Enregistrer</string>

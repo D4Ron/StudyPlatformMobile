@@ -174,4 +174,20 @@ class LibraryRepository(private val cache: CacheStore) {
             idOf = { it.id },
             fetch = { DocumentApi.listMine() }
         )
+
+    // ── Notifications ────────────────────────────────────────────────
+
+    /**
+     * Cached so the list still opens on a dead connection, showing what was true at the
+     * last sync. Marking one read is deliberately not queued for later: an unread badge
+     * that clears itself while offline and then reappears is worse than one that waits.
+     */
+    suspend fun notifications(): Offline<List<NotificationResponse>> =
+        cache.list(
+            key = "notifications",
+            entityType = "notification",
+            serializer = NotificationResponse.serializer(),
+            idOf = { it.id },
+            fetch = { NotificationApi.listMine() }
+        )
 }

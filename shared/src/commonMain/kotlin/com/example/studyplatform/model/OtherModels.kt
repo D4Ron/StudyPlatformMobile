@@ -40,5 +40,27 @@ data class DriveFileItem(val fileId: String, val name: String, val mimeType: Str
 @Serializable
 data class DriveImportRequest(val driveFileId: String, val groupId: String? = null)
 
+/**
+ * Mirrors `NotificationResponse` on the server.
+ *
+ * The same shape arrives two ways — `GET /api/notifications/mine` and, once the socket
+ * is wired, `/topic/notifications/{userId}`. They are upserted by id and cannot be told
+ * apart, so the two must not diverge.
+ *
+ * `linkPath` is a server-chosen route into the app. It is data from the network, so it
+ * is matched against known destinations rather than navigated to verbatim.
+ */
+@Serializable
+data class NotificationResponse(
+    val id: String,
+    val type: String = "",
+    val title: String = "",
+    val message: String = "",
+    val groupId: String? = null,
+    val linkPath: String? = null,
+    val read: Boolean = false,
+    val createdAt: String? = null
+)
+
 @Serializable
 data class MessageResponse(val message: String)

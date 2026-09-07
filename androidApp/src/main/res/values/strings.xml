@@ -186,6 +186,61 @@
     <!-- Groups -->
     <string name="groups_title">My Groups</string>
 
+    <!-- Notifications -->
+    <string name="notifications_title">Notifications</string>
+    <string name="notifications_mark_all">Mark all read</string>
+    <string name="notifications_empty">Nothing new. Activity from your groups shows up here.</string>
+
+    <!-- Documents -->
+    <string name="documents_title">Documents</string>
+    <string name="documents_empty">No documents yet. Upload one from the web app and it appears here.</string>
+    <string name="documents_group">Shared with %1$s</string>
+
+    <!-- Pomodoro -->
+    <string name="pomodoro_title">Focus timer</string>
+    <string name="pomodoro_focus">Focus</string>
+    <string name="pomodoro_short_break">Short break</string>
+    <string name="pomodoro_long_break">Long break</string>
+    <string name="pomodoro_start">Start</string>
+    <string name="pomodoro_pause">Pause</string>
+    <string name="pomodoro_resume">Resume</string>
+    <string name="pomodoro_reset">Reset</string>
+    <string name="pomodoro_rounds">Round %1$d of %2$d</string>
+    <string name="pomodoro_done">Session logged — that one counts.</string>
+
+    <!-- Tournaments -->
+    <string name="tournaments_title">Tournaments</string>
+    <string name="tournaments_empty">No tournaments open right now. One your group creates will show up here.</string>
+    <string name="tournaments_join">Join</string>
+    <string name="tournaments_compete">Compete</string>
+    <string name="tournaments_joined">Joined</string>
+    <string name="tournaments_questions">%1$d questions</string>
+    <string name="tournaments_participants">%1$d competing</string>
+    <string name="tournaments_teams_allowed">Teams allowed</string>
+    <string name="tournaments_leaderboard">Leaderboard</string>
+    <string name="tournaments_leaderboard_empty">No scores yet. Be the first.</string>
+    <string name="tournaments_online_only">Competing needs a connection — scores are live.</string>
+    <string name="tournaments_answered">%1$d answered</string>
+
+    <!-- More menu -->
+    <string name="more_title">More</string>
+    <string name="more_tournaments">Tournaments</string>
+    <string name="more_tournaments_sub">Compete with other students</string>
+    <string name="more_explanations">Explain a concept</string>
+    <string name="more_explanations_sub">AI-powered explanations</string>
+    <string name="more_notes">My notes</string>
+    <string name="more_notes_sub">Personal study notes</string>
+    <string name="more_stats">Statistics</string>
+    <string name="more_stats_sub">Track your progress</string>
+    <string name="more_documents">Documents</string>
+    <string name="more_documents_sub">Files shared with you</string>
+    <string name="more_pomodoro">Focus timer</string>
+    <string name="more_pomodoro_sub">Study in timed rounds</string>
+    <string name="more_notifications">Notifications</string>
+    <string name="more_notifications_sub">Activity from your groups</string>
+    <string name="more_settings">Settings</string>
+    <string name="more_settings_sub">Account &amp; preferences</string>
+
     <!-- Shared -->
     <string name="common_loading">Loading…</string>
     <string name="common_save">Save</string>

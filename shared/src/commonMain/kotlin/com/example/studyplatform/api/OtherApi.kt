@@ -74,6 +74,16 @@ object DriveApi {
         ApiClient.client.post("/api/drive/import") { setBody(request) }.body()
 }
 
+object NotificationApi {
+    /** The server returns read and unread together; filtering is the caller's job. */
+    suspend fun listMine(): List<NotificationResponse> =
+        ApiClient.client.get("/api/notifications/mine").body()
+
+    suspend fun markRead(id: String) { ApiClient.client.post("/api/notifications/$id/read") }
+
+    suspend fun markAllRead() { ApiClient.client.post("/api/notifications/read-all") }
+}
+
 object DocumentApi {
     suspend fun listMine(): List<DocumentResponse> =
         ApiClient.client.get("/api/documents/mine").body()

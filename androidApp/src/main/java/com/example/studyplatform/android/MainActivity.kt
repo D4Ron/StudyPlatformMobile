@@ -21,6 +21,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,13 +41,18 @@ import com.example.studyplatform.android.ui.groups.GroupListScreen
 import com.example.studyplatform.android.ui.guides.GuideCreateScreen
 import com.example.studyplatform.android.ui.guides.GuideListScreen
 import com.example.studyplatform.android.ui.guides.GuideViewScreen
+import com.example.studyplatform.android.ui.documents.DocumentsScreen
 import com.example.studyplatform.android.ui.notes.NotesScreen
+import com.example.studyplatform.android.ui.notifications.NotificationsScreen
+import com.example.studyplatform.android.ui.pomodoro.PomodoroScreen
 import com.example.studyplatform.android.ui.quizzes.QuizCreateScreen
 import com.example.studyplatform.android.ui.quizzes.QuizListScreen
 import com.example.studyplatform.android.ui.quizzes.QuizResultScreen
 import com.example.studyplatform.android.ui.quizzes.QuizTakeScreen
 import com.example.studyplatform.android.ui.settings.SettingsScreen
 import com.example.studyplatform.android.ui.stats.StatsScreen
+import com.example.studyplatform.android.ui.tournaments.TournamentDetailScreen
+import com.example.studyplatform.android.ui.tournaments.TournamentsScreen
 import com.example.studyplatform.android.components.AnimatedEntry
 import com.example.studyplatform.android.components.Motion
 import com.example.studyplatform.android.components.pressScale
@@ -278,12 +284,35 @@ fun StudyPlatformApp() {
                     onExplanations = { navController.navigate("explanations") },
                     onNotes = { navController.navigate("notes") },
                     onStats = { navController.navigate("stats") },
+                    onDocuments = { navController.navigate("documents") },
+                    onPomodoro = { navController.navigate("pomodoro") },
+                    onNotifications = { navController.navigate("notifications") },
+                    onTournaments = { navController.navigate("tournaments") },
                     onSettings = { navController.navigate("settings") }
+                )
+            }
+            composable("tournaments") {
+                TournamentsScreen(onOpen = { id -> navController.navigate("tournaments/detail/$id") })
+            }
+            composable(
+                "tournaments/detail/{tournamentId}",
+                arguments = listOf(navArgument("tournamentId") { type = NavType.StringType })
+            ) {
+                TournamentDetailScreen(
+                    tournamentId = it.arguments?.getString("tournamentId") ?: "",
+                    onBack = { navController.popBackStack() }
                 )
             }
             composable("explanations") { ExplanationScreen() }
             composable("notes") { NotesScreen() }
             composable("stats") { StatsScreen() }
+            composable("documents") { DocumentsScreen() }
+            composable("pomodoro") { PomodoroScreen() }
+            composable("notifications") {
+                NotificationsScreen(
+                    onOpenGroup = { groupId -> navController.navigate("groups/detail/$groupId") }
+                )
+            }
             composable("settings") {
                 SettingsScreen(onLogout = { navController.navigate("login") { popUpTo(0) { inclusive = true } } })
             }
@@ -292,12 +321,60 @@ fun StudyPlatformApp() {
 }
 
 @Composable
-fun MoreScreen(onExplanations: () -> Unit, onNotes: () -> Unit, onStats: () -> Unit, onSettings: () -> Unit) {
+fun MoreScreen(
+    onExplanations: () -> Unit,
+    onNotes: () -> Unit,
+    onStats: () -> Unit,
+    onDocuments: () -> Unit,
+    onPomodoro: () -> Unit,
+    onNotifications: () -> Unit,
+    onTournaments: () -> Unit,
+    onSettings: () -> Unit
+) {
+    // These were English literals while every other screen went through strings.xml —
+    // the i18n pass missed this file, so a French device saw a French app with an
+    // English menu in the middle of it.
     val items = listOf(
-        Triple("Explain a Concept", "AI-powered explanations", Icons.Filled.Lightbulb) to onExplanations,
-        Triple("My Notes", "Personal study notes", Icons.Filled.EditNote) to onNotes,
-        Triple("Statistics", "Track your progress", Icons.Filled.BarChart) to onStats,
-        Triple("Settings", "Account & preferences", Icons.Filled.Settings) to onSettings,
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_explanations),
+            stringResource(tg.edunova.app.R.string.more_explanations_sub),
+            Icons.Filled.Lightbulb
+        ) to onExplanations,
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_notes),
+            stringResource(tg.edunova.app.R.string.more_notes_sub),
+            Icons.Filled.EditNote
+        ) to onNotes,
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_documents),
+            stringResource(tg.edunova.app.R.string.more_documents_sub),
+            Icons.Filled.Folder
+        ) to onDocuments,
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_pomodoro),
+            stringResource(tg.edunova.app.R.string.more_pomodoro_sub),
+            Icons.Filled.Timer
+        ) to onPomodoro,
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_notifications),
+            stringResource(tg.edunova.app.R.string.more_notifications_sub),
+            Icons.Filled.Notifications
+        ) to onNotifications,
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_tournaments),
+            stringResource(tg.edunova.app.R.string.more_tournaments_sub),
+            Icons.Filled.EmojiEvents
+        ) to onTournaments,
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_stats),
+            stringResource(tg.edunova.app.R.string.more_stats_sub),
+            Icons.Filled.BarChart
+        ) to onStats,
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_settings),
+            stringResource(tg.edunova.app.R.string.more_settings_sub),
+            Icons.Filled.Settings
+        ) to onSettings,
     )
 
     androidx.compose.foundation.layout.Box(
@@ -311,7 +388,11 @@ fun MoreScreen(onExplanations: () -> Unit, onNotes: () -> Unit, onStats: () -> U
         ) {
             item {
                 AnimatedEntry {
-                    Text("More", style = MaterialTheme.typography.headlineLarge, color = TextPrimary)
+                    Text(
+                        stringResource(tg.edunova.app.R.string.more_title),
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = TextPrimary
+                    )
                 }
             }
             items.forEachIndexed { index, (triple, action) ->

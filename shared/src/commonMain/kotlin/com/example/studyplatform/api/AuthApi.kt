@@ -45,6 +45,29 @@ object AuthApi {
     }
 
     /**
+     * Enters the app as the shared demo account, with no credentials.
+     *
+     * Only exists where the server has demo mode on; anywhere else this 404s. The
+     * screens ask `providers()` before drawing the button, but that is presentation —
+     * the gate is the server's, and a client that asked anyway would simply be refused.
+     */
+    suspend fun demo(): AuthResponse {
+        try {
+            val auth: AuthResponse = ApiClient.client.post("/api/auth/demo").body()
+            ApiClient.saveTokens(auth.accessToken, auth.refreshToken)
+            ApiClient.saveUser(auth.userId, auth.email, auth.firstName, auth.lastName, auth.accountType)
+            return auth
+        } catch (e: ApiException) {
+            throw Exception(
+                if (e.statusCode == 404) "Demo mode is not enabled on this server."
+                else e.message ?: "Could not start the demo."
+            )
+        } catch (e: Exception) {
+            throw Exception("Could not reach the server. Please check your connection.")
+        }
+    }
+
+    /**
      * Which sign-in methods this deployment actually supports.
      *
      * Asked before drawing the Google button. A button that cannot work is worse than no

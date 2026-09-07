@@ -186,6 +186,22 @@
     <!-- Groups -->
     <string name="groups_title">My Groups</string>
 
+    <!-- Welcome / landing -->
+    <string name="welcome_headline">Study smarter, together</string>
+    <string name="welcome_sub">Guides, quizzes and study groups built for students in Africa — and they work offline.</string>
+    <string name="welcome_point_ai_title">Guides and quizzes from any topic</string>
+    <string name="welcome_point_ai_body">Name what you are studying and get a structured guide, then test yourself on it.</string>
+    <string name="welcome_point_offline_title">Works without a connection</string>
+    <string name="welcome_point_offline_body">Read, write notes and take quizzes offline. Everything syncs when you have signal.</string>
+    <string name="welcome_point_groups_title">Study with your class</string>
+    <string name="welcome_point_groups_body">Shared notes, group chat and tournaments that make revision less lonely.</string>
+    <string name="welcome_get_started">Create a free account</string>
+    <string name="welcome_sign_in">I already have an account</string>
+    <string name="welcome_browse">Browse the library first</string>
+    <string name="welcome_demo">Look around in demo mode</string>
+    <string name="welcome_demo_note">No account, no email — sample data.</string>
+    <string name="welcome_demo_failed">Demo mode is not available right now.</string>
+
     <!-- Notifications -->
     <string name="notifications_title">Notifications</string>
     <string name="notifications_mark_all">Mark all read</string>

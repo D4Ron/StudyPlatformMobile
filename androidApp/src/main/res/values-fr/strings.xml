@@ -183,6 +183,22 @@
     <!-- Groups -->
     <string name="groups_title">Mes groupes</string>
 
+    <!-- Welcome / landing -->
+    <string name="welcome_headline">Étudier mieux, ensemble</string>
+    <string name="welcome_sub">Guides, quiz et groupes d\'étude pensés pour les étudiants d\'Afrique — et qui fonctionnent hors ligne.</string>
+    <string name="welcome_point_ai_title">Des guides et des quiz sur n\'importe quel sujet</string>
+    <string name="welcome_point_ai_body">Indiquez ce que vous révisez, recevez un guide structuré, puis testez-vous dessus.</string>
+    <string name="welcome_point_offline_title">Fonctionne sans connexion</string>
+    <string name="welcome_point_offline_body">Lisez, prenez des notes et passez des quiz hors ligne. Tout se synchronise dès que vous avez du réseau.</string>
+    <string name="welcome_point_groups_title">Révisez avec votre classe</string>
+    <string name="welcome_point_groups_body">Notes partagées, discussions de groupe et tournois pour réviser à plusieurs.</string>
+    <string name="welcome_get_started">Créer un compte gratuit</string>
+    <string name="welcome_sign_in">J\'ai déjà un compte</string>
+    <string name="welcome_browse">Parcourir la bibliothèque d\'abord</string>
+    <string name="welcome_demo">Découvrir en mode démo</string>
+    <string name="welcome_demo_note">Sans compte, sans e-mail — données d\'exemple.</string>
+    <string name="welcome_demo_failed">Le mode démo n\'est pas disponible actuellement.</string>
+
     <!-- Notifications -->
     <string name="notifications_title">Notifications</string>
     <string name="notifications_mark_all">Tout marquer comme lu</string>

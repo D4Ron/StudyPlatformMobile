@@ -34,6 +34,7 @@ import com.example.studyplatform.android.theme.*
 import com.example.studyplatform.android.ui.auth.LoginScreen
 import com.example.studyplatform.android.ui.auth.RegisterScreen
 import com.example.studyplatform.android.ui.auth.VerifyOtpScreen
+import com.example.studyplatform.android.ui.auth.WelcomeScreen
 import com.example.studyplatform.android.ui.dashboard.DashboardScreen
 import com.example.studyplatform.android.ui.explanations.ExplanationScreen
 import com.example.studyplatform.android.ui.groups.GroupDetailScreen
@@ -133,7 +134,9 @@ data class BottomNavItem(val route: String, val label: String, val selectedIcon:
 @Composable
 fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
     val navController = rememberNavController()
-    val startDest = if (ApiClient.isLoggedIn()) "dashboard" else "login"
+    // Signed out lands on the pitch, not the form. Someone who already has an account
+    // reaches login in one tap from there.
+    val startDest = if (ApiClient.isLoggedIn()) "dashboard" else "welcome"
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
@@ -157,7 +160,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
     // Guest mode has no bottom bar: every tab behind it needs an account, and offering
     // them to a visitor only to refuse would be worse than not offering them.
     val hideBottomBarRoutes =
-        listOf("login", "register", "verify", "guest", "guides/create", "quizzes/create")
+        listOf("welcome", "login", "register", "verify", "guest", "guides/create", "quizzes/create")
     val showBottomBar = currentRoute != null &&
             hideBottomBarRoutes.none { currentRoute.startsWith(it) } &&
             !currentRoute.contains("view/") &&
@@ -213,6 +216,18 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
             popExitTransition = { fadeOut(tween(Motion.QUICK)) }
         ) {
             // ── Auth ──
+            composable("welcome") {
+                WelcomeScreen(
+                    onCreateAccount = { navController.navigate("register") },
+                    onSignIn = { navController.navigate("login") },
+                    onBrowse = { navController.navigate("guest") },
+                    // A demo session is a real session, so it clears the stack the same
+                    // way a normal sign-in does — back must not return to the pitch.
+                    onDemoSignedIn = {
+                        navController.navigate("dashboard") { popUpTo(0) { inclusive = true } }
+                    }
+                )
+            }
             composable("login") {
                 LoginScreen(
                     onLoginSuccess = { navController.navigate("dashboard") { popUpTo(0) { inclusive = true } } },
@@ -367,7 +382,9 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 )
             }
             composable("settings") {
-                SettingsScreen(onLogout = { navController.navigate("login") { popUpTo(0) { inclusive = true } } })
+                // Signing out returns to the same place a fresh install starts, so a
+                // demo session ends where the next person would begin.
+                SettingsScreen(onLogout = { navController.navigate("welcome") { popUpTo(0) { inclusive = true } } })
             }
         }
     }

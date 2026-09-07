@@ -1,4 +1,4 @@
-package com.example.studyplatform.android
+﻿package com.example.studyplatform.android
 
 import android.content.Intent
 import android.net.Uri
@@ -32,6 +32,7 @@ import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.example.studyplatform.android.theme.*
 import com.example.studyplatform.android.ui.auth.LoginScreen
+import com.example.studyplatform.android.ui.auth.OnboardingScreen
 import com.example.studyplatform.android.ui.auth.RegisterScreen
 import com.example.studyplatform.android.ui.auth.VerifyOtpScreen
 import com.example.studyplatform.android.ui.auth.WelcomeScreen
@@ -54,6 +55,7 @@ import com.example.studyplatform.android.ui.quizzes.QuizResultScreen
 import com.example.studyplatform.android.ui.quizzes.QuizTakeScreen
 import com.example.studyplatform.android.ui.settings.SettingsScreen
 import com.example.studyplatform.android.ui.stats.StatsScreen
+import com.example.studyplatform.android.ui.tournaments.TournamentCompeteScreen
 import com.example.studyplatform.android.ui.tournaments.TournamentDetailScreen
 import com.example.studyplatform.android.ui.tournaments.TournamentsScreen
 import com.example.studyplatform.android.components.AnimatedEntry
@@ -160,7 +162,10 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
     // Guest mode has no bottom bar: every tab behind it needs an account, and offering
     // them to a visitor only to refuse would be worse than not offering them.
     val hideBottomBarRoutes =
-        listOf("welcome", "login", "register", "verify", "guest", "guides/create", "quizzes/create")
+        listOf(
+            "welcome", "login", "register", "verify", "onboarding", "guest",
+            "guides/create", "quizzes/create", "tournaments/compete"
+        )
     val showBottomBar = currentRoute != null &&
             hideBottomBarRoutes.none { currentRoute.startsWith(it) } &&
             !currentRoute.contains("view/") &&
@@ -215,7 +220,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
             },
             popExitTransition = { fadeOut(tween(Motion.QUICK)) }
         ) {
-            // ── Auth ──
+            // â”€â”€ Auth â”€â”€
             composable("welcome") {
                 WelcomeScreen(
                     onCreateAccount = { navController.navigate("register") },
@@ -246,20 +251,29 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                     onNavigateToLogin = { navController.popBackStack() },
                     // Google has already verified the address, so this lands on the
                     // dashboard rather than the code screen — there is no code.
+                    // Google gives us a name and a verified address and nothing else,
+                    // so this is exactly the account that most needs onboarding.
                     onGoogleSignUp = {
-                        navController.navigate("dashboard") { popUpTo(0) { inclusive = true } }
+                        navController.navigate("onboarding") { popUpTo(0) { inclusive = true } }
                     }
                 )
             }
             composable("verify/{email}", arguments = listOf(navArgument("email") { type = NavType.StringType })) {
                 VerifyOtpScreen(
                     email = it.arguments?.getString("email") ?: "",
-                    onVerified = { navController.navigate("dashboard") { popUpTo(0) { inclusive = true } } },
+                    // Verification is what establishes the session, so it is the first
+                    // moment onboarding can save anything.
+                    onVerified = { navController.navigate("onboarding") { popUpTo(0) { inclusive = true } } },
                     onBack = { navController.navigate("register") { popUpTo("login") } }
                 )
             }
+            composable("onboarding") {
+                OnboardingScreen(
+                    onDone = { navController.navigate("dashboard") { popUpTo(0) { inclusive = true } } }
+                )
+            }
 
-            // ── Guest mode ──
+            // â”€â”€ Guest mode â”€â”€
             //
             // Reachable without a session. Sign-up from here goes to register and clears
             // the guest screens off the stack: someone who has just made an account
@@ -282,7 +296,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 )
             }
 
-            // ── Dashboard ──
+            // â”€â”€ Dashboard â”€â”€
             composable("dashboard") {
                 DashboardScreen(
                     onNavigateToGuides = { navController.navigate("guides/create") },
@@ -291,7 +305,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 )
             }
 
-            // ── Guides ──
+            // â”€â”€ Guides â”€â”€
             composable("guides") {
                 GuideListScreen(
                     onCreateGuide = { navController.navigate("guides/create") },
@@ -308,7 +322,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 GuideViewScreen(guideId = it.arguments?.getString("guideId") ?: "", onBack = { navController.popBackStack() })
             }
 
-            // ── Quizzes ──
+            // â”€â”€ Quizzes â”€â”€
             composable("quizzes") {
                 QuizListScreen(
                     onCreateQuiz = { navController.navigate("quizzes/create") },
@@ -338,7 +352,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 }
             }
 
-            // ── Groups ──
+            // â”€â”€ Groups â”€â”€
             composable("groups") {
                 GroupListScreen(onGroupClick = { id -> navController.navigate("groups/detail/$id") })
             }
@@ -346,7 +360,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 GroupDetailScreen(groupId = it.arguments?.getString("groupId") ?: "", onBack = { navController.popBackStack() })
             }
 
-            // ── More menu routes ──
+            // â”€â”€ More menu routes â”€â”€
             composable("more") {
                 MoreScreen(
                     onExplanations = { navController.navigate("explanations") },
@@ -367,6 +381,16 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 arguments = listOf(navArgument("tournamentId") { type = NavType.StringType })
             ) {
                 TournamentDetailScreen(
+                    tournamentId = it.arguments?.getString("tournamentId") ?: "",
+                    onBack = { navController.popBackStack() },
+                    onCompete = { id -> navController.navigate("tournaments/compete/$id") }
+                )
+            }
+            composable(
+                "tournaments/compete/{tournamentId}",
+                arguments = listOf(navArgument("tournamentId") { type = NavType.StringType })
+            ) {
+                TournamentCompeteScreen(
                     tournamentId = it.arguments?.getString("tournamentId") ?: "",
                     onBack = { navController.popBackStack() }
                 )

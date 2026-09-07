@@ -183,6 +183,21 @@
     <!-- Groups -->
     <string name="groups_title">Mes groupes</string>
 
+    <!-- Onboarding -->
+    <string name="onboarding_title">Dites-nous ce que vous étudiez</string>
+    <string name="onboarding_sub">Deux questions. Elles orientent vos guides et vos recommandations.</string>
+    <string name="onboarding_level">Où étudiez-vous ?</string>
+    <string name="onboarding_level_middle">Collège</string>
+    <string name="onboarding_level_high">Lycée</string>
+    <string name="onboarding_level_university">Université</string>
+    <string name="onboarding_domains">Quelles matières ?</string>
+    <string name="onboarding_domains_hint">Choisissez-en autant que vous voulez.</string>
+    <string name="onboarding_objectives">Un objectif en particulier ?</string>
+    <string name="onboarding_objectives_hint">Facultatif — un examen, un projet, une matière difficile.</string>
+    <string name="onboarding_finish">Continuer</string>
+    <string name="onboarding_skip">Passer pour l\'instant</string>
+    <string name="onboarding_failed">Impossible d\'enregistrer. Vous pourrez le modifier dans les Paramètres.</string>
+
     <!-- Welcome / landing -->
     <string name="welcome_headline">Étudier mieux, ensemble</string>
     <string name="welcome_sub">Guides, quiz et groupes d\'étude pensés pour les étudiants d\'Afrique — et qui fonctionnent hors ligne.</string>
@@ -234,6 +249,20 @@
     <string name="tournaments_leaderboard_empty">Aucun score pour l\'instant. Soyez le premier.</string>
     <string name="tournaments_online_only">Concourir nécessite une connexion — les scores sont en direct.</string>
     <string name="tournaments_answered">%1$d réponses</string>
+    <string name="tournaments_question_of">Question %1$d sur %2$d</string>
+    <string name="tournaments_points">%1$d pts</string>
+    <string name="tournaments_true">Vrai</string>
+    <string name="tournaments_false">Faux</string>
+    <string name="tournaments_your_answer">Votre réponse</string>
+    <string name="tournaments_submit">Valider</string>
+    <string name="tournaments_next">Suivant</string>
+    <string name="tournaments_previous">Précédent</string>
+    <string name="tournaments_already_answered">Déjà répondu — cette question est verrouillée.</string>
+    <string name="tournaments_awaiting_review">Réponse envoyée. Ce type est corrigé par une personne, le score arrivera plus tard.</string>
+    <string name="tournaments_scored">%1$d points obtenus</string>
+    <string name="tournaments_no_questions">Ce tournoi n\'a pas encore de questions.</string>
+    <string name="tournaments_unsupported">Ce type de question nécessite l\'application web.</string>
+    <string name="tournaments_finished">Vous avez répondu à tout. Bravo.</string>
 
     <!-- More menu -->
     <string name="more_title">Plus</string>

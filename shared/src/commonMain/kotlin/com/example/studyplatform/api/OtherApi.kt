@@ -74,6 +74,15 @@ object DriveApi {
         ApiClient.client.post("/api/drive/import") { setBody(request) }.body()
 }
 
+object UserApi {
+    suspend fun me(): UserProfile =
+        ApiClient.client.get("/api/users/me").body()
+
+    /** Sends only what the caller set; null fields are left as they are server-side. */
+    suspend fun updateProfile(request: UpdateProfileRequest): UserProfile =
+        ApiClient.client.patch("/api/users/me") { setBody(request) }.body()
+}
+
 object NotificationApi {
     /** The server returns read and unread together; filtering is the caller's job. */
     suspend fun listMine(): List<NotificationResponse> =

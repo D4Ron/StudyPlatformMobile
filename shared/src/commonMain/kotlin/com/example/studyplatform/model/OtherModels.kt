@@ -62,5 +62,41 @@ data class NotificationResponse(
     val createdAt: String? = null
 )
 
+/**
+ * The signed-in user's profile. Mirrors `UserController.UserProfile`.
+ */
+@Serializable
+data class UserProfile(
+    val id: String,
+    val firstName: String = "",
+    val lastName: String = "",
+    val email: String = "",
+    val accountType: String = "STUDENT",
+    val educationLevel: String? = null,
+    val registrationMode: String? = null,
+    val preferenceDomains: List<String> = emptyList(),
+    val objectives: String? = null,
+    val createdAt: String? = null
+)
+
+/**
+ * A patch: every field is optional.
+ *
+ * [AppJson] has `encodeDefaults = true`, so an unset field is sent as an explicit
+ * `null` rather than omitted. That is fine because the server treats null as "leave this
+ * alone" — but it is the server's rule doing the work, not the wire format's. A field
+ * that should be clearable needs a value the server can tell apart from null, which is
+ * why `preferenceDomains` clears with an empty list rather than with null.
+ */
+@Serializable
+data class UpdateProfileRequest(
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val educationLevel: String? = null,
+    val registrationMode: String? = null,
+    val preferenceDomains: List<String>? = null,
+    val objectives: String? = null
+)
+
 @Serializable
 data class MessageResponse(val message: String)

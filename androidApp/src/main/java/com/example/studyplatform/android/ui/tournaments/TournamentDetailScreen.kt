@@ -31,7 +31,11 @@ import tg.edunova.app.R
  * lies about having worked is the failure people remember.
  */
 @Composable
-fun TournamentDetailScreen(tournamentId: String, onBack: () -> Unit) {
+fun TournamentDetailScreen(
+    tournamentId: String,
+    onBack: () -> Unit,
+    onCompete: (String) -> Unit = {}
+) {
     var tournament by remember { mutableStateOf<TournamentResponse?>(null) }
     var board by remember { mutableStateOf<List<LeaderboardEntryResponse>>(emptyList()) }
     var loading by remember { mutableStateOf(true) }
@@ -108,18 +112,20 @@ fun TournamentDetailScreen(tournamentId: String, onBack: () -> Unit) {
                                     )
                                 }
                                 Spacer(Modifier.height(16.dp))
-                                // Says "Joined" and stops there rather than "Compete":
-                                // the answering screen does not exist yet, and a button
-                                // that goes nowhere is worse than one that plainly says
-                                // you are already in.
+                                // Now that the answering screen exists, being joined
+                                // means there is somewhere to go.
                                 PrimaryButton(
                                     text = stringResource(
-                                        if (t.joined) R.string.tournaments_joined
+                                        if (t.joined) R.string.tournaments_compete
                                         else R.string.tournaments_join
                                     ),
                                     loading = joining,
-                                    enabled = !t.joined && !joining,
+                                    enabled = !joining,
                                     onClick = {
+                                        if (t.joined) {
+                                            onCompete(t.id)
+                                            return@PrimaryButton
+                                        }
                                         joining = true
                                         scope.launch {
                                             runCatching { TournamentApi.joinSolo(t.id) }

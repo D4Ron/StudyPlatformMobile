@@ -186,6 +186,21 @@
     <!-- Groups -->
     <string name="groups_title">My Groups</string>
 
+    <!-- Onboarding -->
+    <string name="onboarding_title">Tell us what you study</string>
+    <string name="onboarding_sub">Two questions. They shape the guides and recommendations you get.</string>
+    <string name="onboarding_level">Where are you studying?</string>
+    <string name="onboarding_level_middle">Middle school</string>
+    <string name="onboarding_level_high">High school</string>
+    <string name="onboarding_level_university">University</string>
+    <string name="onboarding_domains">Which subjects?</string>
+    <string name="onboarding_domains_hint">Pick as many as you like.</string>
+    <string name="onboarding_objectives">Anything you are working towards?</string>
+    <string name="onboarding_objectives_hint">Optional — an exam, a project, a subject you find hard.</string>
+    <string name="onboarding_finish">Continue</string>
+    <string name="onboarding_skip">Skip for now</string>
+    <string name="onboarding_failed">Could not save that. You can change it later in Settings.</string>
+
     <!-- Welcome / landing -->
     <string name="welcome_headline">Study smarter, together</string>
     <string name="welcome_sub">Guides, quizzes and study groups built for students in Africa — and they work offline.</string>
@@ -237,6 +252,20 @@
     <string name="tournaments_leaderboard_empty">No scores yet. Be the first.</string>
     <string name="tournaments_online_only">Competing needs a connection — scores are live.</string>
     <string name="tournaments_answered">%1$d answered</string>
+    <string name="tournaments_question_of">Question %1$d of %2$d</string>
+    <string name="tournaments_points">%1$d pts</string>
+    <string name="tournaments_true">True</string>
+    <string name="tournaments_false">False</string>
+    <string name="tournaments_your_answer">Your answer</string>
+    <string name="tournaments_submit">Submit</string>
+    <string name="tournaments_next">Next</string>
+    <string name="tournaments_previous">Previous</string>
+    <string name="tournaments_already_answered">Answered — this one is locked.</string>
+    <string name="tournaments_awaiting_review">Submitted. This type is marked by a person, so the score comes later.</string>
+    <string name="tournaments_scored">Scored %1$d points</string>
+    <string name="tournaments_no_questions">This tournament has no questions yet.</string>
+    <string name="tournaments_unsupported">This question type needs the web app.</string>
+    <string name="tournaments_finished">You have answered everything. Nice work.</string>
 
     <!-- More menu -->
     <string name="more_title">More</string>

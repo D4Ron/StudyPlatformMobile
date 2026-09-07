@@ -1,5 +1,7 @@
 package com.example.studyplatform.android
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -64,6 +66,15 @@ import com.example.studyplatform.data.DatabaseDriverFactory
 import com.example.studyplatform.model.QuizAttemptResponse
 
 class MainActivity : ComponentActivity() {
+
+    /**
+     * The link that opened the app, if any.
+     *
+     * Held as state rather than read once, because `singleTask` means a second link
+     * arrives at `onNewIntent` on the running instance instead of starting a new one.
+     */
+    private val pendingLink = mutableStateOf<Uri?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -77,18 +88,60 @@ class MainActivity : ComponentActivity() {
         SyncWorker.schedule(applicationContext)
         if (ApiClient.isLoggedIn()) SyncWorker.syncNow(applicationContext)
 
-        setContent { StudyPlatformTheme { StudyPlatformApp() } }
+        pendingLink.value = intent?.data
+
+        setContent {
+            StudyPlatformTheme {
+                StudyPlatformApp(
+                    pendingLink = pendingLink.value,
+                    onLinkHandled = { pendingLink.value = null }
+                )
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        pendingLink.value = intent.data
+    }
+}
+
+/**
+ * Where an `edunova://` link goes.
+ *
+ * The URI comes from outside the app — anything can send one — so it is matched
+ * against a closed set of destinations rather than treated as a route. An unknown
+ * host returns null and the app just opens normally, which is the right outcome for
+ * a link this build does not understand.
+ *
+ * Signed-out users are not deep-linked into authenticated screens; the link is
+ * dropped rather than producing a screen that immediately fails to load.
+ */
+private fun routeForLink(uri: Uri, loggedIn: Boolean): String? {
+    val id = uri.pathSegments?.firstOrNull()?.takeIf { it.isNotBlank() } ?: return null
+    return when (uri.host) {
+        "course" -> "guest/course/$id"
+        "tournament" -> if (loggedIn) "tournaments/detail/$id" else null
+        "group" -> if (loggedIn) "groups/detail/$id" else null
+        else -> null
     }
 }
 
 data class BottomNavItem(val route: String, val label: String, val selectedIcon: ImageVector, val unselectedIcon: ImageVector)
 
 @Composable
-fun StudyPlatformApp() {
+fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
     val navController = rememberNavController()
     val startDest = if (ApiClient.isLoggedIn()) "dashboard" else "login"
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
+
+    LaunchedEffect(pendingLink) {
+        val target = pendingLink?.let { routeForLink(it, ApiClient.isLoggedIn()) }
+        if (target != null) navController.navigate(target)
+        if (pendingLink != null) onLinkHandled()
+    }
 
     // Store quiz result for result screen
     var lastQuizResult by remember { mutableStateOf<QuizAttemptResponse?>(null) }

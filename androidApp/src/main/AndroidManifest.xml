@@ -11,11 +11,29 @@
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
         <activity
             android:exported="true"
-            android:name="com.example.studyplatform.android.MainActivity">
+            android:name="com.example.studyplatform.android.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!--
+              Private scheme only, on purpose. An https App Link would need a
+              assetlinks.json served from the domain and the release signing
+              certificate's fingerprint in it; claiming the domain before that file
+              exists means Android silently hands the link back to the browser, which
+              looks exactly like the feature being broken. Add https once the domain
+              and release key are settled.
+            -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="edunova" android:host="tournament" />
+                <data android:scheme="edunova" android:host="course" />
+                <data android:scheme="edunova" android:host="group" />
             </intent-filter>
         </activity>
     </application>

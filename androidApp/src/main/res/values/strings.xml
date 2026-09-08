@@ -186,6 +186,15 @@
     <!-- Groups -->
     <string name="groups_title">My Groups</string>
 
+    <!-- Streak -->
+    <string name="streak_days">%1$d day streak</string>
+    <string name="streak_none">No streak yet</string>
+    <string name="streak_safe">Studied today — your streak is safe.</string>
+    <string name="streak_keep">Study today to keep it going.</string>
+    <string name="streak_best">Your best: %1$d days.</string>
+    <string name="streak_start">Start today.</string>
+    <string name="streak_record">best</string>
+
     <!-- Onboarding -->
     <string name="onboarding_title">Tell us what you study</string>
     <string name="onboarding_sub">Two questions. They shape the guides and recommendations you get.</string>

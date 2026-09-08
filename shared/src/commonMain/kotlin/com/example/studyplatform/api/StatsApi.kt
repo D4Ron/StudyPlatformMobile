@@ -11,6 +11,9 @@ object StatsApi {
     suspend fun logSession(request: StudySessionRequest): MessageResponse =
         ApiClient.client.post("/api/stats/sessions") { setBody(request) }.body()
 
+    suspend fun getStreak(): StreakResponse =
+        ApiClient.client.get("/api/stats/streak").body()
+
     suspend fun getLevel(): LevelResponse =
         ApiClient.client.get("/api/gamification/level").body()
 

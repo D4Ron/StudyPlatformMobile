@@ -183,6 +183,15 @@
     <!-- Groups -->
     <string name="groups_title">Mes groupes</string>
 
+    <!-- Streak -->
+    <string name="streak_days">%1$d jour(s) d\'affilée</string>
+    <string name="streak_none">Aucune série en cours</string>
+    <string name="streak_safe">Étudié aujourd\'hui — la série est en sécurité.</string>
+    <string name="streak_keep">Étudiez aujourd\'hui pour la garder.</string>
+    <string name="streak_best">Votre record : %1$d jour(s).</string>
+    <string name="streak_start">Commencez aujourd\'hui.</string>
+    <string name="streak_record">record</string>
+
     <!-- Onboarding -->
     <string name="onboarding_title">Dites-nous ce que vous étudiez</string>
     <string name="onboarding_sub">Deux questions. Elles orientent vos guides et vos recommandations.</string>

@@ -100,6 +100,16 @@ class LibraryRepository(private val cache: CacheStore) {
     suspend fun level(): Offline<LevelResponse?> =
         cache.singleton("level", LevelResponse.serializer()) { StatsApi.getLevel() }
 
+    /**
+     * Cached, so the streak still shows on a dead connection.
+     *
+     * A cached streak can be a day stale, which is why the screen reads `studiedToday`
+     * rather than inferring it — a stale "not yet today" is a nudge, while a stale
+     * count presented as current would be a lie about work the student did offline.
+     */
+    suspend fun streak(): Offline<StreakResponse?> =
+        cache.singleton("streak", StreakResponse.serializer()) { StatsApi.getStreak() }
+
     suspend fun badges(): Offline<List<BadgeResponse>> =
         cache.list(
             key = "badges",

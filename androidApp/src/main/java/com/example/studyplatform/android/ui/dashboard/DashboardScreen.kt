@@ -1,8 +1,11 @@
 package com.example.studyplatform.android.ui.dashboard
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,7 +21,10 @@ import com.example.studyplatform.data.AppData
 import com.example.studyplatform.model.DashboardStats
 import com.example.studyplatform.model.LevelResponse
 import com.example.studyplatform.model.RecommendationResponse
+import com.example.studyplatform.model.StreakResponse
 import kotlinx.coroutines.launch
+import androidx.compose.ui.res.stringResource
+import tg.edunova.app.R
 
 @Composable
 fun DashboardScreen(
@@ -28,6 +34,7 @@ fun DashboardScreen(
 ) {
     var stats by remember { mutableStateOf<DashboardStats?>(null) }
     var level by remember { mutableStateOf<LevelResponse?>(null) }
+    var streak by remember { mutableStateOf<StreakResponse?>(null) }
     var recommendations by remember { mutableStateOf<List<RecommendationResponse>>(emptyList()) }
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -43,10 +50,12 @@ fun DashboardScreen(
         val statsResult = AppData.library.dashboard()
         val levelResult = AppData.library.level()
         val recResult = AppData.library.recommendations()
+        val streakResult = AppData.library.streak()
 
         stats = statsResult.value
         level = levelResult.value
         recommendations = recResult.value
+        streak = streakResult.value
         fromCache = statsResult.fromCache || levelResult.fromCache || recResult.fromCache
         error = if (stats == null && !fromCache) "Could not load your dashboard" else null
         loading = false
@@ -79,10 +88,18 @@ fun DashboardScreen(
             }
         }
 
+        // Streak. Shown above the level bar because it is the thing that changes daily
+        // and the only one a student can act on right now.
+        item {
+            streak?.takeIf { it.currentStreak > 0 || it.daysStudied > 0 }?.let { s ->
+                AnimatedEntry(index = 1) { StreakCard(s) }
+            }
+        }
+
         // Level progress
         item {
             level?.let {
-                AnimatedEntry(index = 1) {
+                AnimatedEntry(index = 2) {
                     XpProgressBar(it.currentXp, it.xpForNextLevel, it.level, it.title)
                 }
             }
@@ -233,6 +250,77 @@ private fun RecommendationCard(rec: RecommendationResponse) {
             if (rec.description != null) {
                 Spacer(Modifier.height(4.dp))
                 Text(rec.description!!, style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+            }
+        }
+    }
+}
+
+/**
+ * The streak, and what to do about it.
+ *
+ * Reads `studiedToday` rather than inferring it from the count, because the same number
+ * means two different things: a streak of 4 at 9am is one to protect today, and a
+ * streak of 4 at 9pm having already studied is safe. Saying "keep it going" to someone
+ * who has already done their work is the kind of small wrongness that makes an app feel
+ * like it is not paying attention.
+ */
+@Composable
+private fun StreakCard(streak: StreakResponse) {
+    val alive = streak.currentStreak > 0
+    val accent = if (alive) Warning else TextMuted
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Surface),
+        shape = RoundedCornerShape(14.dp),
+        elevation = CardDefaults.cardElevation(1.dp)
+    ) {
+        Row(Modifier.padding(18.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                Modifier.size(48.dp).clip(RoundedCornerShape(12.dp))
+                    .background(accent.copy(alpha = 0.12f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Filled.LocalFireDepartment,
+                    contentDescription = null,
+                    tint = accent
+                )
+            }
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    if (alive) stringResource(R.string.streak_days, streak.currentStreak)
+                    else stringResource(R.string.streak_none),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = TextPrimary
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    when {
+                        alive && streak.studiedToday -> stringResource(R.string.streak_safe)
+                        alive -> stringResource(R.string.streak_keep)
+                        streak.daysStudied > 0 ->
+                            stringResource(R.string.streak_best, streak.longestStreak)
+                        else -> stringResource(R.string.streak_start)
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = TextMuted
+                )
+            }
+            if (streak.longestStreak > 0) {
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        "${streak.longestStreak}",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = accent
+                    )
+                    Text(
+                        stringResource(R.string.streak_record),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = TextMuted
+                    )
+                }
             }
         }
     }

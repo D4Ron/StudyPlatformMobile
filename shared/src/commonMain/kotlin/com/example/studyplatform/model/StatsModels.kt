@@ -27,6 +27,22 @@ data class LevelResponse(
     val xpForNextLevel: Int = 0, val progressPercent: Double = 0.0
 )
 
+/**
+ * Consecutive days studied.
+ *
+ * `studiedToday` is separate from `currentStreak` deliberately: a streak of 4 means
+ * something different at 9am with nothing logged yet than it does at 9pm having already
+ * studied, and the count alone cannot tell them apart.
+ */
+@Serializable
+data class StreakResponse(
+    val currentStreak: Int = 0,
+    val longestStreak: Int = 0,
+    val daysStudied: Int = 0,
+    val studiedToday: Boolean = false,
+    val lastStudiedOn: String? = null
+)
+
 @Serializable
 data class BadgeResponse(
     val id: String, val code: String, val name: String,

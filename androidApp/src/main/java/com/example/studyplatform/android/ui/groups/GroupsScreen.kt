@@ -26,8 +26,10 @@ import com.example.studyplatform.android.components.OfflineBanner
 import com.example.studyplatform.android.theme.*
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.data.Offline
+import com.example.studyplatform.api.AppJson
 import com.example.studyplatform.api.ChatApi
 import com.example.studyplatform.api.GroupApi
+import com.example.studyplatform.api.StompClient
 import com.example.studyplatform.model.*
 import kotlinx.coroutines.launch
 
@@ -206,6 +208,26 @@ fun GroupDetailScreen(groupId: String, onBack: () -> Unit) {
         loading = false
     }
 
+    // Live messages. Separate from the load above so a socket that cannot open never
+    // stops the history from rendering — the screen degrades to what REST already
+    // fetched rather than showing nothing.
+    //
+    // Deduplicated by id because the same message can arrive twice: once as the reply
+    // to our own REST send, once as the broadcast every subscriber receives.
+    LaunchedEffect(groupId) {
+        runCatching {
+            StompClient.subscribe("/topic/chat/$groupId").collect { body ->
+                val incoming = runCatching {
+                    AppJson.instance.decodeFromString(ChatMessageResponse.serializer(), body)
+                }.getOrNull() ?: return@collect
+
+                if (messages.none { it.id == incoming.id }) {
+                    messages = messages + incoming
+                }
+            }
+        }.onFailure { println("Chat socket closed: ${it.message}") }
+    }
+
     if (loading) { LoadingScreen(); return }
     val g = group ?: return
 
@@ -257,8 +279,16 @@ fun GroupDetailScreen(groupId: String, onBack: () -> Unit) {
                             scope.launch {
                                 try {
                                     val sent = ChatApi.send(ChatMessageRequest(groupId, msg))
-                                    messages = messages + sent
-                                } catch (_: Exception) {}
+                                    // The broadcast may beat this reply back to us.
+                                    if (messages.none { it.id == sent.id }) {
+                                        messages = messages + sent
+                                    }
+                                } catch (_: Exception) {
+                                    // Put the text back rather than losing what they
+                                    // typed: sending is online-only and this is how
+                                    // they find out.
+                                    newMessage = msg
+                                }
                             }
                         }
                     }, shape = RoundedCornerShape(12.dp), colors = ButtonDefaults.buttonColors(containerColor = Primary)) {

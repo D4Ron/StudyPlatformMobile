@@ -50,6 +50,9 @@ kotlin {
             implementation("io.ktor:ktor-client-content-negotiation:2.3.9")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.9")
             implementation("io.ktor:ktor-client-logging:2.3.9")
+            // Group chat over STOMP. The engine plugins (OkHttp, Darwin) provide the
+            // transport; this is the client-side WebSocket plugin they need.
+            implementation("io.ktor:ktor-client-websockets:2.3.9")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")

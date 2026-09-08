@@ -6,6 +6,7 @@ import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -63,6 +64,10 @@ object ApiClient {
             connectTimeoutMillis = 30_000  // 30s — Render wake-up time
             socketTimeoutMillis = 90_000
         }
+        // Group chat. A WebSocket is a long-lived connection, so the timeouts above
+        // must not apply to it — Ktor exempts WebSocket sessions from HttpTimeout,
+        // which is why this can share the client rather than needing its own.
+        install(WebSockets)
         defaultRequest {
             url(baseUrl)
             contentType(ContentType.Application.Json)

@@ -192,6 +192,20 @@
     <string name="streak_start">Commencez aujourd\'hui.</string>
     <string name="streak_record">record</string>
 
+    <!-- Flashcards -->
+    <string name="flashcards_title">Cartes mémo</string>
+    <string name="flashcards_from_quiz">D\'après « %1$s »</string>
+    <string name="flashcards_tap_to_reveal">Touchez pour voir la réponse</string>
+    <string name="flashcards_knew_it">Je savais</string>
+    <string name="flashcards_review">À revoir</string>
+    <string name="flashcards_progress">%1$d sur %2$d</string>
+    <string name="flashcards_round_done">Tour terminé — %1$d à revoir</string>
+    <string name="flashcards_repeat">Revoir ces %1$d</string>
+    <string name="flashcards_restart">Recommencer</string>
+    <string name="flashcards_all_known">Vous connaissiez toutes les cartes. Bravo.</string>
+    <string name="flashcards_empty">Ce quiz n\'a aucune question à transformer en cartes.</string>
+    <string name="flashcards_open">Cartes mémo</string>
+
     <!-- Search -->
     <string name="search_title">Rechercher</string>
     <string name="search_placeholder">Guides, notes, quiz, cours…</string>

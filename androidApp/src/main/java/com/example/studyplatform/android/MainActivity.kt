@@ -49,6 +49,7 @@ import com.example.studyplatform.android.ui.documents.DocumentsScreen
 import com.example.studyplatform.android.ui.notes.NotesScreen
 import com.example.studyplatform.android.ui.notifications.NotificationsScreen
 import com.example.studyplatform.android.ui.pomodoro.PomodoroScreen
+import com.example.studyplatform.android.ui.quizzes.FlashcardScreen
 import com.example.studyplatform.android.ui.quizzes.QuizCreateScreen
 import com.example.studyplatform.android.ui.search.SearchScreen
 import com.example.studyplatform.android.ui.quizzes.QuizListScreen
@@ -165,7 +166,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
     val hideBottomBarRoutes =
         listOf(
             "welcome", "login", "register", "verify", "onboarding", "guest",
-            "guides/create", "quizzes/create", "tournaments/compete"
+            "guides/create", "quizzes/create", "quizzes/flashcards", "tournaments/compete"
         )
     val showBottomBar = currentRoute != null &&
             hideBottomBarRoutes.none { currentRoute.startsWith(it) } &&
@@ -221,7 +222,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
             },
             popExitTransition = { fadeOut(tween(Motion.QUICK)) }
         ) {
-            // â”€â”€ Auth â”€â”€
+            // ── Auth ──
             composable("welcome") {
                 WelcomeScreen(
                     onCreateAccount = { navController.navigate("register") },
@@ -274,7 +275,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 )
             }
 
-            // â”€â”€ Guest mode â”€â”€
+            // ── Guest mode ──
             //
             // Reachable without a session. Sign-up from here goes to register and clears
             // the guest screens off the stack: someone who has just made an account
@@ -297,7 +298,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 )
             }
 
-            // â”€â”€ Dashboard â”€â”€
+            // ── Dashboard ──
             composable("dashboard") {
                 DashboardScreen(
                     onNavigateToGuides = { navController.navigate("guides/create") },
@@ -306,7 +307,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 )
             }
 
-            // â”€â”€ Guides â”€â”€
+            // ── Guides ──
             composable("guides") {
                 GuideListScreen(
                     onCreateGuide = { navController.navigate("guides/create") },
@@ -323,9 +324,19 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 GuideViewScreen(guideId = it.arguments?.getString("guideId") ?: "", onBack = { navController.popBackStack() })
             }
 
-            // â”€â”€ Quizzes â”€â”€
+            // ── Quizzes ──
+            composable(
+                "quizzes/flashcards/{quizId}",
+                arguments = listOf(navArgument("quizId") { type = NavType.StringType })
+            ) {
+                FlashcardScreen(
+                    quizId = it.arguments?.getString("quizId") ?: "",
+                    onBack = { navController.popBackStack() }
+                )
+            }
             composable("quizzes") {
                 QuizListScreen(
+                    onFlashcards = { id -> navController.navigate("quizzes/flashcards/$id") },
                     onCreateQuiz = { navController.navigate("quizzes/create") },
                     onTakeQuiz = { id -> navController.navigate("quizzes/take/$id") }
                 )
@@ -353,7 +364,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 }
             }
 
-            // â”€â”€ Groups â”€â”€
+            // ── Groups ──
             composable("groups") {
                 GroupListScreen(onGroupClick = { id -> navController.navigate("groups/detail/$id") })
             }
@@ -361,7 +372,7 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                 GroupDetailScreen(groupId = it.arguments?.getString("groupId") ?: "", onBack = { navController.popBackStack() })
             }
 
-            // â”€â”€ More menu routes â”€â”€
+            // ── More menu routes ──
             composable("more") {
                 MoreScreen(
                     onExplanations = { navController.navigate("explanations") },

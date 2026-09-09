@@ -195,6 +195,20 @@
     <string name="streak_start">Start today.</string>
     <string name="streak_record">best</string>
 
+    <!-- Flashcards -->
+    <string name="flashcards_title">Flashcards</string>
+    <string name="flashcards_from_quiz">From “%1$s”</string>
+    <string name="flashcards_tap_to_reveal">Tap to reveal the answer</string>
+    <string name="flashcards_knew_it">I knew it</string>
+    <string name="flashcards_review">Review again</string>
+    <string name="flashcards_progress">%1$d of %2$d</string>
+    <string name="flashcards_round_done">Round finished — %1$d to review</string>
+    <string name="flashcards_repeat">Review those %1$d</string>
+    <string name="flashcards_restart">Start over</string>
+    <string name="flashcards_all_known">You knew every card. Well done.</string>
+    <string name="flashcards_empty">This quiz has no questions to turn into cards.</string>
+    <string name="flashcards_open">Flashcards</string>
+
     <!-- Search -->
     <string name="search_title">Search</string>
     <string name="search_placeholder">Guides, notes, quizzes, courses…</string>

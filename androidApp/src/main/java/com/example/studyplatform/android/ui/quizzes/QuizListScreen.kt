@@ -20,7 +20,11 @@ import com.example.studyplatform.data.Offline
 import com.example.studyplatform.model.QuizListItem
 
 @Composable
-fun QuizListScreen(onCreateQuiz: () -> Unit, onTakeQuiz: (String) -> Unit) {
+fun QuizListScreen(
+    onCreateQuiz: () -> Unit,
+    onTakeQuiz: (String) -> Unit,
+    onFlashcards: (String) -> Unit = {}
+) {
     var state by remember { mutableStateOf(Offline<List<QuizListItem>>(emptyList())) }
     var loading by remember { mutableStateOf(true) }
     val quizzes = state.value
@@ -131,6 +135,21 @@ fun QuizListScreen(onCreateQuiz: () -> Unit, onTakeQuiz: (String) -> Unit) {
                                         "${quiz.questionCount} questions",
                                         style = MaterialTheme.typography.labelSmall,
                                         color = TextMuted
+                                    )
+                                }
+                                // A second way into the same content. Inside the card
+                                // rather than on a separate screen, because the choice
+                                // is "how do I want to study this quiz", and that is a
+                                // decision made while looking at the quiz.
+                                Spacer(Modifier.height(4.dp))
+                                TextButton(
+                                    onClick = { onFlashcards(quiz.id) },
+                                    contentPadding = PaddingValues(horizontal = 0.dp)
+                                ) {
+                                    Text(
+                                        stringResource(tg.edunova.app.R.string.flashcards_open),
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = Primary
                                     )
                                 }
                             }

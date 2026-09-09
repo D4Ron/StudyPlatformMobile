@@ -192,6 +192,21 @@
     <string name="streak_start">Commencez aujourd\'hui.</string>
     <string name="streak_record">record</string>
 
+    <!-- Search -->
+    <string name="search_title">Rechercher</string>
+    <string name="search_placeholder">Guides, notes, quiz, cours…</string>
+    <string name="search_hint">Saisissez au moins deux lettres.</string>
+    <string name="search_no_results">Aucun résultat pour « %1$s ».</string>
+    <string name="search_offline">La recherche nécessite une connexion — elle parcourt tout à la fois.</string>
+    <string name="search_all">Tout</string>
+    <string name="search_kind_guide">Guides</string>
+    <string name="search_kind_note">Notes</string>
+    <string name="search_kind_quiz">Quiz</string>
+    <string name="search_kind_course">Cours</string>
+    <string name="search_kind_group">Groupes</string>
+    <string name="more_search">Rechercher</string>
+    <string name="more_search_sub">Retrouvez tout ce que vous avez créé</string>
+
     <!-- Onboarding -->
     <string name="onboarding_title">Dites-nous ce que vous étudiez</string>
     <string name="onboarding_sub">Deux questions. Elles orientent vos guides et vos recommandations.</string>

@@ -195,6 +195,21 @@
     <string name="streak_start">Start today.</string>
     <string name="streak_record">best</string>
 
+    <!-- Search -->
+    <string name="search_title">Search</string>
+    <string name="search_placeholder">Guides, notes, quizzes, courses…</string>
+    <string name="search_hint">Type at least two letters.</string>
+    <string name="search_no_results">Nothing matched “%1$s”.</string>
+    <string name="search_offline">Search needs a connection — it looks across everything at once.</string>
+    <string name="search_all">All</string>
+    <string name="search_kind_guide">Guides</string>
+    <string name="search_kind_note">Notes</string>
+    <string name="search_kind_quiz">Quizzes</string>
+    <string name="search_kind_course">Courses</string>
+    <string name="search_kind_group">Groups</string>
+    <string name="more_search">Search</string>
+    <string name="more_search_sub">Find anything you have made</string>
+
     <!-- Onboarding -->
     <string name="onboarding_title">Tell us what you study</string>
     <string name="onboarding_sub">Two questions. They shape the guides and recommendations you get.</string>

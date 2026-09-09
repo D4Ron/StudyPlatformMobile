@@ -98,5 +98,29 @@ data class UpdateProfileRequest(
     val objectives: String? = null
 )
 
+/**
+ * One global-search result. Mirrors `SearchProvider.SearchHit`.
+ *
+ * `route` is a path the server chose, not a URL — see the server-side note. It is
+ * matched against known destinations rather than navigated to verbatim, for the same
+ * reason a deep link is.
+ */
+@Serializable
+data class SearchHit(
+    val kind: String = "",
+    val id: String = "",
+    val title: String? = null,
+    val snippet: String? = null,
+    val route: String? = null,
+    val score: Int = 0
+)
+
+@Serializable
+data class SearchResponse(
+    val query: String = "",
+    val hits: List<SearchHit> = emptyList(),
+    val countsByKind: Map<String, Int> = emptyMap()
+)
+
 @Serializable
 data class MessageResponse(val message: String)

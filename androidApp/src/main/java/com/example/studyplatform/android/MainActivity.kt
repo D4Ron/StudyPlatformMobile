@@ -50,6 +50,7 @@ import com.example.studyplatform.android.ui.notes.NotesScreen
 import com.example.studyplatform.android.ui.notifications.NotificationsScreen
 import com.example.studyplatform.android.ui.pomodoro.PomodoroScreen
 import com.example.studyplatform.android.ui.quizzes.QuizCreateScreen
+import com.example.studyplatform.android.ui.search.SearchScreen
 import com.example.studyplatform.android.ui.quizzes.QuizListScreen
 import com.example.studyplatform.android.ui.quizzes.QuizResultScreen
 import com.example.studyplatform.android.ui.quizzes.QuizTakeScreen
@@ -370,7 +371,16 @@ fun StudyPlatformApp(pendingLink: Uri? = null, onLinkHandled: () -> Unit = {}) {
                     onPomodoro = { navController.navigate("pomodoro") },
                     onNotifications = { navController.navigate("notifications") },
                     onTournaments = { navController.navigate("tournaments") },
+                    onSearch = { navController.navigate("search") },
                     onSettings = { navController.navigate("settings") }
+                )
+            }
+            composable("search") {
+                SearchScreen(
+                    onOpenGuide = { id -> navController.navigate("guides/view/$id") },
+                    onOpenQuiz = { id -> navController.navigate("quizzes/take/$id") },
+                    onOpenGroup = { id -> navController.navigate("groups/detail/$id") },
+                    onOpenCourse = { slug -> navController.navigate("guest/course/$slug") }
                 )
             }
             composable("tournaments") {
@@ -423,12 +433,20 @@ fun MoreScreen(
     onPomodoro: () -> Unit,
     onNotifications: () -> Unit,
     onTournaments: () -> Unit,
+    onSearch: () -> Unit,
     onSettings: () -> Unit
 ) {
     // These were English literals while every other screen went through strings.xml —
     // the i18n pass missed this file, so a French device saw a French app with an
     // English menu in the middle of it.
     val items = listOf(
+        // First: it is the fastest route to anything already made, which is what people
+        // open this menu looking for.
+        Triple(
+            stringResource(tg.edunova.app.R.string.more_search),
+            stringResource(tg.edunova.app.R.string.more_search_sub),
+            Icons.Filled.Search
+        ) to onSearch,
         Triple(
             stringResource(tg.edunova.app.R.string.more_explanations),
             stringResource(tg.edunova.app.R.string.more_explanations_sub),

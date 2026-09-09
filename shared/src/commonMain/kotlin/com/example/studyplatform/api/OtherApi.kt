@@ -74,6 +74,29 @@ object DriveApi {
         ApiClient.client.post("/api/drive/import") { setBody(request) }.body()
 }
 
+object SearchApi {
+    /**
+     * Searches everything the signed-in user can see.
+     *
+     * Online-only, and no cache: results are a view across live data, and a cached
+     * search would answer today's question with yesterday's library while looking
+     * exactly like a fresh answer. The screen says so when there is no connection.
+     */
+    suspend fun search(query: String, kinds: List<String> = emptyList()): SearchResponse =
+        ApiClient.client.get("/api/search") {
+            parameter("q", query)
+            kinds.forEach { parameter("kind", it) }
+        }.body()
+
+    /** Which kinds this server can search, for the filter chips. */
+    suspend fun kinds(): List<String> =
+        try {
+            ApiClient.client.get("/api/search/kinds").body()
+        } catch (e: Exception) {
+            emptyList()
+        }
+}
+
 object UserApi {
     suspend fun me(): UserProfile =
         ApiClient.client.get("/api/users/me").body()

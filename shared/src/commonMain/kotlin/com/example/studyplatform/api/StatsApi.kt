@@ -14,6 +14,10 @@ object StatsApi {
     suspend fun getStreak(): StreakResponse =
         ApiClient.client.get("/api/stats/streak").body()
 
+    /** Study minutes per day. The server clamps the window, so any value is safe. */
+    suspend fun getActivity(days: Int = 30): ActivityResponse =
+        ApiClient.client.get("/api/stats/activity") { parameter("days", days) }.body()
+
     suspend fun getLevel(): LevelResponse =
         ApiClient.client.get("/api/gamification/level").body()
 

@@ -195,6 +195,17 @@
     <string name="streak_start">Start today.</string>
     <string name="streak_record">best</string>
 
+    <!-- Activity chart -->
+    <string name="activity_title">Study time</string>
+    <string name="activity_last_days">Last %1$d days</string>
+    <string name="activity_total">%1$s total</string>
+    <string name="activity_average">%1$s per active day</string>
+    <string name="activity_active_days">%1$d days studied</string>
+    <string name="activity_best_day">Best day: %1$s</string>
+    <string name="activity_none">No study time logged yet. The focus timer records it for you.</string>
+    <string name="activity_hours_minutes">%1$dh %2$dm</string>
+    <string name="activity_minutes">%1$dm</string>
+
     <!-- Flashcards -->
     <string name="flashcards_title">Flashcards</string>
     <string name="flashcards_from_quiz">From “%1$s”</string>

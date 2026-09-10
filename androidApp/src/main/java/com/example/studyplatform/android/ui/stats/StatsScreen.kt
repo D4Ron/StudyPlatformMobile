@@ -23,15 +23,20 @@ import com.example.studyplatform.android.components.*
 import com.example.studyplatform.android.theme.*
 import com.example.studyplatform.data.Offline
 import com.example.studyplatform.data.AppData
+import com.example.studyplatform.model.ActivityResponse
 import com.example.studyplatform.model.BadgeResponse
 import com.example.studyplatform.model.DashboardStats
 import com.example.studyplatform.model.LevelResponse
+
+/** Four weeks: long enough to show a pattern, narrow enough to read on a phone. */
+private const val ACTIVITY_WINDOW_DAYS = 28
 
 @Composable
 fun StatsScreen() {
     var stats by remember { mutableStateOf<DashboardStats?>(null) }
     var level by remember { mutableStateOf<LevelResponse?>(null) }
     var badges by remember { mutableStateOf<List<BadgeResponse>>(emptyList()) }
+    var activity by remember { mutableStateOf<ActivityResponse?>(null) }
     var loading by remember { mutableStateOf(true) }
 
     var fromCache by remember { mutableStateOf(false) }
@@ -40,11 +45,14 @@ fun StatsScreen() {
         val statsResult = AppData.library.dashboard()
         val levelResult = AppData.library.level()
         val badgeResult = AppData.library.badges()
+        val activityResult = AppData.library.activity(ACTIVITY_WINDOW_DAYS)
 
         stats = statsResult.value
         level = levelResult.value
         badges = badgeResult.value
-        fromCache = statsResult.fromCache || levelResult.fromCache || badgeResult.fromCache
+        activity = activityResult.value
+        fromCache = statsResult.fromCache || levelResult.fromCache ||
+                badgeResult.fromCache || activityResult.fromCache
         loading = false
     }
 
@@ -73,6 +81,79 @@ fun StatsScreen() {
             level?.let {
                 AnimatedEntry(index = 1) {
                     XpProgressBar(it.currentXp, it.xpForNextLevel, it.level, it.title)
+                }
+            }
+        }
+
+        // Study time over the last four weeks
+        item {
+            activity?.let { a ->
+                AnimatedEntry(index = 2) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = Surface),
+                        shape = MaterialTheme.shapes.medium,
+                        elevation = CardDefaults.cardElevation(1.dp)
+                    ) {
+                        Column(Modifier.padding(16.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    stringResource(tg.edunova.app.R.string.activity_title),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = TextPrimary,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                Text(
+                                    stringResource(
+                                        tg.edunova.app.R.string.activity_last_days,
+                                        ACTIVITY_WINDOW_DAYS
+                                    ),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = TextMuted
+                                )
+                            }
+
+                            if (a.totalMinutes == 0) {
+                                Spacer(Modifier.height(12.dp))
+                                Text(
+                                    stringResource(tg.edunova.app.R.string.activity_none),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = TextMuted
+                                )
+                            } else {
+                                Spacer(Modifier.height(6.dp))
+                                Text(
+                                    stringResource(
+                                        tg.edunova.app.R.string.activity_total,
+                                        formatMinutes(a.totalMinutes)
+                                    ),
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    color = TextPrimary
+                                )
+                                Text(
+                                    stringResource(
+                                        tg.edunova.app.R.string.activity_average,
+                                        formatMinutes(a.averageMinutesPerActiveDay)
+                                    ),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = TextMuted
+                                )
+
+                                Spacer(Modifier.height(14.dp))
+                                ActivityChart(days = a.days)
+
+                                Spacer(Modifier.height(10.dp))
+                                Text(
+                                    stringResource(
+                                        tg.edunova.app.R.string.activity_active_days,
+                                        a.activeDays
+                                    ),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = TextMuted
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -110,6 +110,18 @@ class LibraryRepository(private val cache: CacheStore) {
     suspend fun streak(): Offline<StreakResponse?> =
         cache.singleton("streak", StreakResponse.serializer()) { StatsApi.getStreak() }
 
+    /**
+     * Study minutes per day.
+     *
+     * Cached like the rest of the dashboard, and the window is part of the key: a
+     * 7-day chart and a 30-day chart are different answers, and serving one from the
+     * other's cache would silently show the wrong period.
+     */
+    suspend fun activity(days: Int = 30): Offline<ActivityResponse?> =
+        cache.singleton("activity:$days", ActivityResponse.serializer()) {
+            StatsApi.getActivity(days)
+        }
+
     suspend fun badges(): Offline<List<BadgeResponse>> =
         cache.list(
             key = "badges",

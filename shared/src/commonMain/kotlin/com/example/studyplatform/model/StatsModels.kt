@@ -50,6 +50,31 @@ data class BadgeResponse(
     val xpReward: Int = 0, val earned: Boolean = false,
     val earnedAt: String? = null, val progress: Double? = null
 )
+/**
+ * Study time per day. Mirrors `ActivityResponse`.
+ *
+ * `days` always covers the whole window, empty days included — the gaps are the honest
+ * part of the picture, and a chart that omits them makes a sporadic fortnight look like
+ * a habit.
+ */
+@Serializable
+data class ActivityResponse(
+    val days: List<DayActivity> = emptyList(),
+    val totalMinutes: Int = 0,
+    val activeDays: Int = 0,
+    /** Averaged over active days, so a rest day does not read as getting worse. */
+    val averageMinutesPerActiveDay: Int = 0,
+    val byActivity: Map<String, Int> = emptyMap(),
+    val bestDay: DayActivity? = null
+)
+
+@Serializable
+data class DayActivity(
+    val date: String = "",
+    val minutes: Int = 0,
+    val sessions: Int = 0
+)
+
 @Serializable
 data class StudySessionRequest(
     val startTime: String,

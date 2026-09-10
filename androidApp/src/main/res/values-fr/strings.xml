@@ -192,6 +192,17 @@
     <string name="streak_start">Commencez aujourd\'hui.</string>
     <string name="streak_record">record</string>
 
+    <!-- Activity chart -->
+    <string name="activity_title">Temps d\'étude</string>
+    <string name="activity_last_days">%1$d derniers jours</string>
+    <string name="activity_total">%1$s au total</string>
+    <string name="activity_average">%1$s par jour étudié</string>
+    <string name="activity_active_days">%1$d jours étudiés</string>
+    <string name="activity_best_day">Meilleur jour : %1$s</string>
+    <string name="activity_none">Aucun temps d\'étude enregistré. Le minuteur de concentration s\'en charge pour vous.</string>
+    <string name="activity_hours_minutes">%1$d h %2$d min</string>
+    <string name="activity_minutes">%1$d min</string>
+
     <!-- Flashcards -->
     <string name="flashcards_title">Cartes mémo</string>
     <string name="flashcards_from_quiz">D\'après « %1$s »</string>

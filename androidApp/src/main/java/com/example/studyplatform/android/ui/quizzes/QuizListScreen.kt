@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.studyplatform.android.components.*
-import com.example.studyplatform.android.theme.*
+import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.data.Offline
 import com.example.studyplatform.model.QuizListItem

@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyplatform.android.components.*
-import com.example.studyplatform.android.theme.*
+import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.api.AuthApi
 import kotlinx.coroutines.launch
 import tg.edunova.app.R

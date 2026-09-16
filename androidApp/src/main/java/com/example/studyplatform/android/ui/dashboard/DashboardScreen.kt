@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.sp
 import com.example.studyplatform.android.components.*
-import com.example.studyplatform.android.theme.*
+import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.api.ApiClient
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.model.DashboardStats

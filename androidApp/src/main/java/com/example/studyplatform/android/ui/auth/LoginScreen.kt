@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyplatform.android.components.GoogleSignInButton
 import com.example.studyplatform.android.components.PrimaryButton
-import com.example.studyplatform.android.theme.*
+import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.api.AuthApi
 import com.example.studyplatform.api.EmailNotVerifiedException
 import com.example.studyplatform.model.LoginRequest

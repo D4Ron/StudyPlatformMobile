@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.studyplatform.android.theme.Border
-import com.example.studyplatform.android.theme.Primary
-import com.example.studyplatform.android.theme.PrimaryLight
-import com.example.studyplatform.android.theme.TextMuted
+import com.example.studyplatform.ui.theme.Border
+import com.example.studyplatform.ui.theme.Primary
+import com.example.studyplatform.ui.theme.PrimaryLight
+import com.example.studyplatform.ui.theme.TextMuted
 import com.example.studyplatform.model.DayActivity
 import tg.edunova.app.R
 

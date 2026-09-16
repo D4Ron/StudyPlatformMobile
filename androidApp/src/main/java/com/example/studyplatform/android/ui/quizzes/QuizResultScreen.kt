@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyplatform.android.components.PrimaryButton
 import com.example.studyplatform.android.components.SecondaryButton
-import com.example.studyplatform.android.theme.*
+import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.model.QuizAttemptResponse
 
 @Composable

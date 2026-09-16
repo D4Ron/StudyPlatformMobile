@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.studyplatform.android.theme.Primary
-import com.example.studyplatform.android.theme.TextMuted
+import com.example.studyplatform.ui.theme.Primary
+import com.example.studyplatform.ui.theme.TextMuted
 
 data class NavItem(val route: String, val label: String, val icon: Int)
 

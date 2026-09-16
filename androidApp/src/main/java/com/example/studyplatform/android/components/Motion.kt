@@ -17,9 +17,9 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.studyplatform.android.theme.Background
-import com.example.studyplatform.android.theme.Border
-import com.example.studyplatform.android.theme.Surface
+import com.example.studyplatform.ui.theme.Background
+import com.example.studyplatform.ui.theme.Border
+import com.example.studyplatform.ui.theme.Surface
 
 /**
  * The app's motion vocabulary.

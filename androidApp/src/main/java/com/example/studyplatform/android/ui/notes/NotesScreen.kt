@@ -24,7 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.studyplatform.android.components.*
 import com.example.studyplatform.android.sync.SyncWorker
-import com.example.studyplatform.android.theme.*
+import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.data.NoteRepository
 import kotlinx.coroutines.launch

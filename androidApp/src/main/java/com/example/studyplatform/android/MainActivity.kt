@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
-import com.example.studyplatform.android.theme.*
+import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.android.ui.auth.LoginScreen
 import com.example.studyplatform.android.ui.auth.OnboardingScreen
 import com.example.studyplatform.android.ui.auth.RegisterScreen

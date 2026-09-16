@@ -27,7 +27,7 @@ import com.example.studyplatform.android.components.LoadingScreen
 import com.example.studyplatform.android.components.OfflineBanner
 import com.example.studyplatform.android.components.PrimaryButton
 import com.example.studyplatform.android.sync.SyncWorker
-import com.example.studyplatform.android.theme.*
+import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.api.ApiClient
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.data.Offline

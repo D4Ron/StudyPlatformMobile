@@ -48,7 +48,7 @@ import com.example.studyplatform.android.ui.guides.GuideViewScreen
 import com.example.studyplatform.android.ui.documents.DocumentsScreen
 import com.example.studyplatform.android.ui.notes.NotesScreen
 import com.example.studyplatform.android.ui.notifications.NotificationsScreen
-import com.example.studyplatform.android.ui.pomodoro.PomodoroScreen
+import com.example.studyplatform.ui.screens.PomodoroScreen
 import com.example.studyplatform.android.ui.quizzes.FlashcardScreen
 import com.example.studyplatform.android.ui.quizzes.QuizCreateScreen
 import com.example.studyplatform.android.ui.search.SearchScreen
@@ -60,9 +60,9 @@ import com.example.studyplatform.android.ui.stats.StatsScreen
 import com.example.studyplatform.android.ui.tournaments.TournamentCompeteScreen
 import com.example.studyplatform.android.ui.tournaments.TournamentDetailScreen
 import com.example.studyplatform.android.ui.tournaments.TournamentsScreen
-import com.example.studyplatform.android.components.AnimatedEntry
-import com.example.studyplatform.android.components.Motion
-import com.example.studyplatform.android.components.pressScale
+import com.example.studyplatform.ui.components.AnimatedEntry
+import com.example.studyplatform.ui.components.Motion
+import com.example.studyplatform.ui.components.pressScale
 import com.example.studyplatform.android.sync.SyncWorker
 import com.example.studyplatform.api.ApiClient
 import tg.edunova.app.BuildConfig

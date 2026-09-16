@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.studyplatform.android.components.AnimatedEntry
+import com.example.studyplatform.ui.components.AnimatedEntry
 import com.example.studyplatform.android.sync.SyncWorker
 import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.api.ApiClient

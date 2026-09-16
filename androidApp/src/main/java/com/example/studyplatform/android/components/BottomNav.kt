@@ -1,4 +1,4 @@
-package com.example.studyplatform.android.components
+package com.example.studyplatform.ui.components
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable

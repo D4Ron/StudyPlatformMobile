@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.studyplatform.android.components.AnimatedEntry
-import com.example.studyplatform.android.components.LoadingScreen
-import com.example.studyplatform.android.components.PrimaryButton
-import com.example.studyplatform.android.components.pressScale
-import com.example.studyplatform.android.components.OfflineBanner
+import com.example.studyplatform.ui.components.AnimatedEntry
+import com.example.studyplatform.ui.components.LoadingScreen
+import com.example.studyplatform.ui.components.PrimaryButton
+import com.example.studyplatform.ui.components.pressScale
+import com.example.studyplatform.ui.components.OfflineBanner
 import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.api.ExplanationApi
 import com.example.studyplatform.data.AppData

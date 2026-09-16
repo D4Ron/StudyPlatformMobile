@@ -19,10 +19,10 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.studyplatform.android.components.LoadingScreen
-import com.example.studyplatform.android.components.PrimaryButton
-import com.example.studyplatform.android.components.SecondaryButton
-import com.example.studyplatform.android.components.OfflineBanner
+import com.example.studyplatform.ui.components.LoadingScreen
+import com.example.studyplatform.ui.components.PrimaryButton
+import com.example.studyplatform.ui.components.SecondaryButton
+import com.example.studyplatform.ui.components.OfflineBanner
 import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.data.Offline

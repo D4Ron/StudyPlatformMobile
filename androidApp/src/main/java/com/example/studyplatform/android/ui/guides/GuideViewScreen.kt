@@ -8,9 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.studyplatform.android.components.AnimatedEntry
-import com.example.studyplatform.android.components.LoadingScreen
-import com.example.studyplatform.android.components.OfflineBanner
+import com.example.studyplatform.ui.components.AnimatedEntry
+import com.example.studyplatform.ui.components.LoadingScreen
+import com.example.studyplatform.ui.components.OfflineBanner
 import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.data.Offline

@@ -1,4 +1,4 @@
-package com.example.studyplatform.android.components
+package com.example.studyplatform.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.studyplatform.ui.theme.*
+import studyplatform.shared.generated.resources.*
 
 @Composable
 fun LoadingScreen(message: String = "Loading…") {
@@ -56,7 +57,7 @@ fun ErrorMessage(message: String, onRetry: (() -> Unit)? = null) {
             if (onRetry != null) {
                 Spacer(Modifier.height(10.dp))
                 TextButton(onClick = onRetry) {
-                    Text(stringResource(tg.edunova.app.R.string.common_try_again), color = Primary, style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(Res.string.common_try_again), color = Primary, style = MaterialTheme.typography.labelLarge)
                 }
             }
         }

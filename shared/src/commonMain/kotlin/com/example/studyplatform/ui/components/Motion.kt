@@ -1,4 +1,4 @@
-package com.example.studyplatform.android.components
+package com.example.studyplatform.ui.components
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*

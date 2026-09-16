@@ -1,4 +1,4 @@
-package com.example.studyplatform.android.ui.pomodoro
+package com.example.studyplatform.ui.screens
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -11,17 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.studyplatform.android.components.*
+import com.example.studyplatform.ui.components.*
 import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.data.AppData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import tg.edunova.app.R
+import kotlin.time.Clock
+import studyplatform.shared.generated.resources.*
 
 private const val ROUNDS_BEFORE_LONG_BREAK = 4
 
@@ -116,7 +116,7 @@ fun PomodoroScreen() {
             Spacer(Modifier.height(20.dp))
             AnimatedEntry {
                 Text(
-                    stringResource(R.string.pomodoro_title),
+                    stringResource(Res.string.pomodoro_title),
                     style = MaterialTheme.typography.headlineLarge,
                     color = TextPrimary
                 )
@@ -155,9 +155,9 @@ fun PomodoroScreen() {
                         Text(
                             stringResource(
                                 when (phase) {
-                                    Phase.FOCUS -> R.string.pomodoro_focus
-                                    Phase.SHORT_BREAK -> R.string.pomodoro_short_break
-                                    Phase.LONG_BREAK -> R.string.pomodoro_long_break
+                                    Phase.FOCUS -> Res.string.pomodoro_focus
+                                    Phase.SHORT_BREAK -> Res.string.pomodoro_short_break
+                                    Phase.LONG_BREAK -> Res.string.pomodoro_long_break
                                 }
                             ),
                             style = MaterialTheme.typography.titleSmall,
@@ -171,7 +171,7 @@ fun PomodoroScreen() {
 
             Text(
                 stringResource(
-                    R.string.pomodoro_rounds,
+                    Res.string.pomodoro_rounds,
                     (completedFocusRounds % ROUNDS_BEFORE_LONG_BREAK) + 1,
                     ROUNDS_BEFORE_LONG_BREAK
                 ),
@@ -182,7 +182,7 @@ fun PomodoroScreen() {
             if (justLogged) {
                 Spacer(Modifier.height(10.dp))
                 Text(
-                    stringResource(R.string.pomodoro_done),
+                    stringResource(Res.string.pomodoro_done),
                     style = MaterialTheme.typography.bodySmall,
                     color = Success
                 )
@@ -193,9 +193,9 @@ fun PomodoroScreen() {
             PrimaryButton(
                 text = stringResource(
                     when {
-                        running -> R.string.pomodoro_pause
-                        remaining < total -> R.string.pomodoro_resume
-                        else -> R.string.pomodoro_start
+                        running -> Res.string.pomodoro_pause
+                        remaining < total -> Res.string.pomodoro_resume
+                        else -> Res.string.pomodoro_start
                     }
                 ),
                 onClick = {
@@ -211,7 +211,7 @@ fun PomodoroScreen() {
 
             Spacer(Modifier.height(10.dp))
             SecondaryButton(
-                text = stringResource(R.string.pomodoro_reset),
+                text = stringResource(Res.string.pomodoro_reset),
                 onClick = { justLogged = false; reset(phase) }
             )
         }

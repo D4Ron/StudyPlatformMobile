@@ -1,16 +1,14 @@
-package com.example.studyplatform.android.components
+package com.example.studyplatform.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -18,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.studyplatform.ui.theme.Warning
 import com.example.studyplatform.ui.theme.WarningLight
 import com.example.studyplatform.data.Offline
+import studyplatform.shared.generated.resources.*
 
 /**
  * Says that what is on screen was downloaded earlier.
@@ -42,10 +41,13 @@ fun OfflineBanner(state: Offline<*>, modifier: Modifier = Modifier) {
                 .padding(horizontal = 12.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(Icons.Default.CloudOff, null, Modifier.size(16.dp), tint = Warning)
+            // Was Icons.Default.CloudOff. Compose Multiplatform withdrew both Material
+            // icon artifacts after 1.7.3, so shared code defines its own — see AppIcons.
+            // Decorative either way: the text carries the meaning.
+            Icon(AppIcons.Info, null, Modifier.size(16.dp), tint = Warning)
             Spacer(Modifier.width(8.dp))
             Text(
-                stringResource(tg.edunova.app.R.string.common_offline_banner),
+                stringResource(Res.string.common_offline_banner),
                 style = MaterialTheme.typography.labelMedium,
                 color = Warning
             )
@@ -69,7 +71,7 @@ fun OfflineEmpty(
     color: Color = MaterialTheme.colorScheme.onSurface
 ) {
     val message = state.error?.let {
-        stringResource(tg.edunova.app.R.string.common_not_downloaded)
+        stringResource(Res.string.common_not_downloaded)
     } ?: emptyMessage
 
     Text(

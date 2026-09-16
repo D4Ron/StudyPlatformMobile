@@ -41,7 +41,15 @@ kotlin {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
+            // Pinned, and deliberately behind everything else: Compose Multiplatform
+            // stopped publishing the Material icon sets after 1.7.3. The artifact is
+            // ImageVector data rather than runtime code, and Gradle resolves its stale
+            // transitive Compose dependencies up to the versions used everywhere else.
+            // The alternative was hand-transcribing 27 icon paths, which would look
+            // subtly wrong in ways nobody would catch.
+            implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
             implementation(libs.compose.ui)
+            implementation(libs.navigation.compose)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)

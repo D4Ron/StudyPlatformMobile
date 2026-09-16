@@ -2,6 +2,8 @@ package com.example.studyplatform.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,10 +43,7 @@ fun OfflineBanner(state: Offline<*>, modifier: Modifier = Modifier) {
                 .padding(horizontal = 12.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Was Icons.Default.CloudOff. Compose Multiplatform withdrew both Material
-            // icon artifacts after 1.7.3, so shared code defines its own — see AppIcons.
-            // Decorative either way: the text carries the meaning.
-            Icon(AppIcons.Info, null, Modifier.size(16.dp), tint = Warning)
+            Icon(Icons.Default.CloudOff, null, Modifier.size(16.dp), tint = Warning)
             Spacer(Modifier.width(8.dp))
             Text(
                 stringResource(Res.string.common_offline_banner),

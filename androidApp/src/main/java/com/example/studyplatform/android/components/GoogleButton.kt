@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
+import studyplatform.shared.generated.resources.Res
+import studyplatform.shared.generated.resources.auth_continue_with_google
+import studyplatform.shared.generated.resources.auth_or
+import studyplatform.shared.generated.resources.auth_signing_in
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -103,7 +107,7 @@ fun GoogleSignInButton(
                     Spacer(Modifier.width(12.dp))
                 }
                 Text(
-                    if (busy) stringResource(tg.edunova.app.R.string.auth_signing_in) else stringResource(tg.edunova.app.R.string.auth_continue_with_google),
+                    if (busy) stringResource(Res.string.auth_signing_in) else stringResource(Res.string.auth_continue_with_google),
                     style = MaterialTheme.typography.labelLarge
                 )
             }
@@ -112,7 +116,7 @@ fun GoogleSignInButton(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 HorizontalDivider(Modifier.weight(1f), color = Border)
                 Text(
-                    stringResource(tg.edunova.app.R.string.auth_or),
+                    stringResource(Res.string.auth_or),
                     color = TextMuted,
                     style = MaterialTheme.typography.labelMedium,
                     textAlign = TextAlign.Center

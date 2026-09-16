@@ -27,6 +27,10 @@ dependencies {
     implementation(libs.androidx.activity.compose)
 
     implementation(libs.compose.uiToolingPreview)
+    // GoogleButton reads the shared strings rather than a second Android copy of them.
+    // shared declares this as `implementation`, which is not transitive, so the app that
+    // uses the API directly has to ask for it too.
+    implementation(libs.compose.components.resources)
     debugImplementation(libs.compose.uiTooling)
     implementation(platform("androidx.compose:compose-bom:2024.02.00"))
     implementation("androidx.compose.ui:ui")

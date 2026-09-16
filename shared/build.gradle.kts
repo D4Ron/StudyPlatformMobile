@@ -9,6 +9,15 @@ plugins {
     alias(libs.plugins.sqldelight)
 }
 
+compose.resources {
+    // Public so the Android app can read the same strings the shared screens do. The
+    // default is internal, which would have left GoogleButton — the one composable that
+    // must stay Android-side, because Credential Manager is — reading from a second copy
+    // of every string in androidApp/res. Two copies of 287 translated strings is a
+    // divergence waiting to happen.
+    publicResClass = true
+}
+
 kotlin {
     listOf(
         iosArm64(),

@@ -20,11 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyplatform.ui.components.*
 import com.example.studyplatform.ui.theme.*
-import com.example.studyplatform.api.ApiClient
 import com.example.studyplatform.data.AppData
 import com.example.studyplatform.data.Offline
 import com.example.studyplatform.model.QuizResponse
-import kotlinx.serialization.json.*
 import studyplatform.shared.generated.resources.*
 
 /**
@@ -57,7 +55,7 @@ fun FlashcardScreen(quizId: String, onBack: () -> Unit) {
     if (loading) { LoadingScreen(stringResource(Res.string.common_loading)); return }
 
     val quiz = state?.value
-    val cards = remember(quiz) { quiz?.let(::toCards).orEmpty() }
+    val cards = remember(quiz) { quiz?.let(::quizToCards).orEmpty() }
 
     /** Indices still in this round. */
     var deck by remember(cards) { mutableStateOf(cards.indices.toList()) }
@@ -272,49 +270,4 @@ private fun RoundSummary(toReview: Int, onRepeat: () -> Unit, onRestart: () -> U
             )
         }
     }
-}
-
-/** Question on the front, the correct option on the back. */
-private data class Flashcard(val front: String, val back: String, val note: String?)
-
-/**
- * Turns a quiz payload into cards.
- *
- * `correctAnswer` is a letter, so the answer text has to be looked up by position — and
- * the comparison is case-insensitive to match how the take screen and the server score
- * an attempt. A question whose letter does not resolve is dropped rather than shown with
- * a blank back: a card with no answer teaches nothing and looks like a bug.
- */
-private fun toCards(quiz: QuizResponse): List<Flashcard> = try {
-    val root = ApiClient.json.parseToJsonElement(quiz.questions.toString())
-    val array = when {
-        root is JsonObject && root.containsKey("questions") -> root["questions"]!!.jsonArray
-        root is JsonArray -> root
-        else -> JsonArray(emptyList())
-    }
-
-    array.mapNotNull { element ->
-        val q = element as? JsonObject ?: return@mapNotNull null
-        val front = q["questionText"]?.jsonPrimitive?.contentOrNull?.takeIf { it.isNotBlank() }
-            ?: return@mapNotNull null
-
-        val options = q["options"]?.jsonArray?.mapNotNull { it.jsonPrimitive.contentOrNull }
-            ?: emptyList()
-        val letter = q["correctAnswer"]?.jsonPrimitive?.contentOrNull?.trim()
-            ?: return@mapNotNull null
-
-        val index = letter.firstOrNull()?.uppercaseChar()?.minus('A') ?: return@mapNotNull null
-        val back = options.getOrNull(index)
-            // A quiz type without options can carry the answer text directly.
-            ?: letter.takeIf { options.isEmpty() }
-            ?: return@mapNotNull null
-
-        Flashcard(
-            front = front,
-            back = back,
-            note = q["explanation"]?.jsonPrimitive?.contentOrNull
-        )
-    }
-} catch (_: Exception) {
-    emptyList()
 }

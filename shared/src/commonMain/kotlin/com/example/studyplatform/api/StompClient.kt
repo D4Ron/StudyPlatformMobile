@@ -91,8 +91,13 @@ object StompClient {
         // hanging open on a socket that is already gone.
     }
 
-    /** Builds a frame: command, headers, blank line, body, NUL. */
-    private fun frame(command: String, headers: Map<String, String>, body: String = ""): String =
+    /**
+     * Builds a frame: command, headers, blank line, body, NUL.
+     *
+     * Internal rather than private so it can be tested. Hand-rolled protocol framing is
+     * exactly the code where a wrong byte produces a server that simply ignores you.
+     */
+    internal fun frame(command: String, headers: Map<String, String>, body: String = ""): String =
         buildString {
             append(command).append('\n')
             headers.forEach { (k, v) -> append(k).append(':').append(v).append('\n') }
@@ -113,7 +118,7 @@ object StompClient {
      * ERROR frame is raised rather than swallowed, because a subscription that quietly
      * stops delivering looks exactly like a quiet group.
      */
-    private fun bodyOf(raw: String): String? {
+    internal fun bodyOf(raw: String): String? {
         val separator = raw.indexOf("\n\n")
         if (separator < 0) return null
 

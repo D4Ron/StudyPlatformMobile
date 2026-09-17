@@ -18,6 +18,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.foundation.Image
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -78,15 +80,14 @@ fun WelcomeScreen(
             Spacer(Modifier.height(56.dp))
 
             AnimatedEntry {
-                Box(
-                    Modifier
-                        .size(76.dp)
-                        .clip(CircleShape)
-                        .background(Brush.linearGradient(listOf(Primary, Secondary))),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("E", fontSize = 34.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                }
+                // The real mark. This was a gradient circle with a letter E in it — a
+                // stand-in from before there was a logo, and the first thing anyone
+                // opening the app saw.
+                Image(
+                    painter = painterResource(Res.drawable.logo_mark),
+                    contentDescription = null,
+                    modifier = Modifier.size(76.dp)
+                )
             }
 
             Spacer(Modifier.height(22.dp))

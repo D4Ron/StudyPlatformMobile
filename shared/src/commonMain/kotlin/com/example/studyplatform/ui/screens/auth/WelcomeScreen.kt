@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.auth
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -28,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.studyplatform.ui.components.*
 import com.example.studyplatform.ui.theme.*
 import com.example.studyplatform.api.AuthApi
+import com.example.studyplatform.api.ApiClient
 import kotlinx.coroutines.launch
 import studyplatform.shared.generated.resources.*
 
@@ -57,7 +60,9 @@ fun WelcomeScreen(
 
     // The server decides whether this build can offer a demo. Asked once, and a failure
     // simply leaves the button hidden — the email path is always there.
-    LaunchedEffect(Unit) {
+    // Re-asked whenever the server changes: demo mode is that server's decision.
+    var serverVersion by remember { mutableStateOf(0) }
+    LaunchedEffect(serverVersion) {
         demoAvailable = AuthApi.providers()["demo"] == true
     }
 
@@ -179,7 +184,7 @@ fun WelcomeScreen(
                                             // stop offering the button this session.
                                             demoAvailable = false
                                             error = it.message
-                                                ?: "Demo mode is not available right now."
+                                                ?: Msg.t("Demo mode is not available right now.", "Le mode démo n'est pas disponible pour le moment.")
                                         }
                                     demoLoading = false
                                 }
@@ -205,8 +210,98 @@ fun WelcomeScreen(
                 }
             }
 
-            Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.height(18.dp))
+            ServerChooser(onChanged = { serverVersion++ })
+            Spacer(Modifier.height(28.dp))
         }
+    }
+}
+
+/**
+ * Which server this phone talks to, and a way to change it.
+ *
+ * For showing the app: the backend runs on a laptop whose address depends on the
+ * network of the day, so the address is typed here, tested, and kept on the phone.
+ */
+@Composable
+private fun ServerChooser(onChanged: () -> Unit) {
+    var open by remember { mutableStateOf(false) }
+    var current by remember { mutableStateOf(ApiClient.baseUrl) }
+    var draft by remember { mutableStateOf("") }
+    var checking by remember { mutableStateOf(false) }
+    var problem by remember { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
+
+    TextButton(onClick = { draft = if (ApiClient.isServerChosenOnDevice()) current else ""; problem = null; open = true }) {
+        Text(
+            Msg.t("Server: ", "Serveur : ") + current.removePrefix("https://").removePrefix("http://"),
+            style = MaterialTheme.typography.bodySmall,
+            color = TextMuted
+        )
+    }
+
+    if (open) {
+        AlertDialog(
+            onDismissRequest = { if (!checking) open = false },
+            title = { Text(Msg.t("Server address", "Adresse du serveur")) },
+            text = {
+                Column {
+                    Text(
+                        Msg.t(
+                            "For a demo on a laptop: its address on this Wi-Fi, e.g. 192.168.1.20:8080.",
+                            "Pour une démo sur un ordinateur : son adresse sur ce Wi-Fi, par ex. 192.168.1.20:8080."
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = TextMuted
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    OutlinedTextField(
+                        value = draft,
+                        onValueChange = { draft = it; problem = null },
+                        singleLine = true,
+                        placeholder = { Text("192.168.1.20:8080") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    problem?.let {
+                        Spacer(Modifier.height(8.dp))
+                        Text(it, style = MaterialTheme.typography.bodySmall, color = Accent)
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    enabled = !checking && draft.isNotBlank(),
+                    onClick = {
+                        checking = true
+                        scope.launch {
+                            if (ApiClient.isReachable(draft)) {
+                                ApiClient.chooseServer(draft)
+                                current = ApiClient.baseUrl
+                                open = false
+                                onChanged()
+                            } else {
+                                problem = Msg.t(
+                                    "No EduNova server answers at that address. Check the address and that both devices are on the same network.",
+                                    "Aucun serveur EduNova ne répond à cette adresse. Vérifiez l'adresse et que les deux appareils sont sur le même réseau."
+                                )
+                            }
+                            checking = false
+                        }
+                    }
+                ) { Text(if (checking) Msg.t("Checking…", "Vérification…") else Msg.t("Test and use", "Tester et utiliser")) }
+            },
+            dismissButton = {
+                TextButton(
+                    enabled = !checking,
+                    onClick = {
+                        ApiClient.chooseServer(null)
+                        current = ApiClient.baseUrl
+                        open = false
+                        onChanged()
+                    }
+                ) { Text(Msg.t("Default server", "Serveur par défaut")) }
+            }
+        )
     }
 }
 

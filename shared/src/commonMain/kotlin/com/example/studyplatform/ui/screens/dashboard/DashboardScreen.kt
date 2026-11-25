@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.dashboard
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -78,8 +80,8 @@ fun DashboardScreen(
                     Text(
                         when {
                             error != null -> error!!
-                            fromCache -> "Offline — showing what you downloaded earlier"
-                            else -> "Keep up the great work"
+                            fromCache -> Msg.t("Offline — showing what you downloaded earlier", "Hors ligne — affichage de ce que vous avez téléchargé")
+                            else -> Msg.t("Keep up the great work", "Continuez comme ça")
                         },
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (error != null || fromCache) Warning else TextMuted

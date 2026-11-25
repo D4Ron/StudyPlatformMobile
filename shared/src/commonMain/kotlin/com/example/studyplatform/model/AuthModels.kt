@@ -48,6 +48,12 @@ data class VerifyOtpRequest(
 data class ResendOtpRequest(val email: String)
 
 @Serializable
+data class PasswordResetRequest(val email: String)
+
+@Serializable
+data class PasswordResetConfirmRequest(val email: String, val code: String, val newPassword: String)
+
+@Serializable
 data class RefreshTokenRequest(val refreshToken: String)
 
 @Serializable

@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.auth
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -47,6 +49,7 @@ fun LoginScreen(
     onNavigateToRegister: () -> Unit,
     onEmailNotVerified: (String) -> Unit = {},
     onBrowseAsGuest: () -> Unit = {},
+    onForgotPassword: (String) -> Unit = {},
     /**
      * The platform's federated sign-in button, if it has one.
      *
@@ -142,7 +145,12 @@ fun LoginScreen(
                     shape = RoundedCornerShape(14.dp), singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = Primary, unfocusedBorderColor = Border, focusedContainerColor = Surface, unfocusedContainerColor = Surface)
                 )
-                Spacer(Modifier.height(28.dp))
+                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+                    TextButton(onClick = { onForgotPassword(email.trim()) }) {
+                        Text(Msg.t("Forgot password?", "Mot de passe oublié ?"), color = Primary, style = MaterialTheme.typography.labelMedium)
+                    }
+                }
+                Spacer(Modifier.height(12.dp))
 
                 PrimaryButton(text = if (loading) stringResource(Res.string.auth_signing_in) else stringResource(Res.string.auth_sign_in), loading = loading, enabled = email.isNotBlank() && password.isNotBlank(), onClick = {
                     loading = true; error = null

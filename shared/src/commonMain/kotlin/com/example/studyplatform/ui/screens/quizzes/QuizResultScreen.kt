@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.quizzes
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -32,7 +34,7 @@ import com.example.studyplatform.model.QuizAttemptResponse
 fun QuizResultScreen(attempt: QuizAttemptResponse, onRetake: () -> Unit, onDashboard: () -> Unit) {
     val pct = attempt.percentageScore
     val scoreColor = when { pct >= 80 -> Success; pct >= 60 -> Warning; else -> Accent }
-    val emoji = when { pct >= 90 -> "Excellent!"; pct >= 75 -> "Great job!"; pct >= 60 -> "Good effort!"; else -> "Keep practicing!" }
+    val emoji = when { pct >= 90 -> "Excellent!"; pct >= 75 -> "Great job!"; pct >= 60 -> "Good effort!"; else -> Msg.t("Keep practicing!", "Continuez à vous entraîner !") }
 
     val animatedPct by animateFloatAsState(targetValue = pct.toFloat(), animationSpec = tween(1500, easing = EaseOutCubic), label = "score")
     val pulse by rememberInfiniteTransition(label = "trophy").animateFloat(
@@ -68,7 +70,7 @@ fun QuizResultScreen(attempt: QuizAttemptResponse, onRetake: () -> Unit, onDashb
         Spacer(Modifier.height(20.dp))
         Text(emoji, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextPrimary, textAlign = TextAlign.Center)
         Spacer(Modifier.height(6.dp))
-        Text(attempt.quizTitle ?: "Quiz Complete", fontSize = 15.sp, color = TextMuted, textAlign = TextAlign.Center)
+        Text(attempt.quizTitle ?: Msg.t("Quiz Complete", "Quiz terminé"), fontSize = 15.sp, color = TextMuted, textAlign = TextAlign.Center)
 
         Spacer(Modifier.height(32.dp))
 

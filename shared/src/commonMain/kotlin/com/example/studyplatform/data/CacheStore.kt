@@ -1,5 +1,7 @@
 package com.example.studyplatform.data
 
+import com.example.studyplatform.i18n.Msg
+
 import com.example.studyplatform.api.AppJson
 import com.example.studyplatform.db.StudyPlatformDatabase
 import kotlinx.coroutines.Dispatchers
@@ -170,7 +172,7 @@ class CacheStore(private val db: StudyPlatformDatabase) {
         }
 
     private fun friendly(e: Exception): String =
-        e.message ?: "You're offline and this hasn't been downloaded yet."
+        e.message ?: Msg.t("You're offline and this hasn't been downloaded yet.", "Vous êtes hors ligne et ce contenu n'a pas encore été téléchargé.")
 
     /**
      * Keeps the cache from growing for the life of the install.

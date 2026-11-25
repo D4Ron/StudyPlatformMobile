@@ -1,5 +1,7 @@
 package com.example.studyplatform.api
 
+import com.example.studyplatform.i18n.Msg
+
 import com.example.studyplatform.model.JobResponseDto
 import kotlinx.coroutines.delay
 
@@ -59,11 +61,11 @@ object JobPoller {
 
             if (job.status == "COMPLETED") return job
             if (job.status == "FAILED") {
-                throw JobFailedException(job.errorMessage ?: "That task failed. Please try again.")
+                throw JobFailedException(job.errorMessage ?: Msg.t("That task failed. Please try again.", "Cette tâche a échoué. Réessayez."))
             }
         }
 
         // The job is still running server-side; it will appear in the list when it lands.
-        throw JobFailedException("This is taking longer than usual. It will show up in your library once it finishes.")
+        throw JobFailedException(Msg.t("This is taking longer than usual. It will show up in your library once it finishes.", "Cela prend plus de temps que d'habitude. Le résultat apparaîtra dans votre bibliothèque une fois terminé."))
     }
 }

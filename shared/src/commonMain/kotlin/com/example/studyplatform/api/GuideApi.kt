@@ -1,5 +1,7 @@
 package com.example.studyplatform.api
 
+import com.example.studyplatform.i18n.Msg
+
 import com.example.studyplatform.model.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -25,7 +27,7 @@ object GuideApi {
 
             val finished = JobPoller.await(job.id) { onStatus(it.status) }
             val guideId = finished.resultId
-                ?: throw Exception("The guide was generated but could not be located.")
+                ?: throw Exception(Msg.t("The guide was generated but could not be located.", "Le guide a été généré mais reste introuvable."))
 
             val guide = getById(guideId)
             println("Guide generated: ${guide.id} — ${guide.title}")
@@ -36,16 +38,16 @@ object GuideApi {
         } catch (e: ApiException) {
             println("Guide generation API error [${e.statusCode}]: ${e.rawBody}")
             when (e.statusCode) {
-                502, 503, 504 -> throw Exception("The server is waking up. Please wait 30 seconds and try again.")
-                else -> throw Exception("Could not generate the guide. Please try again.")
+                502, 503, 504 -> throw Exception(Msg.t("The server is waking up. Please wait 30 seconds and try again.", "Le serveur se réveille. Patientez 30 secondes puis réessayez."))
+                else -> throw Exception(Msg.t("Could not generate the guide. Please try again.", "Impossible de générer le guide. Réessayez."))
             }
         } catch (e: Exception) {
             if (e.message?.contains("timed out") == true || e.message?.contains("Timeout") == true) {
                 println("Guide generation timeout: ${e.message}")
-                throw Exception("The request timed out. The server might be starting up — please try again in a moment.")
+                throw Exception(Msg.t("The request timed out. The server might be starting up — please try again in a moment.", "Délai dépassé. Le serveur démarre peut-être — réessayez dans un instant."))
             }
             println("Guide generation error: ${e.message}")
-            throw Exception("Could not generate the guide. Please check your connection and try again.")
+            throw Exception(Msg.t("Could not generate the guide. Please check your connection and try again.", "Impossible de générer le guide. Vérifiez votre connexion et réessayez."))
         }
     }
 
@@ -63,7 +65,7 @@ object GuideApi {
             return ApiClient.client.get("/api/guides/$id").body()
         } catch (e: Exception) {
             println("Guide fetch error: ${e.message}")
-            throw Exception("Could not load the guide. Please try again.")
+            throw Exception(Msg.t("Could not load the guide. Please try again.", "Impossible de charger le guide. Réessayez."))
         }
     }
 
@@ -72,7 +74,7 @@ object GuideApi {
             ApiClient.client.delete("/api/guides/$id")
         } catch (e: Exception) {
             println("Guide delete error: ${e.message}")
-            throw Exception("Could not delete the guide.")
+            throw Exception(Msg.t("Could not delete the guide.", "Impossible de supprimer le guide."))
         }
     }
 
@@ -81,7 +83,7 @@ object GuideApi {
             return ApiClient.client.get("/api/guides/$id/pdf").body()
         } catch (e: Exception) {
             println("Guide PDF error: ${e.message}")
-            throw Exception("Could not download the PDF.")
+            throw Exception(Msg.t("Could not download the PDF.", "Impossible de télécharger le PDF."))
         }
     }
 }

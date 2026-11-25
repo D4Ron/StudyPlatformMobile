@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.notes
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseOutCubic
 import androidx.compose.animation.core.animateFloatAsState
@@ -64,7 +66,7 @@ fun NotesScreen() {
         scope.launch {
             val outcome = AppData.syncEngine.sync()
             syncNote = when {
-                outcome.failed -> "Saved on this device. It will upload when you're back online."
+                outcome.failed -> Msg.t("Saved on this device. It will upload when you're back online.", "Enregistré sur cet appareil. L'envoi se fera dès votre retour en ligne.")
                 outcome.conflicts > 0 -> "${outcome.conflicts} note(s) were updated elsewhere and that version was kept."
                 outcome.pushed > 0 -> "${outcome.pushed} change(s) uploaded."
                 else -> null

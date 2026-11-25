@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.guides
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -159,7 +161,7 @@ fun GuideCreateScreen(onGuideCreated: (String) -> Unit, onBack: () -> Unit) {
                             )
                             onGuideCreated(guide.id)
                         } catch (e: Exception) {
-                            error = e.message ?: "Something went wrong. Please try again."
+                            error = e.message ?: Msg.t("Something went wrong. Please try again.", "Une erreur est survenue. Réessayez.")
                             loading = false
                         }
                     }
@@ -204,9 +206,9 @@ private fun GeneratingLoadingScreen(jobStatus: String? = null) {
             Spacer(Modifier.height(8.dp))
             Text(
                 when (jobStatus) {
-                    "PENDING" -> "Queued \u2014 starting shortly"
-                    "RUNNING" -> "Working on it now"
-                    else -> "This usually takes 15-30 seconds"
+                    "PENDING" -> Msg.t("Queued \u2014 starting shortly", "En file d'attente — démarrage imminent")
+                    "RUNNING" -> Msg.t("Working on it now", "Génération en cours")
+                    else -> Msg.t("This usually takes 15-30 seconds", "Cela prend généralement 15 à 30 secondes")
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextMuted, textAlign = TextAlign.Center

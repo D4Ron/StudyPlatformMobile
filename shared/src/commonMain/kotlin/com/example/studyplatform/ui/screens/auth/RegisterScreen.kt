@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.auth
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -180,7 +182,7 @@ fun RegisterScreen(
                                     RegisterRequest(firstName.trim(), lastName.trim(), email.trim(), password))
                                 onRegisterSuccess(registration.email)
                             }
-                            catch (e: Exception) { error = e.message ?: "Registration failed. Please try again." }
+                            catch (e: Exception) { error = e.message ?: Msg.t("Registration failed. Please try again.", "L'inscription a échoué. Réessayez.") }
                             finally { loading = false }
                         }
                     })

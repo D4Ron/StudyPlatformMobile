@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.quizzes
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -139,7 +141,7 @@ fun QuizCreateScreen(onQuizCreated: (String) -> Unit, onBack: () -> Unit) {
                             )
                             onQuizCreated(quiz.id)
                         } catch (e: Exception) {
-                            error = e.message ?: "Something went wrong. Please try again."
+                            error = e.message ?: Msg.t("Something went wrong. Please try again.", "Une erreur est survenue. Réessayez.")
                             loading = false
                         }
                     }
@@ -173,9 +175,9 @@ private fun QuizLoadingScreen(jobStatus: String? = null) {
             Spacer(Modifier.height(8.dp))
             Text(
                 when (jobStatus) {
-                    "PENDING" -> "Queued \u2014 starting shortly"
-                    "RUNNING" -> "Working on it now"
-                    else -> "This usually takes 10-20 seconds"
+                    "PENDING" -> Msg.t("Queued \u2014 starting shortly", "En file d'attente — démarrage imminent")
+                    "RUNNING" -> Msg.t("Working on it now", "Génération en cours")
+                    else -> Msg.t("This usually takes 10-20 seconds", "Cela prend généralement 10 à 20 secondes")
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextMuted, textAlign = TextAlign.Center

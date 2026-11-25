@@ -1,5 +1,7 @@
 package com.example.studyplatform.ui.screens.auth
 
+import com.example.studyplatform.i18n.Msg
+
 import androidx.compose.animation.*
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -90,7 +92,7 @@ fun VerifyOtpScreen(
                 AuthApi.verifyOtp(VerifyOtpRequest(email.trim(), code, groupInviteCode))
                 onVerified()
             } catch (e: Exception) {
-                error = e.message ?: "That code is invalid or has expired."
+                error = e.message ?: Msg.t("That code is invalid or has expired.", "Ce code est invalide ou a expiré.")
                 code = ""
             } finally {
                 loading = false
@@ -208,7 +210,7 @@ fun VerifyOtpScreen(
                             error = null
                             secondsUntilResend = RESEND_COOLDOWN_SECONDS
                         } catch (e: Exception) {
-                            error = e.message ?: "Could not resend the code."
+                            error = e.message ?: Msg.t("Could not resend the code.", "Impossible de renvoyer le code.")
                         }
                     }
                 }

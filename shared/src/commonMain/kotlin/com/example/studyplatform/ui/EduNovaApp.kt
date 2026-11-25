@@ -33,6 +33,7 @@ import com.example.studyplatform.ui.components.AnimatedEntry
 import com.example.studyplatform.ui.components.Motion
 import com.example.studyplatform.ui.components.pressScale
 import com.example.studyplatform.ui.screens.PomodoroScreen
+import com.example.studyplatform.ui.screens.auth.ForgotPasswordScreen
 import com.example.studyplatform.ui.screens.auth.LoginScreen
 import com.example.studyplatform.ui.screens.auth.OnboardingScreen
 import com.example.studyplatform.ui.screens.auth.RegisterScreen
@@ -196,6 +197,7 @@ fun EduNovaApp(
                     // already re-sent a code, so go straight to verification.
                     onEmailNotVerified = { email -> navController.navigate("verify/$email") },
                     onBrowseAsGuest = { navController.navigate("guest") },
+                    onForgotPassword = { email -> navController.navigate("forgot?email=$email") },
                     // Credential Manager is Android's, so the shared screen takes the
                     // button as a slot rather than owning it. Where it lands is decided
                     // here, not by the platform supplying the button.
@@ -204,6 +206,17 @@ fun EduNovaApp(
                             navController.navigate("dashboard") { popUpTo(0) { inclusive = true } }
                         }
                     }
+                )
+            }
+            composable(
+                "forgot?email={email}",
+                arguments = listOf(navArgument("email") { type = NavType.StringType; defaultValue = "" })
+            ) {
+                ForgotPasswordScreen(
+                    initialEmail = it.argOrNull("email") ?: "",
+                    // A completed reset is a sign-in: the server returns a session.
+                    onSignedIn = { navController.navigate("dashboard") { popUpTo(0) { inclusive = true } } },
+                    onBack = { navController.popBackStack() }
                 )
             }
             composable("register") {

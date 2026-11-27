@@ -39,7 +39,13 @@ class MainActivity : ComponentActivity() {
 
         // Before anything can make a request. Blank in a normal build, so this is a
         // no-op unless someone has pointed it at a local backend.
-        ApiClient.useBaseUrl(BuildConfig.API_BASE_URL)
+        //
+        // A build pointed at the laptop through the emulator (10.0.2.2, or localhost
+        // forwarded with adb reverse) means nothing on a real phone, so there it keeps
+        // the deployed server instead of an address that cannot answer.
+        val configured = BuildConfig.API_BASE_URL
+        val emulatorOnly = listOf("10.0.2.2", "localhost", "127.0.0.1").any { configured.contains(it) }
+        ApiClient.useBaseUrl(if (emulatorOnly && !isEmulator()) null else configured)
 
         // Opened before any screen composes: the notes list reads from it immediately,
         // and it has to exist whether or not there is a connection.
@@ -98,3 +104,10 @@ private fun routeForLink(uri: Uri?): String? {
         else -> null
     }
 }
+
+/** True on the Android emulator, where a build pointed at the laptop can reach it. */
+private fun isEmulator(): Boolean =
+        android.os.Build.FINGERPRINT.startsWith("generic") ||
+            android.os.Build.FINGERPRINT.contains("emulator") ||
+            android.os.Build.MODEL.contains("sdk_gphone") ||
+            android.os.Build.HARDWARE == "ranchu" || android.os.Build.HARDWARE == "goldfish"
